@@ -1,4 +1,4 @@
-package com.oocl.dino_parking_system.entities;
+package com.oocl.dino_parking_system.entitie;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

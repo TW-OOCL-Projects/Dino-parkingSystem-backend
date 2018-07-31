@@ -1,6 +1,6 @@
-package com.oocl.dino_parking_system.repositorys;
+package com.oocl.dino_parking_system.repository;
 
-import com.oocl.dino_parking_system.entities.User;
+import com.oocl.dino_parking_system.entitie.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User,Long> {

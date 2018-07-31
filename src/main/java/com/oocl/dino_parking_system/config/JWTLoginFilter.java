@@ -1,7 +1,7 @@
 package com.oocl.dino_parking_system.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.oocl.dino_parking_system.entities.User;
+import com.oocl.dino_parking_system.entitie.User;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

@@ -1,4 +1,4 @@
-package com.oocl.dino_parking_system.entities;
+package com.oocl.dino_parking_system.entitie;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

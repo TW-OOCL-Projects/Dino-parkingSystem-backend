@@ -1,6 +1,6 @@
 package com.oocl.dino_parking_system.config;
 
-import com.oocl.dino_parking_system.services.UserService;
+import com.oocl.dino_parking_system.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -36,6 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests()
 				.antMatchers("/hello").permitAll()
+				.antMatchers("/roles").permitAll()
 				.antMatchers("/signup").permitAll()
 				.antMatchers(HttpMethod.POST, "/login").permitAll()
 				.anyRequest().authenticated()

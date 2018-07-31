@@ -1,7 +1,7 @@
-package com.oocl.dino_parking_system.services;
+package com.oocl.dino_parking_system.service;
 
-import com.oocl.dino_parking_system.entities.User;
-import com.oocl.dino_parking_system.repositorys.UserRepository;
+import com.oocl.dino_parking_system.entitie.User;
+import com.oocl.dino_parking_system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
