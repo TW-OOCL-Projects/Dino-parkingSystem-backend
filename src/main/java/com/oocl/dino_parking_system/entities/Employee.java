@@ -1,6 +1,7 @@
 package com.oocl.dino_parking_system.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "employee")
@@ -17,7 +18,10 @@ public class Employee {
     private String authority;
 
     @OneToMany(mappedBy = "employee", fetch= FetchType.LAZY)
-    private List<ParkingLot> parkingLots;
+    private List<ParkingLot> parkingLots = new ArrayList<>();
+
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
+    private List<Order> orders = new ArrayList<>();
 
     public Employee(String name, String email, String phone, String status, String authority) {
         this.name = name;
@@ -76,5 +80,21 @@ public class Employee {
 
     public void setAuthority(String authority) {
         this.authority = authority;
+    }
+
+    public List<ParkingLot> getParkingLots() {
+        return parkingLots;
+    }
+
+    public void setParkingLots(List<ParkingLot> parkingLots) {
+        this.parkingLots = parkingLots;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

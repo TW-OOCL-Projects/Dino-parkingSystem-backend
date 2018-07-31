@@ -18,12 +18,14 @@ public class Order {
 
     private String plateNumber;
     private String status;
+    private String receiptId;
 
-    public Order(String type, Employee employee, String plateNumber, String status) {
+    public Order(String type, Employee employee, String plateNumber, String status, String receiptId) {
         this.type = type;
         this.employee = employee;
         this.plateNumber = plateNumber;
         this.status = status;
+        this.receiptId = receiptId;
     }
 
     public Order(){}
@@ -66,5 +68,13 @@ public class Order {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getReceiptId() {
+        return receiptId;
+    }
+
+    public void setReceiptId(String receiptId) {
+        this.receiptId = receiptId;
     }
 }
