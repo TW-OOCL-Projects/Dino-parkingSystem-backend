@@ -29,7 +29,8 @@ public class EmployeeRepositoryTest {
     @Test
     public void demotest() {
         Employee employee = new Employee("a", "111@as.com", "1324564", "aas", "adf");
-        Order order = new Order("asd", employee, "asdf", "adf", "1234");
+        Order order = new Order("asd", "asdf", "adf", "1234");
+        order.setEmployee(employee);
         orderRepository.save(order);
         Order o = orderRepository.findById(1L).get();
         employee.setOrders(Arrays.asList(o));

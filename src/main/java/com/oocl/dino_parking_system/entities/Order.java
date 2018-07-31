@@ -20,9 +20,8 @@ public class Order {
     private String status;
     private String receiptId;
 
-    public Order(String type, Employee employee, String plateNumber, String status, String receiptId) {
+    public Order(String type, String plateNumber, String status, String receiptId) {
         this.type = type;
-        this.employee = employee;
         this.plateNumber = plateNumber;
         this.status = status;
         this.receiptId = receiptId;
