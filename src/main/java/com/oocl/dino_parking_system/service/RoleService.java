@@ -10,6 +10,7 @@ public class RoleService {
     @Autowired
     RoleRepository roleRepository;
 
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Role save(Role role){
         return roleRepository.save(role);
     }

@@ -19,7 +19,7 @@ public class UserService implements UserDetailsService {
 		if (user == null) {
 			throw new UsernameNotFoundException("用户名不存在");
 		}
-		System.out.println("loadUser:"+user.getUsername());
+		System.out.println("loadUser:"+user.getUsername()+user.getAuthorities());
 		return user;
 	}
 

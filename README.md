@@ -1,10 +1,10 @@
 # DINO-Parking-System-Backend
 
 ## 1. 系统角色分类
-   1. 系统管理员  `ROLE_ADMIN`
-   2. 经理       `ROLE_MANAGER`
-   3. 停车小弟    `ROLE_EMPLOYEE`
-   4. 普通用户    `ROLE_USER`
+   1. 系统管理员  `ADMIN`
+   2. 经理       `MANAGER`
+   3. 停车小弟    `EMPLOYEE`
+   4. 普通用户    `USER`
 
 ## 2. 系统角色权限 
 
