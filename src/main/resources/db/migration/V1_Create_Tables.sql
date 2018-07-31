@@ -9,12 +9,12 @@ CREATE TABLE employee (
 CREATE TABLE parking_lot (
     id  BIGINT  NOT NULL  AUTO_INCREMENT  PRIMARY KEY,
     name    VARCHAR(20)     NOT NULL,
-    `size`    INT     NOT NULL,
+    lot_size    INT     NOT NULL,
     status  VARCHAR(20)     NOT NULL,
     parking_boy_id  BIGINT,
 --    FOREIGN KEY (parking_boy_id) REFERENCES (employee)
 );
-CREATE TABLE `order` (
+CREATE TABLE car_order (
     id  BIGINT  NOT NULL    AUTO_INCREMENT  PRIMARY KEY,
     type    VARCHAR(20)     NOT NULL,
     parking_boy_id  BIGINT,

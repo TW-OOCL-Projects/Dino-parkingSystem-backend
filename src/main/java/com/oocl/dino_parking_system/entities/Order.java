@@ -2,7 +2,7 @@ package com.oocl.dino_parking_system.entities;
 
 import javax.persistence.*;
 
-@Table(name = "order")
+@Table(name = "car_order")
 @Entity
 public class Order {
 
@@ -13,15 +13,15 @@ public class Order {
     private String type;
 
     @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name = "id")
-    private Employee parkingBoy;
+    @JoinColumn(name = "parking_boy_id")
+    private Employee employee;
 
     private String plateNumber;
     private String status;
 
-    public Order(String type, Employee parkingBoy, String plateNumber, String status) {
+    public Order(String type, Employee employee, String plateNumber, String status) {
         this.type = type;
-        this.parkingBoy = parkingBoy;
+        this.employee = employee;
         this.plateNumber = plateNumber;
         this.status = status;
     }
@@ -44,12 +44,12 @@ public class Order {
         this.type = type;
     }
 
-    public Employee getParkingBoy() {
-        return parkingBoy;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setParkingBoy(Employee parkingBoy) {
-        this.parkingBoy = parkingBoy;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     public String getPlateNumber() {

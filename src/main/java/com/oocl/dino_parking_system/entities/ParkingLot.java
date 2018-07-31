@@ -1,7 +1,6 @@
 package com.oocl.dino_parking_system.entities;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "parking_lot")
@@ -12,19 +11,22 @@ public class ParkingLot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-    private int size;
+    private int lot_size;
     private String status;
 
-    private List<String> carsPlateNumber = new ArrayList<>();
+    @Transient
+    private List<String> carsPlateNumber;
 
     @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name = "id")
-    private Employee parkingBoy;
+    @JoinColumn(name = "parking_boy_id")
+    private Employee employee;
 
-    public ParkingLot(String name, int size, String status) {
+    public ParkingLot(String name, int lot_size, String status, List<String> carsPlateNumber, Employee employee) {
         this.name = name;
-        this.size = size;
+        this.lot_size = lot_size;
         this.status = status;
+        this.carsPlateNumber = carsPlateNumber;
+        this.employee = employee;
     }
 
     public ParkingLot(){
@@ -46,12 +48,12 @@ public class ParkingLot {
         this.name = name;
     }
 
-    public int getSize() {
-        return size;
+    public int getLot_size() {
+        return lot_size;
     }
 
-    public void setSize(int size) {
-        this.size = size;
+    public void setLot_size(int lot_size) {
+        this.lot_size = lot_size;
     }
 
     public String getStatus() {
@@ -62,12 +64,12 @@ public class ParkingLot {
         this.status = status;
     }
 
-    public Employee getParkingBoy() {
-        return parkingBoy;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setParkingBoy(Employee parkingBoy) {
-        this.parkingBoy = parkingBoy;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     public List<String> getCarsPlateNumber() {
