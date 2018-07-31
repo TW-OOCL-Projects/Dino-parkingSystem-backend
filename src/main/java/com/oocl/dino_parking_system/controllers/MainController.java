@@ -1,5 +1,8 @@
 package com.oocl.dino_parking_system.controllers;
 
+import com.oocl.dino_parking_system.entities.Employee;
+import com.oocl.dino_parking_system.repositorys.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,6 +11,18 @@ public class MainController {
     @GetMapping(path = "/")
     public String index(){
         return "Hello,Dino!";
+    }
+
+    @Autowired
+    EmployeeRepository employeeRepository ;
+
+    @GetMapping(path = "/test")
+    public Employee getEmployees() {
+
+        Employee e = new Employee("a", "111@as.com", "1324564", "aas", "adf");
+        employeeRepository.save(e);
+        Employee employee =  employeeRepository.findById(1L).get();
+        return  employee;
     }
 }
 
