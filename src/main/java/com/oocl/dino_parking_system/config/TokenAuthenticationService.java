@@ -20,8 +20,7 @@ import static java.util.Collections.emptyList;
  */
 class TokenAuthenticationService {
 	static final long EXPIRATIONTIME = 1000*60*60*24*1; // 1 days
-	static final String SECRET = "ThisIsASecret";
-	static final String TOKEN_PREFIX = "Bearer";
+	static final String SECRET = "DINO_SECREY_KEY";
 	static final String HEADER_STRING = "Authorization";
 
 	static void addAuthentication(HttpServletResponse res, String username, Collection<? extends GrantedAuthority> roles) {
@@ -33,7 +32,7 @@ class TokenAuthenticationService {
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
 				.signWith(SignatureAlgorithm.HS512, SECRET)
 				.compact();
-		res.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + JWT);
+		res.addHeader(HEADER_STRING, JWT);
 	}
 
 	static Authentication getAuthentication(HttpServletRequest request) {
@@ -46,7 +45,7 @@ class TokenAuthenticationService {
 			try {
 				claims = Jwts.parser()
 						.setSigningKey(SECRET)
-						.parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+						.parseClaimsJws(token)
 						.getBody();
 				user = claims.get("username").toString();
 				String rolesString = claims.get("roles").toString();
