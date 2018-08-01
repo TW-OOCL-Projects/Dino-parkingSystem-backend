@@ -29,6 +29,11 @@ public class ParkingLot {
         this.user = user;
     }
 
+    public ParkingLot(String name, int lot_size) {
+        this.name = name;
+        this.lot_size = lot_size;
+    }
+
     public ParkingLot(){
     }
 
