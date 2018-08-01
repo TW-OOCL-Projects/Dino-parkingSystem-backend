@@ -1,13 +1,17 @@
 package com.oocl.dino_parking_system.config;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
 
@@ -18,32 +22,45 @@ class TokenAuthenticationService {
 	static final long EXPIRATIONTIME = 1000*60*60*24*1; // 1 days
 	static final String SECRET = "ThisIsASecret";
 	static final String TOKEN_PREFIX = "Bearer";
-	static final String HEADER_STRING = "Authorizationz";
+	static final String HEADER_STRING = "Authorization";
 
-	static void addAuthentication(HttpServletResponse res, String username) {
-		System.out.println("===addAuth");
+	static void addAuthentication(HttpServletResponse res, String username, Collection<? extends GrantedAuthority> roles) {
+		Map<String,Object> data = new HashMap<>();
+		data.put("username",username);
+		data.put("roles",roles.toString());
 		String JWT = Jwts.builder()
-				.setSubject(username)
+				.setClaims(data)
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
 				.signWith(SignatureAlgorithm.HS512, SECRET)
 				.compact();
-		System.out.println("===addAuth:token:"+JWT);
 		res.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + JWT);
 	}
 
 	static Authentication getAuthentication(HttpServletRequest request) {
 		String token = request.getHeader(HEADER_STRING);
-		System.out.println(">>>>getAuth-token: "+token);
 		if (token != null) {
 			// parse the token.
-			String user = Jwts.parser()
-					.setSigningKey(SECRET)
-					.parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
-					.getBody()
-					.getSubject();
-			System.out.println(">>>>>getAuth:"+user);
-			return user != null ?
-					new UsernamePasswordAuthenticationToken(user, null, emptyList()) :
+			Claims claims;
+			String user="";
+			List<String> rolesName = new LinkedList<>();
+			try {
+				claims = Jwts.parser()
+						.setSigningKey(SECRET)
+						.parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+						.getBody();
+				user = claims.get("username").toString();
+				String rolesString = claims.get("roles").toString();
+				rolesName = Arrays.asList(rolesString.substring(1,rolesString.length()-1).split(","));
+				System.out.println(rolesName);
+			} catch (Exception e) {
+				claims = null;
+			}
+			return !user.equals("") ?
+					new UsernamePasswordAuthenticationToken(user,
+							null,
+							rolesName.stream()
+									.map(SimpleGrantedAuthority::new)
+									.collect(Collectors.toList())) :
 					null;
 		}
 		return null;
