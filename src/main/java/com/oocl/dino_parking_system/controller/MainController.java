@@ -25,25 +25,6 @@ public class MainController {
     public String index(){
         return "Hello,Dino!";
     }
-	@GetMapping("/hello")
-	public String heelo(){
-		return "123";
-	}
 
-	@GetMapping("/users")
-	public String getUsers() {
-		return "{\"users\":[{\"firstname\":\"Richard\", \"lastname\":\"Feynman\"}," +
-				"{\"firstname\":\"Marie\",\"lastname\":\"Curie\"}]}";
-	}
-
-	@PostMapping("/signup")
-	public boolean signup(@RequestBody User user){
-    	return userService.save(user);
-	}
-
-	@GetMapping("/roles")
-	public List<Role> findAllRole(){
-        return roleRepository.findAll();
-    }
 }
 
