@@ -18,7 +18,7 @@ class TokenAuthenticationService {
 	static final long EXPIRATIONTIME = 1000*60*60*24*1; // 1 days
 	static final String SECRET = "ThisIsASecret";
 	static final String TOKEN_PREFIX = "Bearer";
-	static final String HEADER_STRING = "Authorization";
+	static final String HEADER_STRING = "Authorizationz";
 
 	static void addAuthentication(HttpServletResponse res, String username) {
 		System.out.println("===addAuth");
@@ -33,6 +33,7 @@ class TokenAuthenticationService {
 
 	static Authentication getAuthentication(HttpServletRequest request) {
 		String token = request.getHeader(HEADER_STRING);
+		System.out.println(">>>>getAuth-token: "+token);
 		if (token != null) {
 			// parse the token.
 			String user = Jwts.parser()
@@ -40,7 +41,7 @@ class TokenAuthenticationService {
 					.parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
 					.getBody()
 					.getSubject();
-
+			System.out.println(">>>>>getAuth:"+user);
 			return user != null ?
 					new UsernamePasswordAuthenticationToken(user, null, emptyList()) :
 					null;
