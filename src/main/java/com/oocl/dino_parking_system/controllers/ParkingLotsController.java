@@ -1,5 +1,6 @@
 package com.oocl.dino_parking_system.controllers;
 
+import com.oocl.dino_parking_system.dto.ParkingLotTinyDTO;
 import com.oocl.dino_parking_system.entities.ParkingLot;
 import com.oocl.dino_parking_system.services.OrderService;
 import com.oocl.dino_parking_system.services.ParkingLotsService;
@@ -29,15 +30,16 @@ public class ParkingLotsController {
     public ResponseEntity createParkingLots(@RequestBody ParkingLot parkingLot){
         if (parkingLotsService.createParkingLots(parkingLot)){
             return ResponseEntity.status(HttpStatus.CREATED).build();
+        }else {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @Transactional
     @GetMapping(path = "",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getAllParkingLots(){
         if (parkingLotsService.getAllParkingLots()!=null){
-            return new ResponseEntity<List<ParkingLot>>(parkingLotsService.getAllParkingLots(),HttpStatus.OK);
+            return new ResponseEntity<List<ParkingLotTinyDTO>>(parkingLotsService.getAllParkingLots(),HttpStatus.OK);
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
@@ -45,22 +47,21 @@ public class ParkingLotsController {
     @Transactional
     @PutMapping(path = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity updateParkingLots(@PathVariable long id,@RequestBody ParkingLot parkingLot){
-        if (parkingLotsService.updateParkingLots(id,parkingLot) == 1){
+        if (parkingLotsService.updateParkingLots(id,parkingLot)){
             return ResponseEntity.status(HttpStatus.OK).build();
-        }else if(parkingLotsService.updateParkingLots(id,parkingLot) == 2){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     @Transactional
     @PatchMapping(path = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity freezeParkingLots(@PathVariable long id){
-        if (parkingLotsService.freezeParkingLots(id)){
-            return ResponseEntity.status(HttpStatus.OK).build();
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    public ResponseEntity freezeParkingLots(@PathVariable long id) {
+	    if (parkingLotsService.changeParkingLotStatus(id)) {
+		    return ResponseEntity.status(HttpStatus.OK).build();
+	    } else {
+		    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	    }
     }
 
 }

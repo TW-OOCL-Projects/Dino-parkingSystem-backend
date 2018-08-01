@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.oocl.dino_parking_system.constants.Constants.NORMAL;
+
 @Table(name = "parking_lot")
 @Entity
 public class ParkingLot {
@@ -13,7 +15,7 @@ public class ParkingLot {
     private long id;
     private String name;
     private int size;
-    private boolean status = true;// 停车场开放状态：默认true开放
+    private String status = NORMAL;// 停车场开放状态：默认true开放
 
     @Transient
     private Map<String,String> cars = new HashMap<>();
@@ -55,11 +57,11 @@ public class ParkingLot {
         this.size = size;
     }
 
-    public boolean isStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
