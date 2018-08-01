@@ -45,15 +45,32 @@ public class GenerateData implements CommandLineRunner {
         user2.setRoles(Arrays.asList(parkingBoy));
 	    User user3 = new User("manager","停车经理A","1234","130@qq.com","13160675789");
 	    user3.setRoles(Arrays.asList(manager));
-        userRepository.saveAll(Arrays.asList(user1,user2,user3));
+	    User user4 = new User("parkingboy1","停车小弟B","1234","121@qq.com","13160675789");
+	    User user5 = new User("parkingboy2","停车小弟C","1234","122@qq.com","13160675789");
+	    User user6 = new User("parkingboy3","停车小弟D","1234","123@qq.com","13160675789");
+	    User user7 = new User("parkingboy4","停车小弟E","1234","124@qq.com","13160675789");
+        userRepository.saveAll(Arrays.asList(user1,user2,user3,user4,user5,user6,user7));
         System.out.println("===============用户初始化完成=============");
 
 	    ParkingLot parkingLot1 = new ParkingLot("oocl停车场1",20);
-	    ParkingLot parkingLot2 = new ParkingLot("oocl停车场2",10);
+	    parkingLot1.setParkingBoy(user2);
+	    parkingLot1.getCars().put("abc-123","粤C999999");
+	    parkingLot1.getCars().put("abc-124","粤C999999");
+	    parkingLot1.getCars().put("abc-125","粤C999999");
+	    ParkingLot parkingLot2 = new ParkingLot("oocl停车场2",4);
+	    parkingLot2.getCars().put("abc-111","粤C99999");
+	    parkingLot2.getCars().put("abc-112","粤C99999");
+	    parkingLot2.getCars().put("abc-113","粤C99999");
+	    parkingLot2.getCars().put("abc-114","粤C99999");
+        parkingLot2.setParkingBoy(user3);
 	    ParkingLot parkingLot3 = new ParkingLot("oocl停车场3",20);
+        parkingLot3.setParkingBoy(user4);
 	    ParkingLot parkingLot4 = new ParkingLot("oocl停车场4",25);
+        parkingLot4.setParkingBoy(user5);
 	    ParkingLot parkingLot5 = new ParkingLot("oocl停车场5",20);
+        parkingLot5.setParkingBoy(user6);
 	    ParkingLot parkingLot6 = new ParkingLot("oocl停车场6",14);
+        parkingLot6.setParkingBoy(user7);
 	    ParkingLot parkingLot7 = new ParkingLot("oocl停车场7",20);
 	    parkingLotsRepository.saveAll(Arrays.asList(parkingLot1,parkingLot2,parkingLot3,
 			    parkingLot4,parkingLot5,parkingLot6,parkingLot7));

@@ -46,7 +46,7 @@
     ```
 
 3.获取所有停车场dashboard数据
-   - path：`/dashboard`
+   - path：`/parkingLots/dashboard`
    - method: GET
    - response:
    ```json 
@@ -63,7 +63,7 @@
 ```
 
 4.分页获取所有停车场dashboard数据
-   - path：`/dashboard/page/:page/pageSize/:size`
+   - path：`/parkingLots/dashboard/page/:page/pageSize/:size`
    - method: GET
    - response:
    ```json 
