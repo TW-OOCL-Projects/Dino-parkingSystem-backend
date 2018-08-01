@@ -1,7 +1,7 @@
-package com.oocl.dino_parking_system.service;
+package com.oocl.dino_parking_system.services;
 
-import com.oocl.dino_parking_system.entitie.Role;
-import com.oocl.dino_parking_system.repository.RoleRepository;
+import com.oocl.dino_parking_system.entities.Role;
+import com.oocl.dino_parking_system.repositorys.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

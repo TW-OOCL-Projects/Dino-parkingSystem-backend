@@ -14,7 +14,7 @@ public class Order {
 
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name = "parking_boy_id")
-    private Employee employee;
+    private User user;
 
     private String plateNumber;
     private String status;
@@ -45,12 +45,12 @@ public class Order {
         this.type = type;
     }
 
-    public Employee getEmployee() {
-        return employee;
+    public User getUser() {
+        return user;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getPlateNumber() {

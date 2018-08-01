@@ -1,10 +1,10 @@
 package com.oocl.dino_parking_system.init;
 
-import com.oocl.dino_parking_system.entitie.Role;
-import com.oocl.dino_parking_system.entitie.User;
-import com.oocl.dino_parking_system.repository.RoleRepository;
-import com.oocl.dino_parking_system.repository.UserRepository;
-import com.oocl.dino_parking_system.service.UserService;
+import com.oocl.dino_parking_system.entities.Role;
+import com.oocl.dino_parking_system.entities.User;
+import com.oocl.dino_parking_system.repositorys.RoleRepository;
+import com.oocl.dino_parking_system.repositorys.UserRepository;
+import com.oocl.dino_parking_system.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -36,12 +36,11 @@ public class StartOfRole implements CommandLineRunner {
 
         User user1 = new User(1L,"admin","1234");
         user1.setRoles(Arrays.asList(admin));
-        User user2 = new User(2L,"parkingBoy","1234");
+        User user2 = new User(2L,"parkingboy","1234");
         user2.setRoles(Arrays.asList(parkingBoy));
 	    User user3 = new User(3L,"manager","1234");
 	    user3.setRoles(Arrays.asList(manager));
         userRepository.saveAll(Arrays.asList(user1,user2,user3));
         System.out.println("===============用户初始化完成=============");
-		userService.loadUserByUsername(user1.getUsername());
     }
 }

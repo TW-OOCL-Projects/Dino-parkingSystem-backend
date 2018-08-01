@@ -1,7 +1,7 @@
-package com.oocl.dino_parking_system.service;
+package com.oocl.dino_parking_system.services;
 
-import com.oocl.dino_parking_system.entitie.User;
-import com.oocl.dino_parking_system.repository.UserRepository;
+import com.oocl.dino_parking_system.entities.User;
+import com.oocl.dino_parking_system.repositorys.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,7 +19,6 @@ public class UserService implements UserDetailsService {
 		if (user == null) {
 			throw new UsernameNotFoundException("用户名不存在");
 		}
-		System.out.println("loadUser:"+user.getUsername()+user.getAuthorities());
 		return user;
 	}
 

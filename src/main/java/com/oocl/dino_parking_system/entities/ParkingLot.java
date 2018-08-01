@@ -19,14 +19,14 @@ public class ParkingLot {
 
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name = "parking_boy_id")
-    private Employee employee;
+    private User user;
 
-    public ParkingLot(String name, int lot_size, String status, List<String> carsPlateNumber, Employee employee) {
+    public ParkingLot(String name, int lot_size, String status, List<String> carsPlateNumber, User user) {
         this.name = name;
         this.lot_size = lot_size;
         this.status = status;
         this.carsPlateNumber = carsPlateNumber;
-        this.employee = employee;
+        this.user = user;
     }
 
     public ParkingLot(){
@@ -64,12 +64,12 @@ public class ParkingLot {
         this.status = status;
     }
 
-    public Employee getEmployee() {
-        return employee;
+    public User getUser() {
+        return user;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public List<String> getCarsPlateNumber() {

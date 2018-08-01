@@ -1,6 +1,5 @@
 package com.oocl.dino_parking_system.repositorys;
 
-import com.oocl.dino_parking_system.entities.Employee;
 import com.oocl.dino_parking_system.entities.Order;
 import org.junit.After;
 import org.junit.Test;
@@ -12,7 +11,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

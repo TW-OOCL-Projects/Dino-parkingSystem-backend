@@ -1,6 +1,6 @@
 package com.oocl.dino_parking_system.config;
 
-import com.oocl.dino_parking_system.service.UserService;
+import com.oocl.dino_parking_system.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;

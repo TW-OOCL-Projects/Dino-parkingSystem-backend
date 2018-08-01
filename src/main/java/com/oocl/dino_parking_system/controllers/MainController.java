@@ -1,6 +1,6 @@
 package com.oocl.dino_parking_system.controllers;
 
-import com.oocl.dino_parking_system.entities.Employee;
+import com.oocl.dino_parking_system.entities.User;
 import com.oocl.dino_parking_system.repositorys.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +17,12 @@ public class MainController {
     EmployeeRepository employeeRepository ;
 
     @GetMapping(path = "/test")
-    public Employee getEmployees() {
+    public User getEmployees() {
 
-        Employee e = new Employee("a", "111@as.com", "1324564", "aas", "adf");
+        User e = new User("a", "111@as.com", "1324564", "aas", "adf");
         employeeRepository.save(e);
-        Employee employee =  employeeRepository.findById(1L).get();
-        return  employee;
+        User user =  employeeRepository.findById(1L).get();
+        return user;
     }
 }
 
