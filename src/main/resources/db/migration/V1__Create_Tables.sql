@@ -1,4 +1,4 @@
-CREATE TABLE user (
+CREATE TABLE parkingBoy (
     id  BIGINT   NOT NULL  AUTO_INCREMENT  PRIMARY KEY,
     username    VARCHAR(50)     NOT NULL UNIQUE ,
     nickname VARCHAR (20) UNIQUE NOT NULL ,
@@ -10,10 +10,10 @@ CREATE TABLE user (
 CREATE TABLE parking_lot (
     id  BIGINT  NOT NULL  AUTO_INCREMENT  PRIMARY KEY,
     name    VARCHAR(20)     NOT NULL,
-    lot_size    INT     NOT NULL,
+    size    INT     NOT NULL,
     status  VARCHAR(20)     NOT NULL,
     parking_boy_id  BIGINT,
-    FOREIGN KEY (parking_boy_id) REFERENCES user(id)
+    FOREIGN KEY (parking_boy_id) REFERENCES parkingBoy(id)
 );
 CREATE TABLE car_order (
     id  BIGINT  NOT NULL    AUTO_INCREMENT  PRIMARY KEY,
@@ -22,5 +22,5 @@ CREATE TABLE car_order (
     plate_number    VARCHAR(20)     NOT NULL,
     status  VARCHAR(20)     NOT NULL,
     receipt_id  VARCHAR(20)     NOT NULL,
-    FOREIGN KEY (parking_boy_id) REFERENCES user(id)
+    FOREIGN KEY (parking_boy_id) REFERENCES parkingBoy(id)
 );

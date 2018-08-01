@@ -1,7 +1,12 @@
 package com.oocl.dino_parking_system.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.oocl.dino_parking_system.constants.Constants.NORMAL;
 
 @Table(name = "parking_lot")
 @Entity
@@ -11,32 +16,25 @@ public class ParkingLot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-    private int lot_size;
-    private String status;
+    private int size;
+    private String status = NORMAL;// 停车场开放状态：默认true开放
 
     @Transient
-    private List<String> carsPlateNumber;
+    private Map<String,String> cars = new HashMap<>();
 
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name = "parking_boy_id")
-    private User user;
+    @JsonIgnore
+    private User parkingBoy;
 
-    public ParkingLot(String name, int lot_size, String status, List<String> carsPlateNumber, User user) {
-        this.name = name;
-        this.lot_size = lot_size;
-        this.status = status;
-        this.carsPlateNumber = carsPlateNumber;
-        this.user = user;
-    }
+	public ParkingLot() {
+	}
 
-    public ParkingLot(String name, int lot_size) {
-        this.name = name;
-        this.lot_size = lot_size;
-    }
-
-    public ParkingLot(){
-    }
-
+	public ParkingLot(String name, int size) {
+		this.name = name;
+		this.size = size;
+	}
+  
     public long getId() {
         return id;
     }
@@ -53,12 +51,12 @@ public class ParkingLot {
         this.name = name;
     }
 
-    public int getLot_size() {
-        return lot_size;
+    public int getSize() {
+        return size;
     }
 
-    public void setLot_size(int lot_size) {
-        this.lot_size = lot_size;
+    public void setSize(int size) {
+        this.size = size;
     }
 
     public String getStatus() {
@@ -69,19 +67,19 @@ public class ParkingLot {
         this.status = status;
     }
 
-    public User getUser() {
-        return user;
+    public User getParkingBoy() {
+        return parkingBoy;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setParkingBoy(User parkingBoy) {
+        this.parkingBoy = parkingBoy;
     }
 
-    public List<String> getCarsPlateNumber() {
-        return carsPlateNumber;
-    }
+	public Map<String, String> getCars() {
+		return cars;
+	}
 
-    public void setCarsPlateNumber(List<String> carsPlateNumber) {
-        this.carsPlateNumber = carsPlateNumber;
-    }
+	public void setCars(Map<String, String> cars) {
+		this.cars = cars;
+	}
 }

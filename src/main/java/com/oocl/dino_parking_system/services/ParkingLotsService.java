@@ -1,10 +1,11 @@
 package com.oocl.dino_parking_system.services;
 
+import com.oocl.dino_parking_system.dto.ParkingLotDashBoardDTO;
+import com.oocl.dino_parking_system.dto.ParkingLotTinyDTO;
 import com.oocl.dino_parking_system.entities.ParkingLot;
 import com.oocl.dino_parking_system.repositorys.ParkingLotsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,51 +17,61 @@ import static com.oocl.dino_parking_system.constants.Constants.NORMAL;
 
 @Service
 public class ParkingLotsService {
-    @Autowired
-    private ParkingLotsRepository parkingLotsRepository;
+	@Autowired
+	private ParkingLotsRepository parkingLotsRepository;
 
-//    public ParkingLot createParkingLots(ParkingLot parkingLot) {
-//        return parkingLotsRepository.save(parkingLot);
-//    }
+	public boolean createParkingLots(ParkingLot parkingLot) {
+		try {
+			parkingLotsRepository.save(parkingLot);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
-    public boolean createParkingLots(ParkingLot parkingLot) {
-        parkingLotsRepository.save(parkingLot);
-        return true;
-    }
+	public List<ParkingLotTinyDTO> getAllParkingLots() {
+		return parkingLotsRepository.findAll().stream()
+				.map(parkingLot -> new ParkingLotTinyDTO(parkingLot))
+				.collect(Collectors.toList());
+	}
 
-    public List<ParkingLot> getAllParkingLots() {
-       return parkingLotsRepository.findAll();
-    }
-
-    public int updateParkingLots(Long id,ParkingLot parkingLot) {
-        try{
-            ParkingLot one = parkingLotsRepository.findById(id).get();
-            System.out.println(parkingLotsRepository.findById(id));
-            if (one!=null){
-                one.setName(parkingLot.getName());
-                one.setLot_size(parkingLot.getLot_size());
-                parkingLotsRepository.save(one);
-                return 1;
-            }else
-            {
-                return 0;
-            }
-        }catch (NoSuchElementException e){
-            return 2;
-        }
-
-    }
+	public boolean updateParkingLots(Long id, ParkingLot parkingLot) {
+		try {
+			ParkingLot oldParkingLot = parkingLotsRepository.findById(id).get();
+			oldParkingLot.setName(parkingLot.getName());
+			oldParkingLot.setSize(parkingLot.getSize());
+			parkingLotsRepository.save(oldParkingLot);
+			return true;
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+	}
 
 
-    public boolean freezeParkingLots(long id) {
-        ParkingLot parkingLot = parkingLotsRepository.findById(id).get();
-        if (parkingLot.getStatus()== NORMAL ){
-            parkingLot.setStatus(FREEZE);
-        }else {
-            parkingLot.setStatus(NORMAL);
-        }
-//        parkingLot.setStatus(status);
-        parkingLotsRepository.save(parkingLot);
-        return true;
-    }
+	public boolean changeParkingLotStatus(long id) {
+		try {
+			ParkingLot parkingLot = parkingLotsRepository.findById(id).get();
+			if (parkingLot.getStatus().equals(NORMAL)) {
+				parkingLot.setStatus(FREEZE);
+			} else {
+				parkingLot.setStatus(NORMAL);
+			}
+			parkingLotsRepository.save(parkingLot);
+			return true;
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+	}
+
+	public List<ParkingLotDashBoardDTO> findAllParkingLotDashBoard() {
+		return parkingLotsRepository.findAll().stream()
+				.map(parkingLot -> new ParkingLotDashBoardDTO(parkingLot))
+				.collect(Collectors.toList());
+	}
+
+	public List<ParkingLotDashBoardDTO> findAllParkingLotDashBoardByPaging(PageRequest pageRequest) {
+		return parkingLotsRepository.findAll(pageRequest).stream()
+				.map(parkingLot -> new ParkingLotDashBoardDTO(parkingLot))
+				.collect(Collectors.toList());
+	}
 }
