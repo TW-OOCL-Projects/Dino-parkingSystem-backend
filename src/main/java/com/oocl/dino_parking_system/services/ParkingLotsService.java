@@ -3,13 +3,10 @@ package com.oocl.dino_parking_system.services;
 import com.oocl.dino_parking_system.entities.ParkingLot;
 import com.oocl.dino_parking_system.repositorys.ParkingLotsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 import static com.oocl.dino_parking_system.constants.Constants.FREEZE;
 import static com.oocl.dino_parking_system.constants.Constants.NORMAL;
@@ -18,10 +15,6 @@ import static com.oocl.dino_parking_system.constants.Constants.NORMAL;
 public class ParkingLotsService {
     @Autowired
     private ParkingLotsRepository parkingLotsRepository;
-
-//    public ParkingLot createParkingLots(ParkingLot parkingLot) {
-//        return parkingLotsRepository.save(parkingLot);
-//    }
 
     public boolean createParkingLots(ParkingLot parkingLot) {
         parkingLotsRepository.save(parkingLot);
@@ -38,7 +31,7 @@ public class ParkingLotsService {
             System.out.println(parkingLotsRepository.findById(id));
             if (one!=null){
                 one.setName(parkingLot.getName());
-                one.setLot_size(parkingLot.getLot_size());
+                one.setSize(parkingLot.getSize());
                 parkingLotsRepository.save(one);
                 return 1;
             }else
@@ -54,7 +47,7 @@ public class ParkingLotsService {
 
     public boolean freezeParkingLots(long id) {
         ParkingLot parkingLot = parkingLotsRepository.findById(id).get();
-        if (parkingLot.getStatus()== NORMAL ){
+        if (parkingLot.isStatus()== NORMAL ){
             parkingLot.setStatus(FREEZE);
         }else {
             parkingLot.setStatus(NORMAL);
