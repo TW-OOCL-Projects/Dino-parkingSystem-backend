@@ -62,4 +62,19 @@
     ]
 ```
 
-4.
+4.分页获取所有停车场dashboard数据
+   - path：`/dashboard/page/:page/pageSize/:size`
+   - method: GET
+   - response:
+   ```json 
+      [
+          {
+              "parkingLotId": 1,
+              "parkingLotName": "停车场A",
+              "size": 20,
+              "carNum": 0,
+              "parkingBoyId": 0,
+              "parkingBoyName": null
+          }
+      ]
+  ```
