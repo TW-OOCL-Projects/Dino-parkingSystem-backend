@@ -18,10 +18,10 @@
 
 ## 3. API
 
-### 1. 停车场管理
+### 1. 停车场管理 /parkingLots
 
 1. 获取所有停车信息
-    - path：`/parkingLots`
+    - path：`/`
     - method：GET
     - response：
     ```json
@@ -35,7 +35,7 @@
     ]
     ```
 2. 添加一个停车场
-    - path：`/parkingLots`
+    - path：`/`
     - method：POST
     - request:
     ```json
@@ -45,8 +45,8 @@
     }
     ```
 
-3.获取所有停车场dashboard数据
-   - path：`/parkingLots/dashboard`
+3. 获取所有停车场dashboard数据
+   - path：`/dashboard`
    - method: GET
    - response:
    ```json 
@@ -60,10 +60,10 @@
             "parkingBoyName": null
         }
     ]
-```
+   ```
 
-4.分页获取所有停车场dashboard数据
-   - path：`/parkingLots/dashboard/page/:page/pageSize/:size`
+4. 分页获取所有停车场dashboard数据
+   - path：`/dashboard/page/:page/pageSize/:size`
    - method: GET
    - response:
    ```json 
@@ -77,4 +77,4 @@
               "parkingBoyName": null
           }
       ]
-  ```
+   ```
