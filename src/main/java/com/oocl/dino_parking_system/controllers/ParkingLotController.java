@@ -1,28 +1,31 @@
 package com.oocl.dino_parking_system.controllers;
 
+import com.oocl.dino_parking_system.dto.ParkingLotDashBoardDTO;
 import com.oocl.dino_parking_system.dto.ParkingLotTinyDTO;
 import com.oocl.dino_parking_system.entities.ParkingLot;
 import com.oocl.dino_parking_system.services.OrderService;
 import com.oocl.dino_parking_system.services.ParkingLotsService;
 import com.oocl.dino_parking_system.services.ReceiptService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.Table;
 import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
 @RequestMapping("/parkingLots")
-public class ParkingLotsController {
+public class ParkingLotController {
 //    @Autowired
    private ParkingLotsService parkingLotsService;
 
 
     @Autowired
-    public ParkingLotsController(ParkingLotsService parkingLotsService) {
+    public ParkingLotController(ParkingLotsService parkingLotsService) {
         this.parkingLotsService= parkingLotsService;
     }
     @Transactional
@@ -63,5 +66,18 @@ public class ParkingLotsController {
 		    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	    }
     }
+
+    @Transactional
+	@GetMapping(path = "/dashboard")
+	public List<ParkingLotDashBoardDTO> findAllParkingLotDashBoard(){
+    	return parkingLotsService.findAllParkingLotDashBoard();
+    }
+
+	@Transactional
+	@GetMapping(path = "/dashboard/page/{page}/pageSize/{size}")
+	public List<ParkingLotDashBoardDTO> findAllParkingLotDashBoard(@PathVariable int page,
+	                                                               @PathVariable int size){
+		return parkingLotsService.findAllParkingLotDashBoardByPaging(new PageRequest(page,size));
+	}
 
 }

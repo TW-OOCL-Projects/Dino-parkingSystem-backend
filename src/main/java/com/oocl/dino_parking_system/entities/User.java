@@ -24,7 +24,7 @@ public class User implements UserDetails {
 	private String email;
 	private String phone;
 	private boolean status = true; // 注销状态：true为未注销
-	@OneToMany(mappedBy = "user", fetch= FetchType.LAZY)
+	@OneToMany(mappedBy = "parkingBoy", fetch= FetchType.LAZY)
 	private List<ParkingLot> parkingLots = new ArrayList<>();
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)

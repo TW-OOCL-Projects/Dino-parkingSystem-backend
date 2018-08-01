@@ -9,11 +9,13 @@ public class ParkingLotTinyDTO {
 	private Long id;
 	private String name;
 	private int size;
+	private String status;
 
 	public ParkingLotTinyDTO(ParkingLot parkingLot){
 		this.id = parkingLot.getId();
 		this.name = parkingLot.getName();
 		this.size = parkingLot.getSize();
+		this.status = parkingLot.getStatus();
 	}
 
 	public Long getId() {
@@ -26,5 +28,9 @@ public class ParkingLotTinyDTO {
 
 	public int getSize() {
 		return size;
+	}
+
+	public String getStatus() {
+		return status;
 	}
 }

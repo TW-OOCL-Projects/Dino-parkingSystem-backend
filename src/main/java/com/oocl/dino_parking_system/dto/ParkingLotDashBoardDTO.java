@@ -17,7 +17,7 @@ public class ParkingLotDashBoardDTO {
 		this.parkingLotId = parkingLot.getId();
 		this.parkingLotName = parkingLot.getName();
 		this.size = parkingLot.getSize();
-		this.carNum = parkingLot.getSize()-parkingLot.getCars().size();
+		this.carNum = parkingLot.getCars().size();
 		this.parkingBoyId = parkingLot.getParkingBoy()!=null?parkingLot.getParkingBoy().getId():0;
 		this.parkingBoyName = parkingLot.getParkingBoy()!=null?parkingLot.getParkingBoy().getNickname():null;
 	}

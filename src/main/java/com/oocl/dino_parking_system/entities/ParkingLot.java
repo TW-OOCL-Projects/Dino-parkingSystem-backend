@@ -1,5 +1,7 @@
 package com.oocl.dino_parking_system.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,16 +24,17 @@ public class ParkingLot {
 
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name = "parking_boy_id")
+    @JsonIgnore
     private User parkingBoy;
 
-    public ParkingLot(String name, int lot_size, User parkingBoy) {
-        this.name = name;
-        this.size = lot_size;
-        this.parkingBoy = parkingBoy;
-    }
+	public ParkingLot() {
+	}
 
-    public ParkingLot(){
-    }
+
+	public ParkingLot(String name, int size) {
+		this.name = name;
+		this.size = size;
+	}
 
     public long getId() {
         return id;
