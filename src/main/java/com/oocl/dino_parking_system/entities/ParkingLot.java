@@ -30,12 +30,11 @@ public class ParkingLot {
 	public ParkingLot() {
 	}
 
-
 	public ParkingLot(String name, int size) {
 		this.name = name;
 		this.size = size;
 	}
-
+  
     public long getId() {
         return id;
     }
