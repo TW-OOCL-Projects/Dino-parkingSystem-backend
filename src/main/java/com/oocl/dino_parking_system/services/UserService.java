@@ -1,5 +1,6 @@
 package com.oocl.dino_parking_system.services;
 
+import com.oocl.dino_parking_system.constants.MD5Util;
 import com.oocl.dino_parking_system.entities.User;
 import com.oocl.dino_parking_system.repositorys.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -29,6 +32,59 @@ public class UserService implements UserDetailsService {
 			return true;
 		}
 		return false;
+	}
+
+	public boolean createUser(User user) {
+		try{
+			user.setPassword(MD5Util.encode(user.getPassword()));
+			userRepository.save(user);
+			return true;
+		}catch (Exception e){
+			return false;
+		}
+	}
+
+	public List<User> getAllUser() {
+		try{
+			return userRepository.findAll();
+		}catch (Exception e){
+			return null;
+		}
+	}
+
+	public int changeUserStatus(Long id, boolean status) {
+		try{
+			User one = userRepository.findById(id).get();
+			if(one == null) return 2;
+			one.setStatus(status);
+			userRepository.save(one);
+			return 1;
+		}catch (Exception e){
+			return 0;
+		}
+	}
+
+	public User getUserById(Long id) {
+		try{
+			User one = userRepository.findById(id).get();
+			return one;
+		}catch (Exception e){
+			return null;
+		}
+	}
+
+	public int updateUser(Long id, User user) {
+		try{
+			User one = userRepository.findById(id).get();
+			if(one == null) return 2;
+			one.setUsername(user.getUsername());
+			one.setEmail(user.getEmail());
+			one.setPhone(user.getPhone());
+			userRepository.save(one);
+			return 1;
+		}catch (Exception e){
+			return 0;
+		}
 	}
 
 	public boolean save(User user) {

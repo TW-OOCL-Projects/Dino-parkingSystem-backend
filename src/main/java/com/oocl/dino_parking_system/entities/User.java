@@ -167,7 +167,11 @@ public class User implements UserDetails {
 		this.nickname = nickname;
 	}
 
-	public boolean isStatus() {
-		return status;
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	public boolean getStatus() {
+		return this.status;
 	}
 }

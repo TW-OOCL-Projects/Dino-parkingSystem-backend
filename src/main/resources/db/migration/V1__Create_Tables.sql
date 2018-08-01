@@ -5,8 +5,7 @@ CREATE TABLE user (
     password VARCHAR (20) NOT NULL ,
     email   VARCHAR(50)     NOT NULL ,
     phone    VARCHAR(20)     NOT NULL,
-    status  VARCHAR(20)     NOT NULL,
-    authority   VARCHAR(20)     NOT NULL
+    status  INT     NOT NULL,
 );
 CREATE TABLE parking_lot (
     id  BIGINT  NOT NULL  AUTO_INCREMENT  PRIMARY KEY,
