@@ -1,5 +1,6 @@
 package com.oocl.dino_parking_system.controllers;
 
+import com.oocl.dino_parking_system.dto.UserDTO;
 import com.oocl.dino_parking_system.entities.User;
 import com.oocl.dino_parking_system.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class UserController {
@@ -26,7 +28,9 @@ public class UserController {
 	@GetMapping("/users")
 	public ResponseEntity getAllUser() {
 		if(userService.getAllUser() != null){
-			return new ResponseEntity<List<User>>(userService.getAllUser(),HttpStatus.OK);
+			return new ResponseEntity<List<UserDTO>>(userService.getAllUser().stream()
+					.map(UserDTO::new)
+					.collect(Collectors.toList()),HttpStatus.OK);
 		}else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}

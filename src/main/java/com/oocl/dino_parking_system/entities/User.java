@@ -15,21 +15,6 @@ import java.util.List;
 @Entity
 public class User implements UserDetails {
 
-
-	public User() {
-	}
-
-	public User(String username, String password) {
-		this.id = id;
-		this.username = username;
-		this.password = password;
-	}
-
-	public User(Long id, String username, String password) {
-		this.username = username;
-		this.password = password;
-	}
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -47,6 +32,15 @@ public class User implements UserDetails {
 
 	@ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
 	private List<Role> roles = new ArrayList<>();
+
+	public User() {
+	}
+
+	public User(String username, String password) {
+		this.id = id;
+		this.username = username;
+		this.password = password;
+	}
 
 	public User(String username, String password, String email, String phone) {
 		this.username = username;

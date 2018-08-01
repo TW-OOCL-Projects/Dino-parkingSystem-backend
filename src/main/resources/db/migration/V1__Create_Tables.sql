@@ -1,7 +1,7 @@
 CREATE TABLE user (
     id  BIGINT   NOT NULL  AUTO_INCREMENT  PRIMARY KEY,
     username    VARCHAR(50)     NOT NULL UNIQUE ,
-    nickname VARCHAR (20) UNIQUE ,
+    nickname VARCHAR (20) UNIQUE NOT NULL ,
     password VARCHAR (20) NOT NULL ,
     email   VARCHAR(50)     NOT NULL ,
     phone    VARCHAR(20)     NOT NULL,
