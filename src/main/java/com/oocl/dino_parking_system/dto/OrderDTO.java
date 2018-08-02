@@ -1,7 +1,9 @@
 package com.oocl.dino_parking_system.dto;
 
 import com.oocl.dino_parking_system.entities.LotOrder;
-import com.oocl.dino_parking_system.entities.User;
+
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class OrderDTO {
     private Long id;
@@ -10,6 +12,7 @@ public class OrderDTO {
     private String plateNumber;
     private String status;
     private String receiptId;
+    private String parkDate;
 
     public OrderDTO() {
     }
@@ -21,53 +24,34 @@ public class OrderDTO {
         this.plateNumber = order.getPlateNumber();
         this.status = order.getStatus();
         this.receiptId = order.getReceiptId();
+        this.parkDate = DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm").format(order.getParkDate());
     }
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public ParkingBoyDTO getParkingBoy() {
+		return parkingBoy;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public String getPlateNumber() {
+		return plateNumber;
+	}
 
-    public ParkingBoyDTO getParkingBoy() {
-        return parkingBoy;
-    }
+	public String getStatus() {
+		return status;
+	}
 
-    public void setParkingBoy(ParkingBoyDTO parkingBoy) {
-        this.parkingBoy = parkingBoy;
-    }
+	public String getReceiptId() {
+		return receiptId;
+	}
 
-    public String getPlateNumber() {
-        return plateNumber;
-    }
-
-    public void setPlateNumber(String plateNumber) {
-        this.plateNumber = plateNumber;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getReceiptId() {
-        return receiptId;
-    }
-
-    public void setReceiptId(String receiptId) {
-        this.receiptId = receiptId;
-    }
+	public String getParkDate() {
+		return parkDate;
+	}
 }

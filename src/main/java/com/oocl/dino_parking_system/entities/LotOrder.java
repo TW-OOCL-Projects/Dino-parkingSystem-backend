@@ -21,7 +21,9 @@ public class LotOrder {
     private String type;
 
     @CreatedDate
-    private ZonedDateTime parkingDate;
+    private ZonedDateTime parkDate = ZonedDateTime.now();
+
+//    private ZonedDateTime unParkDate;
 
     @ManyToOne
     @JoinColumn(name = "parking_boy_id")
@@ -96,11 +98,11 @@ public class LotOrder {
         this.receiptId = receiptId;
     }
 
-	public ZonedDateTime getParkingDate() {
-		return parkingDate;
+	public ZonedDateTime getParkDate() {
+		return parkDate;
 	}
 
-	public void setParkingDate(ZonedDateTime parkingDate) {
-		this.parkingDate = parkingDate;
+	public void setParkDate(ZonedDateTime parkDate) {
+		this.parkDate = parkDate;
 	}
 }

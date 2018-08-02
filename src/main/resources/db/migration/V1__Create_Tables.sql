@@ -22,5 +22,6 @@ CREATE TABLE car_order (
     plate_number    VARCHAR(20)     NOT NULL,
     status  VARCHAR(20)     NOT NULL,
     receipt_id  VARCHAR(20)     NOT NULL,
+    park_date TIMESTAMP DEFAULT NOW(),
     FOREIGN KEY (parking_boy_id) REFERENCES parkingBoy(id)
 );
