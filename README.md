@@ -56,6 +56,7 @@
             "parkingLotName": "停车场A",
             "size": 20,
             "carNum": 0,
+            "status":"normal",
             "parkingBoyId": 0,
             "parkingBoyName": null
         }
@@ -73,6 +74,7 @@
               "parkingLotName": "停车场A",
               "size": 20,
               "carNum": 0,
+              "status":"normal",
               "parkingBoyId": 0,
               "parkingBoyName": null
           }
