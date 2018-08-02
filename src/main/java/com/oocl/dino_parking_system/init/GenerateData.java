@@ -90,7 +90,13 @@ public class GenerateData implements CommandLineRunner {
 	    *
 	    * */
 		LotOrder order1 = new LotOrder("粤DHC9767","1");
-		LotOrder order2 = new LotOrder("粤DH76647","2");
-		orderRepository.saveAll(Arrays.asList(order1,order2));
+		LotOrder order2 = new LotOrder("粤C76647","2");
+	    	LotOrder order3 = new LotOrder("粤C4767","3");
+		LotOrder order4 = new LotOrder("粤CH73647","4");
+	    	LotOrder order5 = new LotOrder("粤AHC2767","5");
+		LotOrder order6 = new LotOrder("粤VH71647","6");
+	    	LotOrder order7 = new LotOrder("粤BHC9467","7");
+		LotOrder order8 = new LotOrder("粤NH76347","8");
+		orderRepository.saveAll(Arrays.asList(order1,order2,order3,order4,order5,order6,order7,order8));
     }
 }
