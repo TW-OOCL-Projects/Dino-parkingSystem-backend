@@ -24,25 +24,25 @@
   - path：`/parkingLots`
   - method：GET
   - response：
-```json
-    [
-     {
-         "id": 1,
-         "name": "停车场A",
-         "size": 20,
-         "status": "normal"
-     }
-    ]
-```
+   ```json
+   [
+        {
+             "id": 1,
+             "name": "停车场A",
+             "size": 20,
+             "status": "normal"
+        }
+   ]
+   ```
 2. 添加一个停车场
   - path：`/parkingLots`
   - method：POST
   - request:
-    ```json
-    {
-    "name":"oocl停车场",
-    "size":20
-    }
+   ```json
+   {
+        "name":"oocl停车场",
+        "size":20
+   }
     ```
 
 3.获取所有停车场dashboard数据
@@ -61,12 +61,12 @@
             "parkingBoyName": null
         }
     ]
-```
+   ```
 
 4.分页获取所有停车场dashboard数据
-   - path：`/dashboard/page/:page/pageSize/:size`
-   - method: GET
-   - response:
+  - path：`/dashboard/page/:page/pageSize/:size`
+  - method: GET
+  - response:
    ```json 
       [
           {
@@ -81,11 +81,11 @@
       ]
   ```
     
-  ### 2. 订单管理
-  2.1 获取所有order
-     - path：`/orders`
-     - method: GET
-     -response
+### 2. 订单管理
+2.1 获取所有order
+  - path：`/orders`
+  - method: GET
+  -response
   ```json
    [
        {
