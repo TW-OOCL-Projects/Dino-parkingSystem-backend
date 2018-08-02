@@ -1,7 +1,7 @@
 package com.oocl.dino_parking_system.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.oocl.dino_parking_system.entities.Order;
+import com.oocl.dino_parking_system.entities.LotOrder;
 import com.oocl.dino_parking_system.entities.Receipt;
 import com.oocl.dino_parking_system.services.OrderService;
 import com.oocl.dino_parking_system.services.ReceiptService;
@@ -15,10 +15,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.oocl.dino_parking_system.constants.Constants.STATUS_NOHANDLE;
+import static com.oocl.dino_parking_system.constants.Constants.TYPE_PARKCAR;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -39,18 +43,20 @@ public class ReceiptControllerTest {
     private OrderService orderService;
 
     @Test
-    public void postReceipt_ReturnReceipt() throws Exception {
+    public void should_return_receipt_id_when_given_car_plate_number() throws Exception {
         //given
-        Receipt receipt = new Receipt("park");
-        Order order = new Order("park", "a1234", "nohandle", receipt.getId());
+        Receipt receipt = new Receipt();
+        LotOrder lotOrder = new LotOrder(TYPE_PARKCAR, "a1234", STATUS_NOHANDLE, receipt.getId());
         given(receiptService.generateReceipt()).willReturn(receipt);
-        given(orderService.generateOrder(anyString(), anyString())).willReturn(order);
-
+        given(orderService.generateOrder(anyString(), anyString())).willReturn(lotOrder);
+	    Map<String,String>postData = new HashMap<>();
+	    postData.put("plateNum","a1234");
         //when
         ResultActions resultActions = mockMvc.perform(post("/receipts")
-        .content("a1234"));
+		        .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(postData)));
 
         //then
-        resultActions.andExpect(jsonPath("$.status", is("park")));
+        resultActions.andExpect(jsonPath("$.id", is(receipt.getId())));
     }
 }

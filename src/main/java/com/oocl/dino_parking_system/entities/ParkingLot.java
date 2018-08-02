@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.oocl.dino_parking_system.constants.Constants.NORMAL;
+import static com.oocl.dino_parking_system.constants.Constants.STATUS_NORMAL;
 
 @Table(name = "parking_lot")
 @Entity
@@ -17,10 +17,8 @@ public class ParkingLot {
     private long id;
     private String name;
     private int size;
-    private String status = NORMAL;// 停车场开放状态：默认true开放
-
-    @Transient
-    private Map<String,String> cars = new HashMap<>();
+    private int carNum = 0;
+    private String status = STATUS_NORMAL;// 停车场开放状态：默认开放NORMAL
 
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name = "parking_boy_id")
@@ -75,11 +73,11 @@ public class ParkingLot {
         this.parkingBoy = parkingBoy;
     }
 
-	public Map<String, String> getCars() {
-		return cars;
+	public int getCarNum() {
+		return carNum;
 	}
 
-	public void setCars(Map<String, String> cars) {
-		this.cars = cars;
+	public void setCarNum(int carNum) {
+		this.carNum = carNum;
 	}
 }

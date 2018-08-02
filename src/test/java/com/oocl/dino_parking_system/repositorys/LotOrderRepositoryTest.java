@@ -1,6 +1,6 @@
 package com.oocl.dino_parking_system.repositorys;
 
-import com.oocl.dino_parking_system.entities.Order;
+import com.oocl.dino_parking_system.entities.LotOrder;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class OrderRepositoryTest {
+public class LotOrderRepositoryTest {
 
     @Autowired
     private OrderRepository orderRepository;
@@ -30,12 +30,12 @@ public class OrderRepositoryTest {
     @Test
     public void save() {
         //given
-        Order order = new Order("park", "a1234", "parking", "qwerasdf1234");
+        LotOrder lotOrder = new LotOrder("park", "a1234", "parking", "qwerasdf1234");
 
         //when
-        Order order1 = orderRepository.save(order);
+        LotOrder lotOrder1 = orderRepository.save(lotOrder);
 
         //then
-        assertThat(order1.getPlateNumber(), is("a1234"));
+        assertThat(lotOrder1.getPlateNumber(), is("a1234"));
     }
 }

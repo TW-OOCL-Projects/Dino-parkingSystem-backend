@@ -1,10 +1,18 @@
 package com.oocl.dino_parking_system.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.CreatedDate;
+
 import javax.persistence.*;
+
+import java.time.ZonedDateTime;
+
+import static com.oocl.dino_parking_system.constants.Constants.STATUS_NOHANDLE;
+import static com.oocl.dino_parking_system.constants.Constants.TYPE_PARKCAR;
 
 @Table(name = "car_order")
 @Entity
-public class Order {
+public class LotOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,22 +20,35 @@ public class Order {
 
     private String type;
 
-    @ManyToOne(fetch= FetchType.LAZY)
+    @CreatedDate
+    private ZonedDateTime parkDate = ZonedDateTime.now();
+
+//    private ZonedDateTime unParkDate;
+
+    @ManyToOne
     @JoinColumn(name = "parking_boy_id")
-    private User user;
+    @JsonIgnore
+    private User parkingBoy;
 
     private String plateNumber;
     private String status;
     private String receiptId;
 
-    public Order(String type, String plateNumber, String status, String receiptId) {
+    public LotOrder(String type, String plateNumber, String status, String receiptId) {
         this.type = type;
         this.plateNumber = plateNumber;
         this.status = status;
         this.receiptId = receiptId;
     }
 
-    public Order(){}
+    public LotOrder(String plateNumber, String receiptId) {
+        this.plateNumber = plateNumber;
+        this.receiptId = receiptId;
+        this.status = STATUS_NOHANDLE;
+        this.type = TYPE_PARKCAR;
+    }
+
+    public LotOrder(){}
 
     public long getId() {
         return id;
@@ -45,12 +66,12 @@ public class Order {
         this.type = type;
     }
 
-    public User getUser() {
-        return user;
+    public User getParkingBoy() {
+        return parkingBoy;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setParkingBoy(User parkingBoy) {
+        this.parkingBoy = parkingBoy;
     }
 
     public String getPlateNumber() {
@@ -76,4 +97,12 @@ public class Order {
     public void setReceiptId(String receiptId) {
         this.receiptId = receiptId;
     }
+
+	public ZonedDateTime getParkDate() {
+		return parkDate;
+	}
+
+	public void setParkDate(ZonedDateTime parkDate) {
+		this.parkDate = parkDate;
+	}
 }
