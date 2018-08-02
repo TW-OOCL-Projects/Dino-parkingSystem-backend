@@ -90,9 +90,7 @@ public class GenerateData implements CommandLineRunner {
 	    *
 	    * */
 		LotOrder order1 = new LotOrder("粤DHC9767","1");
-		order1.setParkingBoy(user2);
 		LotOrder order2 = new LotOrder("粤DH76647","2");
-		order1.setParkingBoy(user2);
 		orderRepository.saveAll(Arrays.asList(order1,order2));
     }
 }

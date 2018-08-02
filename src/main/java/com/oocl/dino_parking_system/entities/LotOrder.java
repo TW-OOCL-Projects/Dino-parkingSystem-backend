@@ -17,7 +17,7 @@ public class LotOrder {
 
     private String type;
 
-    @ManyToOne(fetch= FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "parking_boy_id")
     @JsonIgnore
     private User parkingBoy;

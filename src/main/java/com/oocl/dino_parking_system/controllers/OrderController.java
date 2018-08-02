@@ -1,5 +1,6 @@
 package com.oocl.dino_parking_system.controllers;
 
+import com.oocl.dino_parking_system.dto.OrderDTO;
 import com.oocl.dino_parking_system.dto.ParkingBoyDTO;
 import com.oocl.dino_parking_system.entities.LotOrder;
 import com.oocl.dino_parking_system.entities.User;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/orders")
@@ -36,9 +38,10 @@ public class OrderController {
 
     @Transactional
     @GetMapping(path = "",produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<LotOrder> getAllOrders(){
+    public List<OrderDTO> getAllOrders(){
         List<LotOrder> lotOrders = service.getAllOrders();
-        return lotOrders;
+        List<OrderDTO> orderDTOS = lotOrders.stream().map(OrderDTO::new).collect(Collectors.toList());
+        return orderDTOS;
     }
 
     //员工抢单页面
