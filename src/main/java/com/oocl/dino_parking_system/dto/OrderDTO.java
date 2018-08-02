@@ -1,39 +1,33 @@
-package com.oocl.dino_parking_system.entities;
+package com.oocl.dino_parking_system.dto;
 
-import javax.persistence.*;
+import com.oocl.dino_parking_system.entities.LotOrder;
+import com.oocl.dino_parking_system.entities.User;
 
-@Table(name = "car_order")
-@Entity
-public class Order {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
+public class OrderDTO {
+    private Long id;
     private String type;
-
-    @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name = "parking_boy_id")
-    private User user;
-
+    private User parkingBoy;
     private String plateNumber;
     private String status;
     private String receiptId;
 
-    public Order(String type, String plateNumber, String status, String receiptId) {
-        this.type = type;
-        this.plateNumber = plateNumber;
-        this.status = status;
-        this.receiptId = receiptId;
+    public OrderDTO() {
     }
 
-    public Order(){}
+    public OrderDTO(LotOrder order) {
+        this.id = order.getId();
+        this.type = order.getType();
+        this.parkingBoy = order.getParkingBoy();
+        this.plateNumber = order.getPlateNumber();
+        this.status = order.getStatus();
+        this.receiptId = order.getReceiptId();
+    }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -45,12 +39,12 @@ public class Order {
         this.type = type;
     }
 
-    public User getUser() {
-        return user;
+    public User getParkingBoy() {
+        return parkingBoy;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setParkingBoy(User parkingBoy) {
+        this.parkingBoy = parkingBoy;
     }
 
     public String getPlateNumber() {

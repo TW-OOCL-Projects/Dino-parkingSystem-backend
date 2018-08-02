@@ -1,14 +1,15 @@
 package com.oocl.dino_parking_system.services;
 
-import com.oocl.dino_parking_system.entities.Order;
+import com.oocl.dino_parking_system.dto.ParkingBoyDTO;
+import com.oocl.dino_parking_system.entities.LotOrder;
+import com.oocl.dino_parking_system.entities.User;
 import com.oocl.dino_parking_system.repositorys.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.oocl.dino_parking_system.constants.Constants.INUSE;
-import static com.oocl.dino_parking_system.constants.Constants.PARKCAR;
+import static com.oocl.dino_parking_system.constants.Constants.*;
 
 @Component
 public class OrderService {
@@ -20,20 +21,41 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public Order generateOrder(String plateNumber, String receiptId) {
-        Order order = new Order("park", plateNumber, "nohandle", receiptId);
-        return orderRepository.save(order);
+    public LotOrder generateOrder(String plateNumber, String receiptId) {
+        LotOrder lotOrder = new LotOrder(TYPE_PARKCAR, plateNumber, STATUS_NOHANDLE, receiptId);
+        return orderRepository.save(lotOrder);
     }
 
-    public boolean generateOrder(Order order) {
-        order.setStatus(INUSE);
-        order.setType(PARKCAR);
-        orderRepository.save(order);
+    public boolean generateOrder(LotOrder lotOrder) {
+        lotOrder.setStatus(STATUS_NOHANDLE);
+        lotOrder.setType(TYPE_PARKCAR);
+        orderRepository.save(lotOrder);
         return true;
     }
 
-    public List<Order> getAllOrders() {
-        List<Order> orders = orderRepository.findAll();
-        return orders;
+    public List<LotOrder> getAllOrders() {
+        List<LotOrder> lotOrders = orderRepository.findAll();
+        return lotOrders;
+    }
+
+
+    public List<LotOrder> getOrdersByStatus(String status) {
+        List<LotOrder> lotOrders = orderRepository.findByStatus(status);
+        return lotOrders;
+    }
+
+    public Boolean changeStatus(Long id, User parkingBoy) {
+        Boolean key = true;
+        LotOrder lotOrder = orderRepository.findById(id).get();
+
+        if(lotOrder.getStatus() == STATUS_HANDLE){
+            key = false;
+        }else{
+            lotOrder.setStatus(STATUS_HANDLE);
+            lotOrder.setType(TYPE_PARKOUTCAR);
+            lotOrder.setParkingBoy(parkingBoy);
+            parkingBoy.addOrder(lotOrder);
+        }
+        return key;
     }
 }

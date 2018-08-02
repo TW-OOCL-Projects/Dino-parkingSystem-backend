@@ -1,7 +1,7 @@
 package com.oocl.dino_parking_system.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.oocl.dino_parking_system.entities.Order;
+import com.oocl.dino_parking_system.entities.LotOrder;
 import com.oocl.dino_parking_system.entities.Receipt;
 import com.oocl.dino_parking_system.services.OrderService;
 import com.oocl.dino_parking_system.services.ReceiptService;
@@ -10,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -42,9 +41,9 @@ public class ReceiptControllerTest {
     public void postReceipt_ReturnReceipt() throws Exception {
         //given
         Receipt receipt = new Receipt("park");
-        Order order = new Order("park", "a1234", "nohandle", receipt.getId());
+        LotOrder lotOrder = new LotOrder("park", "a1234", "nohandle", receipt.getId());
         given(receiptService.generateReceipt()).willReturn(receipt);
-        given(orderService.generateOrder(anyString(), anyString())).willReturn(order);
+        given(orderService.generateOrder(anyString(), anyString())).willReturn(lotOrder);
 
         //when
         ResultActions resultActions = mockMvc.perform(post("/receipts")

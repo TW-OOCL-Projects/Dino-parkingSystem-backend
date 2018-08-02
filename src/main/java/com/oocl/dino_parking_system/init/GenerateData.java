@@ -1,8 +1,10 @@
 package com.oocl.dino_parking_system.init;
 
+import com.oocl.dino_parking_system.entities.LotOrder;
 import com.oocl.dino_parking_system.entities.ParkingLot;
 import com.oocl.dino_parking_system.entities.Role;
 import com.oocl.dino_parking_system.entities.User;
+import com.oocl.dino_parking_system.repositorys.OrderRepository;
 import com.oocl.dino_parking_system.repositorys.ParkingLotsRepository;
 import com.oocl.dino_parking_system.repositorys.RoleRepository;
 import com.oocl.dino_parking_system.repositorys.UserRepository;
@@ -25,6 +27,9 @@ public class GenerateData implements CommandLineRunner {
 
     @Autowired
     private ParkingLotsRepository parkingLotsRepository;
+
+    @Autowired
+	private OrderRepository orderRepository;
 
     @Autowired
     private UserService userService;
@@ -79,5 +84,15 @@ public class GenerateData implements CommandLineRunner {
 	    parkingLot7.setCarNum(3);
 	    parkingLotsRepository.saveAll(Arrays.asList(parkingLot1,parkingLot2,parkingLot3,
 			    parkingLot4,parkingLot5,parkingLot6,parkingLot7));
+
+	    /*
+	    * 订单初始化数据
+	    *
+	    * */
+		LotOrder order1 = new LotOrder("粤DHC9767","1");
+		order1.setParkingBoy(user2);
+		LotOrder order2 = new LotOrder("粤DH76647","2");
+		order1.setParkingBoy(user2);
+		orderRepository.saveAll(Arrays.asList(order1,order2));
     }
 }
