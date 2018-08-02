@@ -21,10 +21,10 @@
 ### 1. 停车场管理
 
 1. 获取所有停车信息
-    - path：`/parkingLots`
-    - method：GET
-    - response：
-    ```json
+  - path：`/parkingLots`
+  - method：GET
+  - response：
+```json
     [
      {
          "id": 1,
@@ -33,11 +33,11 @@
          "status": "normal"
      }
     ]
-    ```
+```
 2. 添加一个停车场
-    - path：`/parkingLots`
-    - method：POST
-    - request:
+  - path：`/parkingLots`
+  - method：POST
+  - request:
     ```json
     {
     "name":"oocl停车场",
@@ -46,9 +46,9 @@
     ```
 
 3.获取所有停车场dashboard数据
-   - path：`/dashboard`
-   - method: GET
-   - response:
+  - path：`/dashboard`
+  - method: GET
+  - response:
    ```json 
     [
         {
@@ -80,3 +80,70 @@
           }
       ]
   ```
+    
+  ### 2. 订单管理
+  2.1 获取所有order
+     - path：`/orders`
+     - method: GET
+     -response
+  ```json
+   [
+       {
+           "id": 1,
+           "type": "parkOutCar",
+           "parkingBoy": {
+               "id": 2,
+               "username": "parkingboy1"
+           },
+           "plateNumber": "粤DHC9767",
+           "status": "handle",
+           "receiptId": "1"
+       },
+       {
+           "id": 2,
+           "type": "parkCar",
+           "parkingBoy": null,
+           "plateNumber": "粤DH76647",
+           "status": "nohandle",
+           "receiptId": "2"
+       }
+   ]
+  ```
+  2.2 根据状态获取order
+     - path：`/orders/:status`
+     - method: GET
+     - request:
+  ```json
+   [
+       {
+           "id": 1,
+           "type": "parkCar",
+           "plateNumber": "粤DHC9767",
+           "status": "nohandle",
+           "receiptId": "1"
+       },
+       {
+           "id": 2,
+           "type": "parkCar",
+           "plateNumber": "粤DH76647",
+           "status": "nohandle",
+           "receiptId": "2"
+       }
+   ]
+  ```
+  2.3 parkingBoy抢单
+     - path：`/orders/:id`
+     - method: PUT
+     - response:
+  ```json
+       {
+         "id":2    ---(parkingBoyId)
+       }
+  ```
+  
+  ## 3. 停车小弟管理 /parkingBoys
+  1. 停车小弟选择停车场停车
+     - path: `/:parkingBoyId/parkingLots/:parkingLotId`
+     - method: PUT
+     - response:
+      成功返回 200 OK
