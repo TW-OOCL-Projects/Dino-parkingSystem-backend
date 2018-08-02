@@ -2,12 +2,9 @@ package com.oocl.dino_parking_system.controllers;
 
 import com.alibaba.fastjson.JSONObject;
 import com.oocl.dino_parking_system.dto.OrderDTO;
-import com.oocl.dino_parking_system.dto.ParkingBoyDTO;
-import com.oocl.dino_parking_system.entities.LotOrder;
 import com.oocl.dino_parking_system.entities.User;
 import com.oocl.dino_parking_system.services.OrderService;
 import com.oocl.dino_parking_system.services.ParkingBoyService;
-import com.oocl.dino_parking_system.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,7 +20,7 @@ import java.util.stream.Collectors;
 public class OrderController {
 
     @Autowired
-    OrderService service;
+    OrderService orderService;
 
     @Autowired
     ParkingBoyService parkingBoyService;
@@ -31,7 +28,7 @@ public class OrderController {
     @Transactional
     @GetMapping(path = "",produces = MediaType.APPLICATION_JSON_VALUE)
     public List<OrderDTO> getAllOrders(){
-	    return service.getAllOrders().stream()
+	    return orderService.getAllOrders().stream()
 			    .map(OrderDTO::new)
 			    .collect(Collectors.toList());
     }
@@ -39,7 +36,7 @@ public class OrderController {
     @Transactional
     @GetMapping(path = "/{status}")
     public List<OrderDTO> getOrdersByStatus(@PathVariable String status){
-        return service.getOrdersByStatus(status).stream()
+        return orderService.getOrdersByStatus(status).stream()
 		        .map(OrderDTO::new)
 		        .collect(Collectors.toList());
     }
@@ -52,7 +49,7 @@ public class OrderController {
 	    System.out.println(parkingBoyService.findAllNotFullParkingLots(parkingBoyId));
         if(parkingBoy!=null
 		        && parkingBoyService.findAllNotFullParkingLots(parkingBoyId).size()>0){
-		    if (service.changeStatus(id, parkingBoy))
+		    if (orderService.changeStatus(id, parkingBoy))
 			    return ResponseEntity.status(HttpStatus.OK).build();
 		    else
 			    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -61,4 +58,14 @@ public class OrderController {
 	    }
     }
 
+    @Transactional
+    @GetMapping(path = "/{type}/parkingBoys/{parkingBoyId}")
+    public ResponseEntity getOrdersByStatus(@PathVariable String type, @PathVariable Long parkingBoyId){
+        List<OrderDTO> orders = orderService.findOrderByParkingBoyId(type,parkingBoyId);
+        if(orders.size() > 0){
+            return new ResponseEntity(orders,HttpStatus.OK);
+        }else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
