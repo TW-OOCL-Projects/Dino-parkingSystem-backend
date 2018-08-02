@@ -67,7 +67,7 @@ public class GenerateData implements CommandLineRunner {
 	    parkingLot3.setCarNum(1);
 	    ParkingLot parkingLot4 = new ParkingLot("oocl停车场4",25);
 	    parkingLot4.setParkingBoy(user4);
-	    parkingLot4.setCarNum(14);
+	    parkingLot4.setCarNum(0);
 	    ParkingLot parkingLot5 = new ParkingLot("oocl停车场5",20);
 	    parkingLot5.setParkingBoy(user5);
 	    parkingLot5.setCarNum(19);
