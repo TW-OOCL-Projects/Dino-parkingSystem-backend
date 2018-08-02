@@ -17,6 +17,7 @@ public class ParkingLot {
     private long id;
     private String name;
     private int size;
+    private int carNum = 0;
     private String status = NORMAL;// 停车场开放状态：默认true开放
 
     @Transient
@@ -81,5 +82,13 @@ public class ParkingLot {
 
 	public void setCars(Map<String, String> cars) {
 		this.cars = cars;
+	}
+
+	public int getCarNum() {
+		return carNum;
+	}
+
+	public void setCarNum(int carNum) {
+		this.carNum = carNum;
 	}
 }

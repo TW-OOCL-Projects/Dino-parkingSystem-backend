@@ -41,20 +41,42 @@ public class GenerateData implements CommandLineRunner {
 
         User user1 = new User("admin","管理员A","1234","110@qq.com","13160675789");
         user1.setRoles(Arrays.asList(admin));
-        User user2 = new User("parkingboy","停车小弟A","1234","120@qq.com","13160675789");
+        User user2 = new User("parkingboy1","停车小弟A","1234","120@qq.com","13160675789");
         user2.setRoles(Arrays.asList(parkingBoy));
 	    User user3 = new User("manager","停车经理A","1234","130@qq.com","13160675789");
 	    user3.setRoles(Arrays.asList(manager));
-        userRepository.saveAll(Arrays.asList(user1,user2,user3));
+	    User user4 = new User("parkingboy2","停车小弟B","1234","121@qq.com","13160675789");
+	    user4.setRoles(Arrays.asList(parkingBoy));
+	    User user5 = new User("parkingboy3","停车小弟C","1234","122@qq.com","13160675789");
+	    user5.setRoles(Arrays.asList(parkingBoy));
+	    User user6 = new User("parkingboy4","停车小弟D","1234","123@qq.com","13160675789");
+	    user6.setRoles(Arrays.asList(parkingBoy));
+	    User user7 = new User("parkingboy5","停车小弟E","1234","124@qq.com","13160675789");
+	    user7.setRoles(Arrays.asList(parkingBoy));
+        userRepository.saveAll(Arrays.asList(user1,user2,user3,user4,user5,user6,user7));
         System.out.println("===============用户初始化完成=============");
 
 	    ParkingLot parkingLot1 = new ParkingLot("oocl停车场1",20);
+	    parkingLot1.setParkingBoy(user2);
+	    parkingLot1.setCarNum(13);
 	    ParkingLot parkingLot2 = new ParkingLot("oocl停车场2",10);
+	    parkingLot2.setParkingBoy(user2);
+	    parkingLot2.setCarNum(10);
 	    ParkingLot parkingLot3 = new ParkingLot("oocl停车场3",20);
+	    parkingLot3.setParkingBoy(user4);
+	    parkingLot3.setCarNum(1);
 	    ParkingLot parkingLot4 = new ParkingLot("oocl停车场4",25);
+	    parkingLot4.setParkingBoy(user4);
+	    parkingLot4.setCarNum(14);
 	    ParkingLot parkingLot5 = new ParkingLot("oocl停车场5",20);
+	    parkingLot5.setParkingBoy(user5);
+	    parkingLot5.setCarNum(19);
 	    ParkingLot parkingLot6 = new ParkingLot("oocl停车场6",14);
+	    parkingLot6.setParkingBoy(user6);
+	    parkingLot6.setCarNum(11);
 	    ParkingLot parkingLot7 = new ParkingLot("oocl停车场7",20);
+	    parkingLot7.setParkingBoy(user7);
+	    parkingLot7.setCarNum(3);
 	    parkingLotsRepository.saveAll(Arrays.asList(parkingLot1,parkingLot2,parkingLot3,
 			    parkingLot4,parkingLot5,parkingLot6,parkingLot7));
     }
