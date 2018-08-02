@@ -1,6 +1,7 @@
 package com.oocl.dino_parking_system.controllers;
 
 import com.oocl.dino_parking_system.dto.ParkingLotTinyDTO;
+import com.oocl.dino_parking_system.services.OrderService;
 import com.oocl.dino_parking_system.services.ParkingBoyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,9 @@ public class ParkingBoyController {
 
 	@Autowired
 	ParkingBoyService parkingBoyService;
+
+	@Autowired
+	OrderService orderService;
 
 	// 获取停车小弟管理的停车场中未满的停车场
 	@GetMapping(path = "/{id}/parkingLots")

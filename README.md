@@ -135,7 +135,7 @@
   2.3 parkingBoy抢单
      - path：`/orders/:id`
      - method: PUT
-     - response:
+     - request:
   ```json
        {
          "parkingBoyId":2
