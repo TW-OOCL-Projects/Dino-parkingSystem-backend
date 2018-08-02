@@ -28,7 +28,7 @@ public class User implements UserDetails {
 	private List<ParkingLot> parkingLots = new ArrayList<>();
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-	private List<Order> orders = new ArrayList<>();
+	private List<LotOrder> lotOrders = new ArrayList<>();
 
 	@ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
 	private List<Role> roles = new ArrayList<>();
@@ -145,12 +145,12 @@ public class User implements UserDetails {
 		this.parkingLots = parkingLots;
 	}
 
-	public List<Order> getOrders() {
-		return orders;
+	public List<LotOrder> getLotOrders() {
+		return lotOrders;
 	}
 
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
+	public void setLotOrders(List<LotOrder> lotOrders) {
+		this.lotOrders = lotOrders;
 	}
 
 	public String getNickname() {

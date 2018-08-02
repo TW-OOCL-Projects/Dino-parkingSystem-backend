@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-import static com.oocl.dino_parking_system.constants.Constants.FREEZE;
-import static com.oocl.dino_parking_system.constants.Constants.NORMAL;
+import static com.oocl.dino_parking_system.constants.Constants.STATUS_FREEZE;
+import static com.oocl.dino_parking_system.constants.Constants.STATUS_NORMAL;
 
 @Service
 public class ParkingLotsService {
@@ -51,10 +51,10 @@ public class ParkingLotsService {
 	public boolean changeParkingLotStatus(long id) {
 		try {
 			ParkingLot parkingLot = parkingLotsRepository.findById(id).get();
-			if (parkingLot.getStatus().equals(NORMAL)) {
-				parkingLot.setStatus(FREEZE);
+			if (parkingLot.getStatus().equals(STATUS_NORMAL)) {
+				parkingLot.setStatus(STATUS_FREEZE);
 			} else {
-				parkingLot.setStatus(NORMAL);
+				parkingLot.setStatus(STATUS_NORMAL);
 			}
 			parkingLotsRepository.save(parkingLot);
 			return true;

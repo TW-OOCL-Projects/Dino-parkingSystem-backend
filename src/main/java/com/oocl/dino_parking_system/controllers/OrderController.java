@@ -1,6 +1,6 @@
 package com.oocl.dino_parking_system.controllers;
 
-import com.oocl.dino_parking_system.entities.Order;
+import com.oocl.dino_parking_system.entities.LotOrder;
 import com.oocl.dino_parking_system.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,8 +20,8 @@ public class OrderController {
 
     @Transactional
     @PostMapping(path = "",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> generateOrder(@RequestBody Order order){
-        boolean key = service.generateOrder(order);
+    public ResponseEntity<Object> generateOrder(@RequestBody LotOrder lotOrder){
+        boolean key = service.generateOrder(lotOrder);
         if(key){
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
@@ -30,9 +30,9 @@ public class OrderController {
 
     @Transactional
     @GetMapping(path = "",produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Order> getAllOrders(){
-        List<Order> orders = service.getAllOrders();
-        return orders;
+    public List<LotOrder> getAllOrders(){
+        List<LotOrder> lotOrders = service.getAllOrders();
+        return lotOrders;
     }
 
 }

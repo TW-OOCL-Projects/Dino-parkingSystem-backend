@@ -1,15 +1,16 @@
 package com.oocl.dino_parking_system.entities;
 
+import java.util.UUID;
+
+import static com.oocl.dino_parking_system.constants.Constants.STATUS_INUSE;
+
 public class Receipt {
     private String id;
     private String status;
 
-    public Receipt(String status) {
-        this.id = Integer.toString(this.hashCode());
-        this.status = status;
-    }
-
     public Receipt(){
+	    this.id = UUID.randomUUID().toString();
+	    this.status = STATUS_INUSE;
     }
 
     public String getId() {

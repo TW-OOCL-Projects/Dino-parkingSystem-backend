@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Table(name = "car_order")
 @Entity
-public class Order {
+public class LotOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,14 +20,14 @@ public class Order {
     private String status;
     private String receiptId;
 
-    public Order(String type, String plateNumber, String status, String receiptId) {
+    public LotOrder(String type, String plateNumber, String status, String receiptId) {
         this.type = type;
         this.plateNumber = plateNumber;
         this.status = status;
         this.receiptId = receiptId;
     }
 
-    public Order(){}
+    public LotOrder(){}
 
     public long getId() {
         return id;

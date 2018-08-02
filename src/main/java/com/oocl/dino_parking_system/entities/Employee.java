@@ -21,7 +21,7 @@
 //    private List<ParkingLot> parkingLots = new ArrayList<>();
 //
 //    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
-//    private List<Order> orders = new ArrayList<>();
+//    private List<LotOrder> orders = new ArrayList<>();
 //
 //    public User(String name, String email, String phone, String status, String authority) {
 //        this.name = name;
@@ -90,11 +90,11 @@
 //        this.parkingLots = parkingLots;
 //    }
 //
-//    public List<Order> getOrders() {
+//    public List<LotOrder> getLotOrders() {
 //        return orders;
 //    }
 //
-//    public void setOrders(List<Order> orders) {
+//    public void setLotOrders(List<LotOrder> orders) {
 //        this.orders = orders;
 //    }
 //}
