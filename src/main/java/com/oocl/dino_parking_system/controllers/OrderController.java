@@ -53,7 +53,7 @@ public class OrderController {
     }
 
     @Transactional
-    @PutMapping(path = "/{id}/parkingBoys")
+    @PutMapping(path = "/{id}")
     public ResponseEntity changeStatus(@PathVariable("id") Long id, @RequestBody ParkingBoyDTO parkingBoyDTO){
 
         User parkingBoy = parkingBoyService.getUserById(parkingBoyDTO.getId());
