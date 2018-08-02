@@ -44,17 +44,21 @@ public class OrderService {
     }
 
     public Boolean changeStatus(Long id, User parkingBoy) {
-        Boolean key = true;
-        LotOrder lotOrder = orderRepository.findById(id).get();
+    	try {
+		    Boolean key = true;
+		    LotOrder lotOrder = orderRepository.findById(id).get();
 
-        if(lotOrder.getStatus() == STATUS_HANDLE){
-            key = false;
-        }else{
-            lotOrder.setStatus(STATUS_HANDLE);
-            lotOrder.setType(TYPE_PARKOUTCAR);
-            lotOrder.setParkingBoy(parkingBoy);
-            parkingBoy.addOrder(lotOrder);
-        }
-        return key;
+		    if (lotOrder.getStatus().equals(STATUS_HANDLE)) {
+			    key = false;
+		    } else {
+			    lotOrder.setStatus(STATUS_HANDLE);
+			    lotOrder.setType(TYPE_PARKOUTCAR);
+			    lotOrder.setParkingBoy(parkingBoy);
+			    parkingBoy.addOrder(lotOrder);
+		    }
+		    return key;
+	    }catch (Exception e){
+    		return false;
+	    }
     }
 }

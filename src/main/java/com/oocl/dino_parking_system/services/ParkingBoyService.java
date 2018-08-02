@@ -30,4 +30,8 @@ public class ParkingBoyService {
 			return null;
 		}
 	}
+
+	public User findParkingBoyById(Long parkingBoyId) {
+		return userRepository.findById(parkingBoyId).get();
+	}
 }
