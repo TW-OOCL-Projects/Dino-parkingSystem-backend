@@ -6,7 +6,7 @@ import com.oocl.dino_parking_system.entities.User;
 public class OrderDTO {
     private Long id;
     private String type;
-    private User parkingBoy;
+    private ParkingBoyDTO parkingBoy;
     private String plateNumber;
     private String status;
     private String receiptId;
@@ -17,7 +17,7 @@ public class OrderDTO {
     public OrderDTO(LotOrder order) {
         this.id = order.getId();
         this.type = order.getType();
-        this.parkingBoy = order.getParkingBoy();
+        this.parkingBoy = order.getParkingBoy()!=null?new ParkingBoyDTO(order.getParkingBoy()):null;
         this.plateNumber = order.getPlateNumber();
         this.status = order.getStatus();
         this.receiptId = order.getReceiptId();
@@ -39,11 +39,11 @@ public class OrderDTO {
         this.type = type;
     }
 
-    public User getParkingBoy() {
+    public ParkingBoyDTO getParkingBoy() {
         return parkingBoy;
     }
 
-    public void setParkingBoy(User parkingBoy) {
+    public void setParkingBoy(ParkingBoyDTO parkingBoy) {
         this.parkingBoy = parkingBoy;
     }
 

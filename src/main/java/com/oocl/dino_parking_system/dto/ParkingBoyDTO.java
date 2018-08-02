@@ -8,6 +8,7 @@ public class ParkingBoyDTO {
 
     public ParkingBoyDTO(User parkingBoy) {
         this.id = parkingBoy.getId();
+        this.username = parkingBoy.getUsername();
     }
 
     public ParkingBoyDTO() {
@@ -19,5 +20,13 @@ public class ParkingBoyDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
