@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.oocl.dino_parking_system.constants.Constants.STATUS_NORMAL;
 
 /**
  * Created by Vito Zhuang on 8/2/2018.
@@ -27,7 +29,7 @@ public class ParkingBoyService {
 		try {
 			User parkingBoy = userRepository.findById(id).get();
 			return parkingBoy.getParkingLots().stream()
-					.filter(parkingLot -> parkingLot.getSize() > parkingLot.getCarNum())
+					.filter(parkingLot -> parkingLot.getSize() > parkingLot.getCarNum() && parkingLot.getStatus().equals(STATUS_NORMAL))
 					.map(parkingLot -> new ParkingLotTinyDTO(parkingLot))
 					.collect(Collectors.toList());
 		} catch (Exception e) {
@@ -36,7 +38,8 @@ public class ParkingBoyService {
 	}
 
 	public User findParkingBoyById(Long parkingBoyId) {
-		return userRepository.findById(parkingBoyId).get();
+        Optional<User> optional = userRepository.findById(parkingBoyId);
+        return optional.orElse(null);
 	}
 
 	public boolean parCar(Long parkingBoyId, Long parkingLotId) {
