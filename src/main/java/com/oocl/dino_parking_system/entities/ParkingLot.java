@@ -18,7 +18,7 @@ public class ParkingLot {
     private String name;
     private int size;
     private int carNum = 0;
-    private String status = STATUS_NORMAL;// 停车场开放状态：默认true开放
+    private String status = STATUS_NORMAL;// 停车场开放状态：默认开放NORMAL
 
     @Transient
     private Map<String,String> cars = new HashMap<>();
