@@ -27,7 +27,7 @@ public class User implements UserDetails {
 	@OneToMany(mappedBy = "parkingBoy", fetch= FetchType.LAZY)
 	private List<ParkingLot> parkingLots = new ArrayList<>();
 
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "parkingBoy", fetch = FetchType.LAZY)
 	private List<LotOrder> lotOrders = new ArrayList<>();
 
 	@ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
@@ -167,5 +167,10 @@ public class User implements UserDetails {
 
 	public boolean getStatus() {
 		return this.status;
+	}
+
+	public boolean addOrder(LotOrder lotOrder) {
+		this.lotOrders.add(lotOrder);
+		return true;
 	}
 }
