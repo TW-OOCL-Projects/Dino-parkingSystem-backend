@@ -20,9 +20,6 @@ public class ParkingLot {
     private int carNum = 0;
     private String status = STATUS_NORMAL;// 停车场开放状态：默认开放NORMAL
 
-    @Transient
-    private Map<String,String> cars = new HashMap<>();
-
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name = "parking_boy_id")
     @JsonIgnore
@@ -75,14 +72,6 @@ public class ParkingLot {
     public void setParkingBoy(User parkingBoy) {
         this.parkingBoy = parkingBoy;
     }
-
-	public Map<String, String> getCars() {
-		return cars;
-	}
-
-	public void setCars(Map<String, String> cars) {
-		this.cars = cars;
-	}
 
 	public int getCarNum() {
 		return carNum;
