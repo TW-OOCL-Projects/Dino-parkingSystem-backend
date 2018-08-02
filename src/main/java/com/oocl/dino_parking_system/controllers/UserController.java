@@ -58,10 +58,8 @@ public class UserController {
 
 	@PutMapping("/users/{id}")
 	public ResponseEntity updateUser(@PathVariable("id") Long id,@RequestBody User user) {
-		if(userService.updateUser(id, user) == 1){
+		if(userService.updateUser(id, user)){
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-		}else if(userService.updateUser(id, user) == 2) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
