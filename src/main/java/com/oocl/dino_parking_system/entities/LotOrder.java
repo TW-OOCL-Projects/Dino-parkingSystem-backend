@@ -1,8 +1,11 @@
 package com.oocl.dino_parking_system.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+
+import java.time.ZonedDateTime;
 
 import static com.oocl.dino_parking_system.constants.Constants.STATUS_NOHANDLE;
 import static com.oocl.dino_parking_system.constants.Constants.TYPE_PARKCAR;
@@ -16,6 +19,9 @@ public class LotOrder {
     private long id;
 
     private String type;
+
+    @CreatedDate
+    private ZonedDateTime parkingDate;
 
     @ManyToOne
     @JoinColumn(name = "parking_boy_id")
@@ -89,4 +95,12 @@ public class LotOrder {
     public void setReceiptId(String receiptId) {
         this.receiptId = receiptId;
     }
+
+	public ZonedDateTime getParkingDate() {
+		return parkingDate;
+	}
+
+	public void setParkingDate(ZonedDateTime parkingDate) {
+		this.parkingDate = parkingDate;
+	}
 }
