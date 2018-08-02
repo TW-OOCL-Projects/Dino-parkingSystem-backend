@@ -1,5 +1,6 @@
 package com.oocl.dino_parking_system.services;
 
+import com.oocl.dino_parking_system.dto.OrderDTO;
 import com.oocl.dino_parking_system.entities.LotOrder;
 import com.oocl.dino_parking_system.entities.User;
 import com.oocl.dino_parking_system.repositorys.OrderRepository;
@@ -7,18 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.oocl.dino_parking_system.constants.Constants.*;
 
 @Component
 public class OrderService {
 
-    private OrderRepository orderRepository;
+
 
     @Autowired
-    public OrderService(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
-    }
+    private ParkingBoyService parkingBoyService;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     public LotOrder generateOrder(String plateNumber, String receiptId) {
         LotOrder lotOrder = new LotOrder(TYPE_PARKCAR, plateNumber, STATUS_NOHANDLE, receiptId);
@@ -60,5 +63,17 @@ public class OrderService {
 	    }catch (Exception e){
     		return false;
 	    }
+    }
+
+    public List<OrderDTO> findOrderByParkingBoyId(String type, Long parkingBoyId) {
+        User parkingBoy = parkingBoyService.findParkingBoyById(parkingBoyId);
+        if(parkingBoy!=null) {
+            return parkingBoy.getLotOrders().stream()
+                    .filter(lotOrder -> lotOrder.getType().equals(type))
+                    .map(OrderDTO::new)
+                    .collect(Collectors.toList());
+        }else {
+            return null;
+        }
     }
 }
