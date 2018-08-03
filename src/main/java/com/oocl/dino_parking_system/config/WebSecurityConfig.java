@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -25,6 +26,7 @@ import java.util.Arrays;
  * Created by Vito Zhuang on 7/31/2018.
  */
 @EnableWebSecurity
+@EnableGlobalMethodSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
@@ -49,11 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().cors().and().authorizeRequests()
 				.antMatchers("/**").permitAll()
-//				.antMatchers("/manager/**").hasRole("MANAGER")
-//				.antMatchers("/admin/**").hasRole("ADMIN")
-//				.antMatchers("/parkingboy/**").hasRole("PARKINGBOY")
 				.antMatchers(HttpMethod.POST, "/login").permitAll()
-
 				.anyRequest().authenticated()
 				.and()
 				// We filter the api/login requests
@@ -61,21 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						UsernamePasswordAuthenticationFilter.class)
 				// And filter other requests to check the presence of JWT in header
 				.addFilterBefore(new JWTAuthenticationFilter(),
-						UsernamePasswordAuthenticationFilter.class)
-				.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
+						UsernamePasswordAuthenticationFilter.class);
 	}
-//	@Bean
-//	public WebMvcConfigurer corsConfigurer() {
-//		return new WebMvcConfigurerAdapter() {
-//			@Override
-//			public void addCorsMappings(CorsRegistry registry) {
-//				registry.addMapping("/**")
-//						.allowedMethods("GET","POST","PUT","DELETE","PATCH")
-//						.allowedOrigins("*")
-//						.exposedHeaders("Authorization");
-//			}
-//		};
-//	}
 @Bean
 public CorsConfigurationSource corsConfigurationSource() {
 	CorsConfiguration configuration = new CorsConfiguration();

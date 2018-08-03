@@ -19,7 +19,7 @@ import static java.util.Collections.emptyList;
  * Created by Vito Zhuang on 7/31/2018.
  */
 class TokenAuthenticationService {
-	static final long EXPIRATIONTIME = 1000*60*60*24*1; // 1 days
+	static final long EXPIRATIONTIME = 1000*60*60*1; // 1 hour
 	static final String SECRET = "DINO_SECREY_KEY";
 	static final String HEADER_STRING = "Authorization";
 
@@ -50,7 +50,6 @@ class TokenAuthenticationService {
 				user = claims.get("username").toString();
 				String rolesString = claims.get("roles").toString();
 				rolesName = Arrays.asList(rolesString.substring(1,rolesString.length()-1).split(","));
-				System.out.println(rolesName);
 			} catch (Exception e) {
 				claims = null;
 			}
