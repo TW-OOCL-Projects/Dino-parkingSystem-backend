@@ -59,8 +59,7 @@ public class ParkingBoyService {
 				ParkingLot parkingLot = parkingLotsRepository.findById(parkingLotId).orElse(null);
 				parkingLot.setCarNum(parkingLot.getCarNum()-1);
 				parkingLotsRepository.save(parkingLot);
-				orderService.changeOrderStatus(orderId,parkingBoy,STATUS_PARKED);
-				return true;
+				return orderService.changeOrderStatus(orderId,parkingBoy,STATUS_PARKED);
 			}
 			else{
 				return false;

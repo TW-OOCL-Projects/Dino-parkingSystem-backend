@@ -166,6 +166,17 @@
     - request:
         ```json
         {
+            "status":"waitPark",
+            "parkingBoyId":2
+        }
+  
+5. parkingBoy完成取车订单
+    - path：`/orders/:id`
+    - method: PUT
+    - request:
+        ```json
+        {
+            "status":"finish",
             "parkingBoyId":2
         }
   
@@ -182,33 +193,32 @@
     - response:
         - 成功：200 OK
         - 失败：400 Bad Requset
-### 4. 停车小弟管理 /parkingBoys
 
 1. manager获取parkingBoy列表
     - path:`/parkingBoys`
     - method:GET
     - response:
         - 成功：200 OK
-```
-     [
-        {
-            "nickname": "停车小弟A",
-            "id": 2,
-            "phone": "13160675789",
-            "email": "120@qq.com",
-            "lotNumber": 2,
-            "carNumber": 23,
-            "total": 30
-        },
-        {
-            "nickname": "停车小弟B",
-            "id": 4,
-            "phone": "13160675789",
-            "email": "121@qq.com",
-            "lotNumber": 2,
-            "carNumber": 1,
-            "total": 45
-        }
-    ]
-```
+        ```json
+        [
+                {
+                    "nickname": "停车小弟A",
+                    "id": 2,
+                    "phone": "13160675789",
+                    "email": "120@qq.com",
+                    "lotNumber": 2,
+                    "carNumber": 23,
+                    "total": 30
+                },
+                {
+                    "nickname": "停车小弟B",
+                    "id": 4,
+                    "phone": "13160675789",
+                    "email": "121@qq.com",
+                    "lotNumber": 2,
+                    "carNumber": 1,
+                    "total": 45
+                }
+            ]
+        ```
         - 失败：400 Bad Requset
