@@ -25,6 +25,7 @@ public class OrderController {
     @Autowired
     ParkingBoyService parkingBoyService;
 
+    // 返回所有订单
     @Transactional
     @GetMapping(path = "",produces = MediaType.APPLICATION_JSON_VALUE)
     public List<OrderDTO> getAllOrders(){
@@ -33,6 +34,7 @@ public class OrderController {
 			    .collect(Collectors.toList());
     }
 
+    //根据status搜索所有订单
     @Transactional
     @GetMapping(path = "/{status}")
     public List<OrderDTO> getOrdersByStatus(@PathVariable String status){
@@ -41,15 +43,15 @@ public class OrderController {
 		        .collect(Collectors.toList());
     }
 
+    // 小弟修改订单状态
     @Transactional
-    @PutMapping(path = "/{id}")
-    public ResponseEntity changeStatus(@PathVariable("id") Long id, @RequestBody JSONObject request){
+    @PutMapping(path = "/{orderId}")
+    public ResponseEntity changeStatus(@PathVariable("orderId") Long orderId, @RequestBody JSONObject request){
 		Long parkingBoyId = Long.valueOf(request.get("parkingBoyId").toString());
         User parkingBoy = parkingBoyService.findParkingBoyById(parkingBoyId);
-	    System.out.println(parkingBoyService.findAllNotFullParkingLots(parkingBoyId));
         if(parkingBoy!=null
 		        && parkingBoyService.findAllNotFullParkingLots(parkingBoyId).size()>0){
-		    if (orderService.changeStatus(id, parkingBoy))
+		    if (orderService.changeOrderStatus(orderId, parkingBoy))
 			    return ResponseEntity.status(HttpStatus.OK).build();
 		    else
 			    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -58,6 +60,8 @@ public class OrderController {
 	    }
     }
 
+
+    //返回小弟:type类型的订单
     @Transactional
     @GetMapping(path = "/{type}/parkingBoys/{parkingBoyId}")
     public ResponseEntity getOrdersByStatus(@PathVariable String type, @PathVariable Long parkingBoyId){

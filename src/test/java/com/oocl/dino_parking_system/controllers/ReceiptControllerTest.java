@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.oocl.dino_parking_system.constants.Constants.STATUS_NOHANDLE;
+import static com.oocl.dino_parking_system.constants.Constants.STATUS_NOROB;
 import static com.oocl.dino_parking_system.constants.Constants.TYPE_PARKCAR;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -46,7 +46,7 @@ public class ReceiptControllerTest {
     public void should_return_receipt_id_when_given_car_plate_number() throws Exception {
         //given
         Receipt receipt = new Receipt();
-        LotOrder lotOrder = new LotOrder(TYPE_PARKCAR, "a1234", STATUS_NOHANDLE, receipt.getId());
+        LotOrder lotOrder = new LotOrder(TYPE_PARKCAR, "a1234", STATUS_NOROB, receipt.getId());
         given(receiptService.generateReceipt()).willReturn(receipt);
         given(orderService.generateOrder(anyString(), anyString())).willReturn(lotOrder);
 	    Map<String,String>postData = new HashMap<>();
