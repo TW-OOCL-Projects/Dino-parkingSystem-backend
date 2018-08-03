@@ -11,9 +11,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import java.util.Arrays;
 
 /**
  * Created by Vito Zhuang on 7/31/2018.
@@ -57,17 +62,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.addFilterBefore(new JWTAuthenticationFilter(),
 						UsernamePasswordAuthenticationFilter.class);
 	}
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurerAdapter() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**")
-						.allowedMethods("GET","POST","PUT","DELETE","PATCH")
-						.allowedOrigins("*")
-						.exposedHeaders("Authorization");
-			}
-		};
-	}
+//	@Bean
+//	public WebMvcConfigurer corsConfigurer() {
+//		return new WebMvcConfigurerAdapter() {
+//			@Override
+//			public void addCorsMappings(CorsRegistry registry) {
+//				registry.addMapping("/**")
+//						.allowedMethods("GET","POST","PUT","DELETE","PATCH")
+//						.allowedOrigins("*")
+//						.exposedHeaders("Authorization");
+//			}
+//		};
+//	}
+@Bean
+public CorsConfigurationSource corsConfigurationSource() {
+	CorsConfiguration configuration = new CorsConfiguration();
+	configuration.setAllowedOrigins(Arrays.asList("*"));
+	configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+	configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+//        configuration.setExposedHeaders(Arrays.asList("x-auth-token"));// ONLY RESTURN BASIC INFO OF HEADER
+	configuration.setExposedHeaders(Arrays.asList("Authorization"));
+	UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	source.registerCorsConfiguration("/**", configuration);
+	return source;
+}
 }
 
