@@ -37,6 +37,7 @@ public class OrderService {
 
     public List<LotOrder> getAllOrders() {
         List<LotOrder> lotOrders = orderRepository.findAll();
+
         return lotOrders;
     }
 

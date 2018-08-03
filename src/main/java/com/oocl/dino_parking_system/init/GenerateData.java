@@ -16,6 +16,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+import static com.oocl.dino_parking_system.constants.Constants.ROLE_ADMIN;
+import static com.oocl.dino_parking_system.constants.Constants.ROLE_MANAGER;
+import static com.oocl.dino_parking_system.constants.Constants.ROLE_PARKINGBOY;
+
 @Component
 @Order(value = 3)
 public class GenerateData implements CommandLineRunner {
@@ -40,11 +44,10 @@ public class GenerateData implements CommandLineRunner {
          * 角色初始化数据
          *
          * */
-        Role admin = new Role(1L,"ROLE_ADMIN");
-        Role manager = new Role(2L,"ROLE_MANAGER");
-        Role parkingBoy = new Role(3L,"ROLE_PARKINGBOY");
-        Role user = new Role(4L,"ROLE_USER");
-        roleRepository.saveAll(Arrays.asList(admin,manager,parkingBoy,user));
+        Role admin = new Role(1L,ROLE_ADMIN);
+        Role manager = new Role(2L,ROLE_MANAGER);
+        Role parkingBoy = new Role(3L,ROLE_PARKINGBOY);
+        roleRepository.saveAll(Arrays.asList(admin,manager,parkingBoy));
         System.out.println("===============角色初始化完成=============");
         /*
          * 员工初始化数据

@@ -60,7 +60,7 @@ public class OrderController {
 
     @Transactional
     @GetMapping(path = "/{type}/parkingBoys/{parkingBoyId}")
-    public ResponseEntity getOrdersByStatus(@PathVariable String type, @PathVariable Long parkingBoyId){
+    public ResponseEntity getOrdersByStatusAndParkingBoyId(@PathVariable String type, @PathVariable Long parkingBoyId){
         List<OrderDTO> orders = orderService.findOrderByParkingBoyId(type,parkingBoyId);
         if(orders.size() > 0){
             return new ResponseEntity(orders,HttpStatus.OK);
