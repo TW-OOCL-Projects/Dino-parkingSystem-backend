@@ -2,16 +2,18 @@ package com.oocl.dino_parking_system.dto;
 
 import com.oocl.dino_parking_system.entities.User;
 
-public class ParkingBoyDTO {
+public class ParkingBoyTinyDTO {
     private Long id;
+    private String nickname;
     private String username;
 
-    public ParkingBoyDTO(User parkingBoy) {
+    public ParkingBoyTinyDTO(User parkingBoy) {
         this.id = parkingBoy.getId();
+        this.nickname = parkingBoy.getNickname();
         this.username = parkingBoy.getUsername();
     }
 
-    public ParkingBoyDTO() {
+    public ParkingBoyTinyDTO() {
     }
 
     public Long getId() {
@@ -29,4 +31,8 @@ public class ParkingBoyDTO {
     public void setUsername(String username) {
         this.username = username;
     }
+
+	public String getNickname() {
+		return nickname;
+	}
 }

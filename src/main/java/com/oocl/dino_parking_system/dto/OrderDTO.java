@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 public class OrderDTO {
     private Long id;
     private String type;
-    private ParkingBoyDTO parkingBoy;
+    private ParkingBoyTinyDTO parkingBoy;
     private String plateNumber;
     private String status;
     private String receiptId;
@@ -19,7 +19,7 @@ public class OrderDTO {
     public OrderDTO(LotOrder order) {
         this.id = order.getId();
         this.type = order.getType();
-        this.parkingBoy = order.getParkingBoy()!=null?new ParkingBoyDTO(order.getParkingBoy()):null;
+        this.parkingBoy = order.getParkingBoy()!=null?new ParkingBoyTinyDTO(order.getParkingBoy()):null;
         this.plateNumber = order.getPlateNumber();
         this.status = order.getStatus();
         this.receiptId = order.getReceiptId();
@@ -34,7 +34,7 @@ public class OrderDTO {
 		return type;
 	}
 
-	public ParkingBoyDTO getParkingBoy() {
+	public ParkingBoyTinyDTO getParkingBoy() {
 		return parkingBoy;
 	}
 
