@@ -80,7 +80,7 @@ public class GenerateData implements CommandLineRunner {
 
 	    parkingLot1.setCarNum(13);
 	    ParkingLot parkingLot2 = new ParkingLot("oocl停车场2",10);
-	    parkingLot2.setParkingBoy(user2);
+	    parkingLot2.setParkingBoy(user3);
 	    parkingLot2.setCarNum(10);
 	    ParkingLot parkingLot3 = new ParkingLot("oocl停车场3",20);
 	    parkingLot3.setParkingBoy(user4);
@@ -94,7 +94,7 @@ public class GenerateData implements CommandLineRunner {
 	    ParkingLot parkingLot6 = new ParkingLot("oocl停车场6",14);
 	    parkingLot6.setParkingBoy(user6);
 	    parkingLot6.setCarNum(11);
-	    ParkingLot parkingLot7 = new ParkingLot("oocl停车场7",20);
+	    ParkingLot parkingLot7 = new ParkingLot("oocl停车场7",4);
 	    parkingLot7.setParkingBoy(user7);
 	    parkingLot7.setCarNum(3);
 	    parkingLotsRepository.saveAll(Arrays.asList(parkingLot1,parkingLot2,parkingLot3,

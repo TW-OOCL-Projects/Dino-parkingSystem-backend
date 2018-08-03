@@ -32,11 +32,11 @@ public class ParkingLotTinyDTO {
 		return size;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
 	public int getCarNum() {
 		return carNum;
+	}
+
+	public String getStatus() {
+		return status;
 	}
 }

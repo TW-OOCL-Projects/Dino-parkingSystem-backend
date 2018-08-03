@@ -9,6 +9,7 @@ public class ParkingBoyInfoDTO {
     private String email;
     private int lotNumber;
     private int carNumber;
+    private int orderNumber;
     private int total;
 
     public ParkingBoyInfoDTO(User parkingBoy) {
@@ -18,6 +19,7 @@ public class ParkingBoyInfoDTO {
         this.email = parkingBoy.getEmail();
         this.lotNumber = parkingBoy.getParkingLots().size();
         this.carNumber = parkingBoy.getParkingLots().stream().mapToInt(parkingLot -> parkingLot.getCarNum()).sum();
+        this.orderNumber = parkingBoy.getLotOrders().size();
         this.total = parkingBoy.getParkingLots().stream().mapToInt(parkingLot -> parkingLot.getSize()).sum();
     }
 
@@ -48,4 +50,8 @@ public class ParkingBoyInfoDTO {
     public int getTotal() {
         return total;
     }
+
+	public int getOrderNumber() {
+		return orderNumber;
+	}
 }

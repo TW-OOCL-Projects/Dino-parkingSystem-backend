@@ -2,6 +2,7 @@ package com.oocl.dino_parking_system.services;
 
 import com.oocl.dino_parking_system.dto.OrderDTO;
 import com.oocl.dino_parking_system.entities.LotOrder;
+import com.oocl.dino_parking_system.entities.ParkingLot;
 import com.oocl.dino_parking_system.entities.User;
 import com.oocl.dino_parking_system.repositorys.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,8 @@ public class OrderService {
 			LotOrder order = orderRepository.findById(orderId).orElse(null);
 			switch (status) {
 				case STATUS_WAITPARK:
-					if(order.getStatus().equals(STATUS_NOROB)) {
+					if(order.getStatus().equals(STATUS_NOROB) &&
+							checkBoyHaveEnoughParkingSpace(parkingBoy)) {
 						order.setStatus(STATUS_WAITPARK);// 等待停车
 						order.setType(TYPE_PARKCAR);// 存车订单
 						order.setParkingBoy(parkingBoy);
@@ -94,6 +96,15 @@ public class OrderService {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	private boolean checkBoyHaveEnoughParkingSpace(User parkingBoy) {
+		int parkingSpace = 0;
+		for(ParkingLot parkingLot:parkingBoy.getParkingLots()){
+			parkingSpace += parkingLot.getSize()-parkingLot.getCarNum();
+		}
+		System.out.println(parkingSpace);
+		return parkingSpace > parkingBoy.getLotOrders().size();
 	}
 
 	private boolean checkBoyPermisson(User parkingBoy, LotOrder order) {
