@@ -2,8 +2,10 @@ package com.oocl.dino_parking_system.controllers;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.oocl.dino_parking_system.dto.OrderDTO;
 import com.oocl.dino_parking_system.dto.ParkingBoyInfoDTO;
 import com.oocl.dino_parking_system.dto.ParkingLotTinyDTO;
+import com.oocl.dino_parking_system.entities.LotOrder;
 import com.oocl.dino_parking_system.entities.User;
 import com.oocl.dino_parking_system.services.OrderService;
 import com.oocl.dino_parking_system.services.ParkingBoyService;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,6 +38,12 @@ public class ParkingBoyController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @Transactional
+    @GetMapping(path = "/{parkingBoyId}/historyOrders")
+    public List<OrderDTO> findAllFinishOrderByParkingBoyId(@PathVariable Long parkingBoyId){
+    	return parkingBoyService.findAllFinishOrderByParkingBoyId(parkingBoyId);
     }
 
 	@PutMapping(path = "/{parkingBoyId}/parkingLots/{parkingLotId}")

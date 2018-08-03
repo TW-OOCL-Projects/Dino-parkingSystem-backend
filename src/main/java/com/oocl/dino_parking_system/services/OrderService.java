@@ -8,6 +8,7 @@ import com.oocl.dino_parking_system.repositorys.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -84,6 +85,7 @@ public class OrderService {
 					if(checkBoyPermisson(parkingBoy,order)
 							&& order.getStatus().equals(STATUS_WAITUNPARK)) {
 						order.setStatus(STATUS_FINISH);// 取车完成
+						order.setUnParkDate(ZonedDateTime.now());
 						orderRepository.save(order);
 						return true;
 					}

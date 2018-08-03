@@ -23,6 +23,8 @@ public class LotOrder {
     @CreatedDate
     private ZonedDateTime parkDate = ZonedDateTime.now();
 
+    private ZonedDateTime unParkDate;
+
 //    private ZonedDateTime unParkDate;
 
     @ManyToOne
@@ -104,5 +106,13 @@ public class LotOrder {
 
 	public void setParkDate(ZonedDateTime parkDate) {
 		this.parkDate = parkDate;
+	}
+
+	public ZonedDateTime getUnParkDate() {
+		return unParkDate;
+	}
+
+	public void setUnParkDate(ZonedDateTime unParkDate) {
+		this.unParkDate = unParkDate;
 	}
 }

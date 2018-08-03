@@ -12,6 +12,7 @@ public class OrderDTO {
     private String status;
     private String receiptId;
     private String parkDate;
+    private String unParkDate;
 
     public OrderDTO() {
     }
@@ -24,6 +25,9 @@ public class OrderDTO {
         this.status = order.getStatus();
         this.receiptId = order.getReceiptId();
         this.parkDate = DateTimeFormatter.ofPattern("hh:mm - yyyy/MM/dd").format(order.getParkDate());
+        this.unParkDate =order.getUnParkDate()!=null
+		        ?DateTimeFormatter.ofPattern("hh:mm - yyyy/MM/dd").format(order.getUnParkDate())
+                :null;
     }
 
 	public Long getId() {
@@ -52,5 +56,9 @@ public class OrderDTO {
 
 	public String getParkDate() {
 		return parkDate;
+	}
+
+	public String getUnParkDate() {
+		return unParkDate;
 	}
 }

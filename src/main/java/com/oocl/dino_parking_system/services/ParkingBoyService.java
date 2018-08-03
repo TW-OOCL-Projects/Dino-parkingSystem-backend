@@ -1,6 +1,8 @@
 package com.oocl.dino_parking_system.services;
 
+import com.oocl.dino_parking_system.dto.OrderDTO;
 import com.oocl.dino_parking_system.dto.ParkingLotTinyDTO;
+import com.oocl.dino_parking_system.entities.LotOrder;
 import com.oocl.dino_parking_system.entities.ParkingLot;
 import com.oocl.dino_parking_system.entities.User;
 import com.oocl.dino_parking_system.repositorys.OrderRepository;
@@ -9,13 +11,12 @@ import com.oocl.dino_parking_system.repositorys.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.oocl.dino_parking_system.constants.Constants.ROLE_PARKINGBOY;
-import static com.oocl.dino_parking_system.constants.Constants.STATUS_NORMAL;
-import static com.oocl.dino_parking_system.constants.Constants.STATUS_PARKED;
+import static com.oocl.dino_parking_system.constants.Constants.*;
 
 /**
  * Created by Vito Zhuang on 8/2/2018.
@@ -33,6 +34,8 @@ public class ParkingBoyService {
 
 	@Autowired
 	OrderService orderService;
+
+
 
 	public List<ParkingLotTinyDTO> findAllNotFullParkingLots(Long id) {
 		try {
@@ -89,4 +92,15 @@ public class ParkingBoyService {
         System.out.println(userRepository.findAll());
         return parkingBoys;
     }
+
+	public List<OrderDTO> findAllFinishOrderByParkingBoyId(Long parkingBoyId) {
+		User parkingBoy = userRepository.findById(parkingBoyId).orElse(null);
+		if(parkingBoy!=null){
+			return parkingBoy.getLotOrders().stream()
+					.filter(lotOrder -> lotOrder.getStatus().equals(STATUS_FINISH))
+					.map(OrderDTO::new)
+					.collect(Collectors.toList());
+		}
+		return new ArrayList<>();
+	}
 }
