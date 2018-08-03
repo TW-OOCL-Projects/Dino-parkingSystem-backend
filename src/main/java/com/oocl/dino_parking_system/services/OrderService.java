@@ -50,14 +50,19 @@ public class OrderService {
 			LotOrder order = orderRepository.findById(orderId).orElse(null);
 			switch (status) {
 				case STATUS_WAITPARK:
-					order.setStatus(STATUS_WAITPARK);// 等待停车
-					order.setType(TYPE_PARKCAR);// 存车订单
-					order.setParkingBoy(parkingBoy);
-					parkingBoy.addOrder(order);
-					orderRepository.save(order);
-					return true;
+					if(order.getStatus().equals(STATUS_NOROB)) {
+						order.setStatus(STATUS_WAITPARK);// 等待停车
+						order.setType(TYPE_PARKCAR);// 存车订单
+						order.setParkingBoy(parkingBoy);
+						parkingBoy.addOrder(order);
+						orderRepository.save(order);
+						return true;
+					}else {
+						return false;
+					}
 				case STATUS_PARKED:
-					if(checkBoyPermisson(parkingBoy,order)) {
+					if(checkBoyPermisson(parkingBoy,order)
+							&& order.getStatus().equals(STATUS_WAITPARK)) {
 						order.setStatus(STATUS_PARKED);// 停车成功
 						orderRepository.save(order);
 						return true;
@@ -65,12 +70,17 @@ public class OrderService {
 						return false;
 					}
 				case STATUS_WAITUNPARK:
-					order.setStatus(STATUS_WAITUNPARK);// 等待取车
-					order.setType(TYPE_PARKOUTCAR); // 取车订单
-					orderRepository.save(order);
-					return true;
+					if(order.getStatus().equals(STATUS_PARKED)) {
+						order.setStatus(STATUS_WAITUNPARK);// 等待取车
+						order.setType(TYPE_PARKOUTCAR); // 取车订单
+						orderRepository.save(order);
+						return true;
+					}else {
+						return false;
+					}
 				case STATUS_FINISH:
-					if(checkBoyPermisson(parkingBoy,order)) {
+					if(checkBoyPermisson(parkingBoy,order)
+							&& order.getStatus().equals(STATUS_WAITUNPARK)) {
 						order.setStatus(STATUS_FINISH);// 取车完成
 						orderRepository.save(order);
 						return true;
@@ -102,5 +112,11 @@ public class OrderService {
 		} else {
 			return null;
 		}
+	}
+
+	public LotOrder findOrderByReceiptId(String receiptId) {
+		return orderRepository.findAll().stream()
+				.filter(lotOrder -> lotOrder.getReceiptId().equals(receiptId))
+				.findFirst().orElse(null);
 	}
 }
