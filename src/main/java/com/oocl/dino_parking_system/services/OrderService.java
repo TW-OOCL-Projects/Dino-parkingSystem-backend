@@ -16,65 +16,89 @@ import static com.oocl.dino_parking_system.constants.Constants.*;
 public class OrderService {
 
 
+	@Autowired
+	private ParkingBoyService parkingBoyService;
 
-    @Autowired
-    private ParkingBoyService parkingBoyService;
+	@Autowired
+	private OrderRepository orderRepository;
 
-    @Autowired
-    private OrderRepository orderRepository;
+	public LotOrder generateOrder(String plateNumber, String receiptId) {
+		LotOrder lotOrder = new LotOrder(TYPE_PARKCAR, plateNumber, STATUS_NOROB, receiptId);
+		return orderRepository.save(lotOrder);
+	}
 
-    public LotOrder generateOrder(String plateNumber, String receiptId) {
-        LotOrder lotOrder = new LotOrder(TYPE_PARKCAR, plateNumber, STATUS_NOHANDLE, receiptId);
-        return orderRepository.save(lotOrder);
-    }
+	public boolean generateOrder(LotOrder lotOrder) {
+		lotOrder.setStatus(STATUS_NOROB);
+		lotOrder.setType(TYPE_PARKCAR);
+		orderRepository.save(lotOrder);
+		return true;
+	}
 
-    public boolean generateOrder(LotOrder lotOrder) {
-        lotOrder.setStatus(STATUS_NOHANDLE);
-        lotOrder.setType(TYPE_PARKCAR);
-        orderRepository.save(lotOrder);
-        return true;
-    }
-
-    public List<LotOrder> getAllOrders() {
-        List<LotOrder> lotOrders = orderRepository.findAll();
-
-        return lotOrders;
-    }
+	public List<LotOrder> getAllOrders() {
+		List<LotOrder> lotOrders = orderRepository.findAll();
+		return lotOrders;
+	}
 
 
-    public List<LotOrder> getOrdersByStatus(String status) {
-        List<LotOrder> lotOrders = orderRepository.findByStatus(status);
-        return lotOrders;
-    }
+	public List<LotOrder> getOrdersByStatus(String status) {
+		List<LotOrder> lotOrders = orderRepository.findByStatus(status);
+		return lotOrders;
+	}
 
-    public Boolean changeStatus(Long id, User parkingBoy) {
-    	try {
-		    Boolean key = true;
-		    LotOrder lotOrder = orderRepository.findById(id).get();
+	public boolean changeOrderStatus(Long orderId, User parkingBoy, String status) {
+		try {
+			LotOrder order = orderRepository.findById(orderId).orElse(null);
+			switch (status) {
+				case STATUS_WAITPARK:
+					order.setStatus(STATUS_WAITPARK);// 等待停车
+					order.setType(TYPE_PARKCAR);// 存车订单
+					order.setParkingBoy(parkingBoy);
+					parkingBoy.addOrder(order);
+					return true;
+				case STATUS_PARKED:
+					if(checkBoyPermisson(parkingBoy,order)) {
+						order.setStatus(STATUS_PARKED);// 停车成功
+						return true;
+					}else{
+						return false;
+					}
+				case STATUS_WAITUNPARK:
+					order.setStatus(STATUS_WAITUNPARK);// 等待取车
+					order.setType(TYPE_PARKOUTCAR); // 取车订单
+					System.out.println(order.getStatus());
+					return true;
+				case STATUS_FINISH:
+					if(checkBoyPermisson(parkingBoy,order)) {
+						order.setStatus(STATUS_FINISH);// 取车完成
+						System.out.println(order.getStatus());
+						return true;
+					}
+					else{
+						return false;
+					}
+				default:
+					return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
-		    if (lotOrder.getStatus().equals(STATUS_HANDLE)) {
-			    key = false;
-		    } else {
-			    lotOrder.setStatus(STATUS_HANDLE);
-			    lotOrder.setType(TYPE_PARKOUTCAR);
-			    lotOrder.setParkingBoy(parkingBoy);
-			    parkingBoy.addOrder(lotOrder);
-		    }
-		    return key;
-	    }catch (Exception e){
-    		return false;
-	    }
-    }
+	private boolean checkBoyPermisson(User parkingBoy, LotOrder order) {
+		if(order!=null && order.getParkingBoy()!=null)
+			return order.getParkingBoy().getId().equals(parkingBoy.getId());
+		else
+			return false;
+	}
 
-    public List<OrderDTO> findOrderByParkingBoyId(String type, Long parkingBoyId) {
-        User parkingBoy = parkingBoyService.findParkingBoyById(parkingBoyId);
-        if(parkingBoy!=null) {
-            return parkingBoy.getLotOrders().stream()
-                    .filter(lotOrder -> lotOrder.getType().equals(type))
-                    .map(OrderDTO::new)
-                    .collect(Collectors.toList());
-        }else {
-            return null;
-        }
-    }
+	public List<OrderDTO> findOrderByParkingBoyId(Long parkingBoyId) {
+		User parkingBoy = parkingBoyService.findParkingBoyById(parkingBoyId);
+		if (parkingBoy != null) {
+			return parkingBoy.getLotOrders().stream()
+					.map(OrderDTO::new)
+					.collect(Collectors.toList());
+		} else {
+			return null;
+		}
+	}
 }

@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 import java.time.ZonedDateTime;
 
-import static com.oocl.dino_parking_system.constants.Constants.STATUS_NOHANDLE;
+import static com.oocl.dino_parking_system.constants.Constants.STATUS_NOROB;
 import static com.oocl.dino_parking_system.constants.Constants.TYPE_PARKCAR;
 
 @Table(name = "car_order")
@@ -44,7 +44,7 @@ public class LotOrder {
     public LotOrder(String plateNumber, String receiptId) {
         this.plateNumber = plateNumber;
         this.receiptId = receiptId;
-        this.status = STATUS_NOHANDLE;
+        this.status = STATUS_NOROB;
         this.type = TYPE_PARKCAR;
     }
 
