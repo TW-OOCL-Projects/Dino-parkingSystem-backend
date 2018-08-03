@@ -16,9 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-import static com.oocl.dino_parking_system.constants.Constants.ROLE_ADMIN;
-import static com.oocl.dino_parking_system.constants.Constants.ROLE_MANAGER;
-import static com.oocl.dino_parking_system.constants.Constants.ROLE_PARKINGBOY;
+import static com.oocl.dino_parking_system.constants.Constants.*;
 
 @Component
 @Order(value = 3)
@@ -114,6 +112,14 @@ public class GenerateData implements CommandLineRunner {
 		LotOrder order6 = new LotOrder("粤VH71647","6");
 		LotOrder order7 = new LotOrder("粤BHC9467","7");
 		LotOrder order8 = new LotOrder("粤NH76347","8");
+		order8.setStatus(STATUS_WAITUNPARK);
+		order8.setType(TYPE_PARKOUTCAR);
+		order8.setParkingBoy(user2);
+		order8.setPlateNumber("粤C12345");
+	    order7.setStatus(STATUS_WAITUNPARK);
+	    order7.setType(TYPE_PARKOUTCAR);
+	    order7.setParkingBoy(user2);
+	    order7.setPlateNumber("粤C32412");
 		orderRepository.saveAll(Arrays.asList(order1,order2,order3,order4,order5,order6,order7,order8));
         System.out.println("===============未抢订单初始化完成=============");
     }
