@@ -17,21 +17,15 @@ public class LotOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private String type;
-
     @CreatedDate
     private ZonedDateTime parkDate = ZonedDateTime.now();
-
     private ZonedDateTime unParkDate;
-
-//    private ZonedDateTime unParkDate;
-
     @ManyToOne
     @JoinColumn(name = "parking_boy_id")
     @JsonIgnore
     private User parkingBoy;
-
+    private String parkingLotName;
     private String plateNumber;
     private String status;
     private String receiptId;
@@ -114,5 +108,13 @@ public class LotOrder {
 
 	public void setUnParkDate(ZonedDateTime unParkDate) {
 		this.unParkDate = unParkDate;
+	}
+
+	public String getParkingLotName() {
+		return parkingLotName;
+	}
+
+	public void setParkingLotName(String parkingLotName) {
+		this.parkingLotName = parkingLotName;
 	}
 }

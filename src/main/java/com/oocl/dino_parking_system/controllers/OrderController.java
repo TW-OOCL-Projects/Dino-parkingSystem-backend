@@ -53,7 +53,7 @@ public class OrderController {
 				.collect(Collectors.toList());
 	}
 
-	// 小弟修改订单状态
+	// 修改订单状态
 	@Transactional
 	@PutMapping(path = "/{orderId}")
 	public ResponseEntity changeStatus(@PathVariable("orderId") Long orderId, @RequestBody JSONObject request) {
@@ -62,7 +62,7 @@ public class OrderController {
 		User parkingBoy = parkingBoyService.findParkingBoyById(parkingBoyId);
 		if (parkingBoy != null
 				&& parkingBoyService.findAllNotFullParkingLots(parkingBoyId).size() > 0) {
-			if (orderService.changeOrderStatus(orderId, parkingBoy, status))
+			if (orderService.changeOrderStatus(orderId, parkingBoy, status,null))
 				return ResponseEntity.status(HttpStatus.OK).build();
 			else
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

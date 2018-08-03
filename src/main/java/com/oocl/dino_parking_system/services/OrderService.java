@@ -47,7 +47,7 @@ public class OrderService {
 		return lotOrders;
 	}
 
-	public boolean changeOrderStatus(Long orderId, User parkingBoy, String status) {
+	public boolean changeOrderStatus(Long orderId, User parkingBoy, String status, String parkingLotName) {
 		try {
 			LotOrder order = orderRepository.findById(orderId).orElse(null);
 			switch (status) {
@@ -67,6 +67,7 @@ public class OrderService {
 					if(checkBoyPermisson(parkingBoy,order)
 							&& order.getStatus().equals(STATUS_WAITPARK)) {
 						order.setStatus(STATUS_PARKED);// 停车成功
+						order.setParkingLotName(parkingLotName);
 						orderRepository.save(order);
 						return true;
 					}else{
@@ -105,7 +106,6 @@ public class OrderService {
 		for(ParkingLot parkingLot:parkingBoy.getParkingLots()){
 			parkingSpace += parkingLot.getSize()-parkingLot.getCarNum();
 		}
-		System.out.println(parkingSpace);
 		return parkingSpace > parkingBoy.getLotOrders().size();
 	}
 
