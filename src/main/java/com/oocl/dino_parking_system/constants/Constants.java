@@ -1,8 +1,8 @@
 package com.oocl.dino_parking_system.constants;
 
 public class Constants {
-    public final static String STATUS_NORMAL = "normal"; // 停车场开放
-    public final static String STATUS_FREEZE = "freeze";// 停车场关闭
+    public final static String STATUS_NORMAL = "normal"; // 停车场开放(parkingBoy可用)
+    public final static String STATUS_FREEZE = "freeze";// 停车场关闭(parkingBoy不可用)
     public final static String ROLE_ADMIN = "ROLE_ADMIN";
     public final static String ROLE_MANAGER = "ROLE_MANAGER";
     public final static String ROLE_PARKINGBOY = "ROLE_PARKINGBOY";
