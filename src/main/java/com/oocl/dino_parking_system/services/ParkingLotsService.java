@@ -9,7 +9,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import static com.oocl.dino_parking_system.constants.Constants.STATUS_FREEZE;
@@ -31,18 +30,18 @@ public class ParkingLotsService {
 
 	public List<ParkingLotTinyDTO> getAllParkingLots() {
 		return parkingLotsRepository.findAll().stream()
-				.map(parkingLot -> new ParkingLotTinyDTO(parkingLot))
+				.map(ParkingLotTinyDTO::new)
 				.collect(Collectors.toList());
 	}
 
 	public boolean updateParkingLots(Long id, ParkingLot parkingLot) {
 		try {
-			ParkingLot oldParkingLot = parkingLotsRepository.findById(id).get();
-			oldParkingLot.setName(parkingLot.getName());
-			oldParkingLot.setSize(parkingLot.getSize());
+			ParkingLot oldParkingLot = parkingLotsRepository.findById(id).orElse(null);
+			oldParkingLot.setName(parkingLot.getName()!=null?parkingLot.getName():oldParkingLot.getName());
+			oldParkingLot.setSize(parkingLot.getSize()!=0?parkingLot.getSize():oldParkingLot.getSize());
 			parkingLotsRepository.save(oldParkingLot);
 			return true;
-		} catch (NoSuchElementException e) {
+		} catch (Exception e) {
 			return false;
 		}
 	}
@@ -50,7 +49,7 @@ public class ParkingLotsService {
 
 	public boolean changeParkingLotStatus(long id) {
 		try {
-			ParkingLot parkingLot = parkingLotsRepository.findById(id).get();
+			ParkingLot parkingLot = parkingLotsRepository.findById(id).orElse(null);
 			if (parkingLot.getStatus().equals(STATUS_NORMAL)) {
 				parkingLot.setStatus(STATUS_FREEZE);
 			} else {
@@ -58,20 +57,47 @@ public class ParkingLotsService {
 			}
 			parkingLotsRepository.save(parkingLot);
 			return true;
-		} catch (NoSuchElementException e) {
+		} catch (Exception e) {
 			return false;
 		}
 	}
 
 	public List<ParkingLotDashBoardDTO> findAllParkingLotDashBoard() {
 		return parkingLotsRepository.findAll().stream()
-				.map(parkingLot -> new ParkingLotDashBoardDTO(parkingLot))
+				.map(ParkingLotDashBoardDTO::new)
 				.collect(Collectors.toList());
 	}
 
 	public List<ParkingLotDashBoardDTO> findAllParkingLotDashBoardByPaging(PageRequest pageRequest) {
 		return parkingLotsRepository.findAll(pageRequest).stream()
-				.map(parkingLot -> new ParkingLotDashBoardDTO(parkingLot))
+				.map(ParkingLotDashBoardDTO::new)
 				.collect(Collectors.toList());
+	}
+
+	public List<ParkingLotTinyDTO> findAllParkingLotsByName(String name){
+		return parkingLotsRepository.findByName(name).stream()
+				.map(ParkingLotTinyDTO::new)
+				.collect(Collectors.toList());
+	}
+
+	public List<ParkingLotTinyDTO> findAllParkingLotsBySizeGreaterThanEqual(Integer size){
+		return parkingLotsRepository.findAllBySizeGreaterThanEqual(size).stream()
+				.map(ParkingLotTinyDTO::new)
+				.collect(Collectors.toList());
+	}
+	public List<ParkingLotTinyDTO> findAllParkingLotsBySizeLessThanEqual(Integer size){
+		return parkingLotsRepository.findAllBySizeLessThanEqual(size).stream()
+				.map(ParkingLotTinyDTO::new)
+				.collect(Collectors.toList());
+	}
+	public List<ParkingLotTinyDTO> findAllParkingLotsBySizeBetween(Integer left, Integer right){
+		return parkingLotsRepository.findAllBySizeBetween(left,right).stream()
+				.map(ParkingLotTinyDTO::new)
+				.collect(Collectors.toList());
+	}
+
+	public ParkingLotTinyDTO findParkingLotById(Long id) {
+		ParkingLot parkingLot = parkingLotsRepository.findById(id).orElse(null);
+		return parkingLot!=null?new ParkingLotTinyDTO(parkingLot):null;
 	}
 }

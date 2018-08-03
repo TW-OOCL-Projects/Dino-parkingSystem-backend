@@ -44,7 +44,30 @@
         "name":"oocl停车场",
         "size":20
       }
+    - response：
+        - 成功：201
+        - 失败：400
 
+3. 修改停车场信息
+    - path：`/parkingLots/:id`
+    - method: PUT
+    - request:
+        ```json
+        [
+            {
+                "name":"XX lot",
+                "size":12
+            }
+        ]
+    - response:
+        - 成功： 201
+        - 失败： 400
+4. 注销/开放停车场
+    - path：`/parkingLots/:id`
+    - method: PATCH
+    - response
+        - 成功： 200
+        - 失败： 400
 
 3. 获取所有停车场dashboard数据
     - path：`/dashboard`
