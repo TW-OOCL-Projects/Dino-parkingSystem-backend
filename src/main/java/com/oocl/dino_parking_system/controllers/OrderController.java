@@ -16,6 +16,9 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.oocl.dino_parking_system.constants.Constants.STATUS_WAITPARK;
+import static com.oocl.dino_parking_system.constants.Constants.STATUS_WAITUNPARK;
+
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
@@ -26,12 +29,14 @@ public class OrderController {
     @Autowired
     ParkingBoyService parkingBoyService;
 
-    // 返回所有订单
+    // 返回所有（待处理）订单
     @Transactional
     @GetMapping(path = "",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getAllOrders(@RequestParam(value="parkingBoyId",required=false)Long parkingBoyId){
     	if(parkingBoyId!=null){
-		    List<OrderDTO> orders = orderService.findOrderByParkingBoyId(parkingBoyId);
+		    List<OrderDTO> orders = orderService.findOrderByParkingBoyId(parkingBoyId).stream()
+				    .filter(orderDTO -> orderDTO.getStatus().equals(STATUS_WAITPARK) || orderDTO.getStatus().equals(STATUS_WAITUNPARK))
+				    .collect(Collectors.toList());
 		    if(orders.size() > 0){
 			    return new ResponseEntity(orders,HttpStatus.OK);
 		    }else {
