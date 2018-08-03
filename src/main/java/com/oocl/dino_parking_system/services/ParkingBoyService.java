@@ -1,8 +1,10 @@
 package com.oocl.dino_parking_system.services;
 
 import com.oocl.dino_parking_system.dto.ParkingLotTinyDTO;
+import com.oocl.dino_parking_system.entities.LotOrder;
 import com.oocl.dino_parking_system.entities.ParkingLot;
 import com.oocl.dino_parking_system.entities.User;
+import com.oocl.dino_parking_system.repositorys.OrderRepository;
 import com.oocl.dino_parking_system.repositorys.ParkingLotsRepository;
 import com.oocl.dino_parking_system.repositorys.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.oocl.dino_parking_system.constants.Constants.STATUS_NORMAL;
+import static com.oocl.dino_parking_system.constants.Constants.STATUS_PARKED;
 
 /**
  * Created by Vito Zhuang on 8/2/2018.
@@ -24,6 +27,11 @@ public class ParkingBoyService {
 
 	@Autowired
 	ParkingLotsRepository parkingLotsRepository;
+
+	@Autowired
+	OrderRepository orderRepository;
+	@Autowired
+	OrderService orderService;
 
 	public List<ParkingLotTinyDTO> findAllNotFullParkingLots(Long id) {
 		try {
@@ -42,13 +50,14 @@ public class ParkingBoyService {
         return optional.orElse(null);
 	}
 
-	public boolean parCar(Long parkingBoyId, Long parkingLotId) {
+	public boolean parCar(Long parkingBoyId, Long parkingLotId, Long orderId) {
 		try {
-			User parkingBoy = userRepository.findById(parkingBoyId).get();
+			User parkingBoy = userRepository.findById(parkingBoyId).orElse(null);
 			if (parkingBoyHasThisParkingLot(parkingBoy,parkingLotId)){
-				ParkingLot parkingLot = parkingLotsRepository.findById(parkingLotId).get();
+				ParkingLot parkingLot = parkingLotsRepository.findById(parkingLotId).orElse(null);
 				parkingLot.setCarNum(parkingLot.getCarNum()-1);
 				parkingLotsRepository.save(parkingLot);
+				orderService.changeOrderStatus(orderId,parkingBoy,STATUS_PARKED);
 				return true;
 			}
 			else{

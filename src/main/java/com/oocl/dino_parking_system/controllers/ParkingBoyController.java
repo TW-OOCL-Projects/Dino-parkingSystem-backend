@@ -1,5 +1,6 @@
 package com.oocl.dino_parking_system.controllers;
 
+import com.alibaba.fastjson.JSONObject;
 import com.oocl.dino_parking_system.dto.ParkingLotTinyDTO;
 import com.oocl.dino_parking_system.services.OrderService;
 import com.oocl.dino_parking_system.services.ParkingBoyService;
@@ -32,8 +33,10 @@ public class ParkingBoyController {
 
 	@PutMapping(path = "/{parkingBoyId}/parkingLots/{parkingLotId}")
 	public ResponseEntity parkCar(@PathVariable Long parkingBoyId,
-	                              @PathVariable Long parkingLotId) {
-		if (parkingBoyService.parCar(parkingBoyId, parkingLotId)) {
+	                              @PathVariable Long parkingLotId,
+	                              @RequestBody JSONObject request) {
+		Long orderId = Long.valueOf(request.get("orderId").toString());
+		if (parkingBoyService.parCar(parkingBoyId, parkingLotId, orderId)) {
 			return ResponseEntity.ok().build();
 		} else {
 			return ResponseEntity.badRequest().build();

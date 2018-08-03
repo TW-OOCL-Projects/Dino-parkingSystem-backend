@@ -174,6 +174,11 @@
 1. 停车小弟选择停车场停车
     - path:`/parkingBoys/{parkingBoyId}/parkingLots/{parkingLotId}`
     - method:PUT
+    - request:
+        ```json
+        {
+          "orderId":1
+        }
     - response:
         - 成功：200 OK
         - 失败：400 Bad Requset
