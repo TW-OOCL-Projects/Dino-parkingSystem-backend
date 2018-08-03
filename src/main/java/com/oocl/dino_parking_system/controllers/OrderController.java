@@ -30,7 +30,6 @@ public class OrderController {
     @Transactional
     @GetMapping(path = "",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getAllOrders(@RequestParam(value="parkingBoyId",required=false)Long parkingBoyId){
-	    System.out.println(parkingBoyId);
     	if(parkingBoyId!=null){
 		    List<OrderDTO> orders = orderService.findOrderByParkingBoyId(parkingBoyId);
 		    if(orders.size() > 0){

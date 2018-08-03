@@ -54,10 +54,12 @@ public class OrderService {
 					order.setType(TYPE_PARKCAR);// 存车订单
 					order.setParkingBoy(parkingBoy);
 					parkingBoy.addOrder(order);
+					orderRepository.save(order);
 					return true;
 				case STATUS_PARKED:
 					if(checkBoyPermisson(parkingBoy,order)) {
 						order.setStatus(STATUS_PARKED);// 停车成功
+						orderRepository.save(order);
 						return true;
 					}else{
 						return false;
@@ -65,12 +67,12 @@ public class OrderService {
 				case STATUS_WAITUNPARK:
 					order.setStatus(STATUS_WAITUNPARK);// 等待取车
 					order.setType(TYPE_PARKOUTCAR); // 取车订单
-					System.out.println(order.getStatus());
+					orderRepository.save(order);
 					return true;
 				case STATUS_FINISH:
 					if(checkBoyPermisson(parkingBoy,order)) {
 						order.setStatus(STATUS_FINISH);// 取车完成
-						System.out.println(order.getStatus());
+						orderRepository.save(order);
 						return true;
 					}
 					else{
