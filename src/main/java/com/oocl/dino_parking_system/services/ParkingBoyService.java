@@ -57,7 +57,7 @@ public class ParkingBoyService {
 			User parkingBoy = userRepository.findById(parkingBoyId).orElse(null);
 			if (parkingBoyHasThisParkingLot(parkingBoy,parkingLotId)){
 				ParkingLot parkingLot = parkingLotsRepository.findById(parkingLotId).orElse(null);
-				parkingLot.setCarNum(parkingLot.getCarNum()-1);
+				parkingLot.setCarNum(parkingLot.getCarNum()+1);
 				parkingLotsRepository.save(parkingLot);
 				return orderService.changeOrderStatus(orderId,parkingBoy,STATUS_PARKED);
 			}
