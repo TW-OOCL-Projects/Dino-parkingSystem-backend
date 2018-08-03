@@ -10,7 +10,7 @@ public class ParkingLotDashBoardDTO {
 	private String parkingLotName;
 	private int size;
 	private int carNum;
-	private String parkingLotStatus;
+	private boolean parkingLotStatus;
 	private Long parkingBoyId;
 	private String parkingBoyName;
 
@@ -20,7 +20,7 @@ public class ParkingLotDashBoardDTO {
 		this.parkingLotName = parkingLot.getName();
 		this.size = parkingLot.getSize();
 		this.carNum = parkingLot.getCarNum();
-		this.parkingLotStatus = parkingLot.getStatus();
+		this.parkingLotStatus = parkingLot.isStatus();
 		this.parkingBoyId = parkingLot.getParkingBoy()!=null?parkingLot.getParkingBoy().getId():0;
 		this.parkingBoyName = parkingLot.getParkingBoy()!=null?parkingLot.getParkingBoy().getNickname():null;
 	}
@@ -49,7 +49,7 @@ public class ParkingLotDashBoardDTO {
 		return parkingBoyName;
 	}
 
-	public String getParkingLotStatus() {
+	public boolean isParkingLotStatus() {
 		return parkingLotStatus;
 	}
 }

@@ -50,7 +50,7 @@ public class ParkingLotsService {
 	public boolean changeParkingLotStatus(long id) {
 		try {
 			ParkingLot parkingLot = parkingLotsRepository.findById(id).orElse(null);
-			if (parkingLot.getStatus().equals(STATUS_NORMAL)) {
+			if (parkingLot.isStatus()==(STATUS_NORMAL)) {
 				parkingLot.setStatus(STATUS_FREEZE);
 			} else {
 				parkingLot.setStatus(STATUS_NORMAL);

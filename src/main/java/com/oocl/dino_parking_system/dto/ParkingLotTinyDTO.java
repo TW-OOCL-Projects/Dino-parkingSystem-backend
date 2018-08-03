@@ -10,14 +10,14 @@ public class ParkingLotTinyDTO {
 	private String name;
 	private int size;
 	private int carNum;
-	private String status;
+	private boolean status;
 
 	public ParkingLotTinyDTO(ParkingLot parkingLot){
 		this.id = parkingLot.getId();
 		this.name = parkingLot.getName();
 		this.size = parkingLot.getSize();
 		this.carNum = parkingLot.getCarNum();
-		this.status = parkingLot.getStatus();
+		this.status = parkingLot.isStatus();
 	}
 
 	public Long getId() {
@@ -36,7 +36,7 @@ public class ParkingLotTinyDTO {
 		return carNum;
 	}
 
-	public String getStatus() {
+	public boolean isStatus() {
 		return status;
 	}
 }

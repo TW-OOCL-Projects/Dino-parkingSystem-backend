@@ -3,8 +3,6 @@ package com.oocl.dino_parking_system.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.oocl.dino_parking_system.constants.Constants.STATUS_NORMAL;
 
@@ -18,7 +16,7 @@ public class ParkingLot {
     private String name;
     private int size;
     private int carNum = 0;
-    private String status = STATUS_NORMAL;// 停车场开放状态：默认开放NORMAL
+    private boolean status = STATUS_NORMAL;// 停车场开放状态：默认开放NORMAL
 
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name = "parking_boy_id")
@@ -57,11 +55,11 @@ public class ParkingLot {
         this.size = size;
     }
 
-    public String getStatus() {
+    public boolean isStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 

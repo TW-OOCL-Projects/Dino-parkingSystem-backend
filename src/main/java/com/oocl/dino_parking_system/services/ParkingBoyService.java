@@ -2,7 +2,6 @@ package com.oocl.dino_parking_system.services;
 
 import com.oocl.dino_parking_system.dto.OrderDTO;
 import com.oocl.dino_parking_system.dto.ParkingLotTinyDTO;
-import com.oocl.dino_parking_system.entities.LotOrder;
 import com.oocl.dino_parking_system.entities.ParkingLot;
 import com.oocl.dino_parking_system.entities.User;
 import com.oocl.dino_parking_system.repositorys.OrderRepository;
@@ -42,7 +41,7 @@ public class ParkingBoyService {
 			User parkingBoy = userRepository.findById(id).orElse(null);
 			return parkingBoy.getParkingLots().stream()
 					.filter(parkingLot -> parkingLot.getSize() > parkingLot.getCarNum()
-							&& parkingLot.getStatus().equals(STATUS_NORMAL))
+							&& parkingLot.isStatus()==(STATUS_NORMAL))
 					.map(ParkingLotTinyDTO::new)
 					.collect(Collectors.toList());
 		} catch (Exception e) {
