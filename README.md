@@ -203,7 +203,7 @@
             "parkingBoyId":2
         }
   
-### 3. 停车小弟管理 /parkingBoys
+### 3. 停车小弟管理
 
 1. 停车小弟选择停车场停车
     - path:`/parkingBoys/{parkingBoyId}/parkingLots/{parkingLotId}`
@@ -217,7 +217,7 @@
         - 成功：200 OK
         - 失败：400 Bad Requset
 
-1. manager获取parkingBoy列表
+2. manager获取parkingBoy列表
     - path:`/parkingBoys`
     - method:GET
     - response:
@@ -245,3 +245,26 @@
             ]
         ```
         - 失败：400 Bad Requset
+        
+3. 获取历史（已完成）订单
+    - path:`/parkingBoys/:parkingBoyId/historyOrders`
+    - method:GET
+    - response:
+      ```json
+        [
+                {
+                        "id": 7,
+                        "type": "parkOutCar",
+                        "parkingBoy": {
+                            "id": 2,
+                            "nickname": "停车小弟A",
+                            "username": "parkingboy1"
+                        },
+                        "plateNumber": "粤C32412",
+                        "status": "finish",
+                        "receiptId": "7",
+                        "parkDate": "09:10 - 2018/08/03",
+                        "unParkDate": "09:10 - 2018/08/03"
+                    }
+          ]
+       ```
