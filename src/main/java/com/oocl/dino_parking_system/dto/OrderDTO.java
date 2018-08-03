@@ -23,7 +23,7 @@ public class OrderDTO {
         this.plateNumber = order.getPlateNumber();
         this.status = order.getStatus();
         this.receiptId = order.getReceiptId();
-        this.parkDate = DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm").format(order.getParkDate());
+        this.parkDate = DateTimeFormatter.ofPattern("hh:mm - yyyy/MM/dd").format(order.getParkDate());
     }
 
 	public Long getId() {
