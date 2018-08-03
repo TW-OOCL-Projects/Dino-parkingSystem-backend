@@ -62,7 +62,7 @@ public class OrderController {
         User parkingBoy = parkingBoyService.findParkingBoyById(parkingBoyId);
         if(parkingBoy!=null
 		        && parkingBoyService.findAllNotFullParkingLots(parkingBoyId).size()>0){
-		    if (orderService.changeOrderStatus(orderId, parkingBoy,status))
+		    if (orderService.changeOrderStatus(orderId, parkingBoy, status))
 			    return ResponseEntity.status(HttpStatus.OK).build();
 		    else
 			    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

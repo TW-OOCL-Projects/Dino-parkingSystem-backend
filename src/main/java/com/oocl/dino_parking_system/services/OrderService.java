@@ -45,31 +45,29 @@ public class OrderService {
 		return lotOrders;
 	}
 
-	public boolean changeOrderStatus(Long orderId, User parkingBoy) {
+	public boolean changeOrderStatus(Long orderId, User parkingBoy, String status) {
 		try {
 			LotOrder order = orderRepository.findById(orderId).orElse(null);
-			switch (order.getStatus()) {
-				case STATUS_NOROB:
+			switch (status) {
+				case STATUS_WAITPARK:
 					order.setStatus(STATUS_WAITPARK);// 等待停车
 					order.setType(TYPE_PARKCAR);// 存车订单
 					order.setParkingBoy(parkingBoy);
 					parkingBoy.addOrder(order);
-					System.out.println(order.getStatus());
 					return true;
-				case STATUS_WAITPARK:
+				case STATUS_PARKED:
 					if(checkBoyPermisson(parkingBoy,order)) {
 						order.setStatus(STATUS_PARKED);// 停车成功
-						System.out.println(order.getStatus());
 						return true;
 					}else{
 						return false;
 					}
-				case STATUS_PARKED:
+				case STATUS_WAITUNPARK:
 					order.setStatus(STATUS_WAITUNPARK);// 等待取车
 					order.setType(TYPE_PARKOUTCAR); // 取车订单
 					System.out.println(order.getStatus());
 					return true;
-				case STATUS_WAITUNPARK:
+				case STATUS_FINISH:
 					if(checkBoyPermisson(parkingBoy,order)) {
 						order.setStatus(STATUS_FINISH);// 取车完成
 						System.out.println(order.getStatus());
@@ -87,14 +85,16 @@ public class OrderService {
 	}
 
 	private boolean checkBoyPermisson(User parkingBoy, LotOrder order) {
-		return order.getParkingBoy().getId().equals(parkingBoy.getId());
+		if(order!=null && order.getParkingBoy()!=null)
+			return order.getParkingBoy().getId().equals(parkingBoy.getId());
+		else
+			return false;
 	}
 
-	public List<OrderDTO> findOrderByParkingBoyId(String type, Long parkingBoyId) {
+	public List<OrderDTO> findOrderByParkingBoyId(Long parkingBoyId) {
 		User parkingBoy = parkingBoyService.findParkingBoyById(parkingBoyId);
 		if (parkingBoy != null) {
 			return parkingBoy.getLotOrders().stream()
-					.filter(lotOrder -> lotOrder.getType().equals(type))
 					.map(OrderDTO::new)
 					.collect(Collectors.toList());
 		} else {
