@@ -1,6 +1,7 @@
 package com.oocl.dino_parking_system.controllers;
 
 import com.oocl.dino_parking_system.dto.ParkingLotDashBoardDTO;
+import com.oocl.dino_parking_system.dto.ParkingLotTinyDTO;
 import com.oocl.dino_parking_system.entities.ParkingLot;
 import com.oocl.dino_parking_system.services.ParkingLotsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/parkingLots")
@@ -34,14 +36,22 @@ public class ParkingLotController {
 		}
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	//	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
 	@GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity getAllParkingLots(@RequestParam(value = "id", required = false) Long id,
 	                                        @RequestParam(value = "name", required = false) String name,
 	                                        @RequestParam(value = "eq", required = false) Integer eq,
 	                                        @RequestParam(value = "gt", required = false) Integer gt,
-	                                        @RequestParam(value = "lt", required = false) Integer lt) {
+	                                        @RequestParam(value = "lt", required = false) Integer lt,
+	                                        @RequestParam(value = "noParkingBoy", required = false) boolean noParkingBoy) {
+		if (noParkingBoy) {
+			// 返回所有未安排小弟的停车场
+			return new ResponseEntity<>(parkingLotsService.findAll().stream()
+					.filter(parkingLot -> parkingLot.getParkingBoy() == null)
+					.map(ParkingLotTinyDTO::new)
+					.collect(Collectors.toList()), HttpStatus.OK);
+		}
 		if (id != null) {
 			// 根据ID查找
 			return new ResponseEntity<>(parkingLotsService.findParkingLotById(id), HttpStatus.OK);
@@ -85,14 +95,14 @@ public class ParkingLotController {
 		}
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	//	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
 	@GetMapping(path = "/dashboard")
 	public List<ParkingLotDashBoardDTO> findAllParkingLotDashBoard() {
 		return parkingLotsService.findAllParkingLotDashBoard();
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	//	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
 	@GetMapping(path = "/dashboard/page/{page}/pageSize/{size}")
 	public List<ParkingLotDashBoardDTO> findAllParkingLotDashBoard(@PathVariable int page,

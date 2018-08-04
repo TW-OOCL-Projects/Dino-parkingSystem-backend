@@ -100,4 +100,8 @@ public class ParkingLotsService {
 		ParkingLot parkingLot = parkingLotsRepository.findById(id).orElse(null);
 		return parkingLot!=null?new ParkingLotTinyDTO(parkingLot):null;
 	}
+
+	public List<ParkingLot> findAll() {
+		return parkingLotsRepository.findAll();
+	}
 }
