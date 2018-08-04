@@ -292,3 +292,13 @@
            }
         ]
   
+  ### 4. 用户管理
+  1. 用户授权(ROLE_ADMIN才可以使用)
+      - path：` /users/:id/roles`
+      - method: PUT
+      - response:
+        ```json
+        {
+        	"role":"ROLE_ADMIN" // ROLE_MANAGER,ROLE_PARKINGBOY
+        }
+        ```

@@ -32,6 +32,7 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 	}
+
 //	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/users")
 	public ResponseEntity getAllUser() {
