@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,6 +23,9 @@ public class UserRepositoryTest {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -70,4 +74,30 @@ public class UserRepositoryTest {
 //
 //        //then
 //    }
+
+    @Test
+    public void should_find_user_when_find_by_username(){
+        //given
+        manager.persist(new User("christine", "1333", "123456", "christine@oocl.com", "12345678900"));
+
+        //when
+        User user = userRepository.findByUsername("christine");
+        //then
+        assertThat(user.getUsername(),is("christine"));
+        assertThat(user.getNickname(),is("1333"));
+
+    }
+
+    @Test
+    public void findByUsernameAndPassword() {
+        //given
+        manager.persist(new User("christine", "1333", "123456", "christine@oocl.com", "12345678900"));
+        //when
+        User user = userRepository.findByUsernameAndPassword("christine","123456");
+        //then
+        assertThat(user.getUsername(),is("christine"));
+        assertThat(user.getNickname(),is("1333"));
+
+    }
+
 }
