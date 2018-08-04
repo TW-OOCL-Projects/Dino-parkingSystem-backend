@@ -34,7 +34,7 @@ public class ParkingLotsRepositoryTest {
     }
 
     @Test
-    public void findAllBySizeGreaterThanEqual() {
+    public void should_find_one_parkinglot_when_size_greater_than_10() {
         //given
         manager.persist(new ParkingLot("停车场A",20));
         manager.persist(new ParkingLot("停车场B",5));
@@ -48,7 +48,17 @@ public class ParkingLotsRepositoryTest {
     }
 
     @Test
-    public void findAllBySizeLessThanEqual() {
+    public void should_find_one_parkinglot_size_five_when_size_greater_than_10() {
+        //given
+        manager.persist(new ParkingLot("停车场A",20));
+        manager.persist(new ParkingLot("停车场B",5));
+        //when
+        System.out.println(parkingLotsRepository.findAll());
+        List<ParkingLot> parkingLotList = parkingLotsRepository.findAllBySizeLessThanEqual(10);
+        //then
+        assertThat(parkingLotList.size(),is(1));
+        assertThat(parkingLotList.get(0).getName(),is("停车场B"));
+        assertThat(parkingLotList.get(0).getSize(),is(5));
     }
 
     @Test
