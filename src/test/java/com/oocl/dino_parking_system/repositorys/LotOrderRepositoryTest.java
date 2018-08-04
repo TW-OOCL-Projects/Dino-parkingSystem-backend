@@ -9,6 +9,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -20,11 +22,11 @@ public class LotOrderRepositoryTest {
     private OrderRepository orderRepository;
 
     @Autowired
-    private TestEntityManager testEntityManager;
+    private TestEntityManager manager;
 
     @After
     public void tearDown() {
-        testEntityManager.clear();
+        manager.clear();
     }
 
     @Test
@@ -39,5 +41,19 @@ public class LotOrderRepositoryTest {
         assertThat(lotOrder1.getPlateNumber(), is("a1234"));
     }
 
-
+    @Test
+    public void should_return_order_list_with_status_is_noRob(){
+        //given
+        LotOrder order = new LotOrder("津JO9527","3000");
+        order.setStatus("waitPark");
+        manager.persist(new LotOrder("京JO9527","3306"));
+        manager.persist(new LotOrder("津JO9527","8080"));
+        manager.persist(order);
+        //when
+        List<LotOrder> orders = orderRepository.findByStatus("noRob");
+        List<LotOrder> orders1 = orderRepository.findByStatus("waitPark");
+        //then
+        assertThat(orders.size(),is(2));
+        assertThat(orders1.size(),is(1));
+    }
 }
