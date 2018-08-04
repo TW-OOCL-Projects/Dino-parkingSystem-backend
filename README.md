@@ -105,9 +105,9 @@
         ]
 
 5. 获取所有目前未被管理的停车场信息
-      - path：` /parkingBoys/:id/parkingLots`
-      - method: PUT
-      - request:
+      - path：` /parkingBoys/?noParkingBoy=true`
+      - method: GET
+      - response:
         ```json
         [
             {
@@ -312,10 +312,15 @@
        - method: GET
        - response:
          ```json
-         {
-          "operation":"add",//"remove"
-          "parkingLots":[1,2,3]
-         }
+         [
+             {
+                 "id": 8,
+                 "name": "oocl停车场8",
+                 "size": 10,
+                 "carNum": 0,
+                 "status": true
+             }
+         ]
 
  7. 经理分配小弟的停车场
        - path：` /parkingBoys/:id/parkingLots`
