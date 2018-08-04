@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static com.oocl.dino_parking_system.constant.Constants.SALT_STRING;
+import static com.oocl.dino_parking_system.constant.Constants.*;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -125,5 +125,31 @@ public class UserService implements UserDetailsService {
 			return true;
 		}
 		return false;
+	}
+
+	public boolean changeWorkStatus(Long id, String workStatus) {
+		try {
+			User user = userRepository.findById(id).orElse(null);
+			switch (workStatus) {
+				case STATUS_ONDUTY:
+				case STATUS_LATE:
+				case STATUS_LEAVE:
+					user.setWorkStatus(workStatus);
+					userRepository.save(user);
+					return true;
+				case STATUS_OFFDUTY:
+					if (user.getWorkStatus().equals(STATUS_ONDUTY)) {
+						user.setWorkStatus(workStatus);
+						userRepository.save(user);
+						return true;
+					} else {
+						return false;
+					}
+				default:
+					return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
 	}
 }

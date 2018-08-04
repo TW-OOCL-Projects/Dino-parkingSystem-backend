@@ -11,6 +11,7 @@ public class UserDTO {
 	private String nickname;
 	private String email;
 	private String phone;
+	private String workStatus;
 	private boolean status;
 
 	public UserDTO(User user){
@@ -19,6 +20,7 @@ public class UserDTO {
 		this.nickname = user.getNickname();
 		this.email = user.getEmail();
 		this.phone = user.getPhone();
+		this.workStatus = user.getWorkStatus();
 		this.status = user.getStatus();
 	}
 
@@ -44,5 +46,9 @@ public class UserDTO {
 
 	public boolean isStatus() {
 		return status;
+	}
+
+	public String getWorkStatus() {
+		return workStatus;
 	}
 }

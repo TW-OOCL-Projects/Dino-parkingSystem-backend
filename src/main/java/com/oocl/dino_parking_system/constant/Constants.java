@@ -18,5 +18,10 @@ public class Constants {
 	public final static String STATUS_WAITUNPARK = "waitUnPark";// 取车订单等待取车
 	public final static String STATUS_FINISH = "finish";//存取车订单完成
 
-	public static final  String SALT_STRING = "DINO-PARKING-SYSTEM";
+	public static final String SALT_STRING = "DINO-PARKING-SYSTEM";
+
+	public static final String STATUS_ONDUTY = "onduty"; //上班
+	public static final String STATUS_OFFDUTY = "offduty"; //下班
+	public static final String STATUS_LATE = "late"; //迟到
+	public static final String STATUS_LEAVE = "leave"; //请假
 }

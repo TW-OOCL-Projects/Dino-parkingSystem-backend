@@ -8,6 +8,7 @@ import com.oocl.dino_parking_system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Collectors;
@@ -84,6 +85,17 @@ public class UserController {
 		}
 	}
 
+	// 修改用户的工作状态
+//	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
+	@PutMapping(path = "/users/{id}/workStatus")
+	public ResponseEntity changeWorkStatus(@PathVariable Long id,
+	                                       @RequestBody JSONObject req){
+		if(userService.changeWorkStatus(id,req.get("workStatus").toString())){
+			return ResponseEntity.ok().build();
+		}else{
+			return ResponseEntity.badRequest().build();
+		}
+	}
 }
 
 

@@ -7,6 +7,7 @@ public class ParkingBoyInfoDTO {
     private Long id;
     private String phone;
     private String email;
+	private String workStatus;
     private int lotNumber;
     private int carNumber;
     private int orderNumber;
@@ -17,6 +18,7 @@ public class ParkingBoyInfoDTO {
         this.id = parkingBoy.getId();
         this.phone = parkingBoy.getPhone();
         this.email = parkingBoy.getEmail();
+        this.workStatus = parkingBoy.getWorkStatus();
         this.lotNumber = parkingBoy.getParkingLots().size();
         this.carNumber = parkingBoy.getParkingLots().stream().mapToInt(parkingLot -> parkingLot.getCarNum()).sum();
         this.orderNumber = parkingBoy.getLotOrders().size();
@@ -53,5 +55,9 @@ public class ParkingBoyInfoDTO {
 
 	public int getOrderNumber() {
 		return orderNumber;
+	}
+
+	public String getWorkStatus() {
+		return workStatus;
 	}
 }
