@@ -150,7 +150,8 @@
                "type": "parkOutCar",
                "parkingBoy": {
                    "id": 2,
-                   "username": "parkingboy1"
+                   "username": "parkingboy1",
+                   "workStatus": "onduty"
                },
                "plateNumber": "粤DHC9767",
                "status": "handle",
@@ -235,6 +236,7 @@
                     "id": 2,
                     "phone": "13160675789",
                     "email": "120@qq.com",
+                    "workStatus": "onduty",
                     "lotNumber": 2,
                     "carNumber": 23,
                     "total": 30
@@ -244,6 +246,7 @@
                     "id": 4,
                     "phone": "13160675789",
                     "email": "121@qq.com",
+                    "workStatus": "onduty",
                     "lotNumber": 2,
                     "carNumber": 1,
                     "total": 45
@@ -264,7 +267,8 @@
                         "parkingBoy": {
                             "id": 2,
                             "nickname": "停车小弟A",
-                            "username": "parkingboy1"
+                            "username": "parkingboy1",
+                            "workStatus": "onduty"
                         },
                         "plateNumber": "粤C32412",
                         "status": "finish",
@@ -308,7 +312,8 @@
                "type": "parkOutCar",
                "parkingBoy": {
                    "id": 2,
-                   "username": "parkingboy1"
+                   "username": "parkingboy1",
+                   "workStatus": "onduty"
                },
                "plateNumber": "粤DHC9767",
                "status": "handle",
@@ -356,9 +361,29 @@
   1. 用户授权(ROLE_ADMIN才可以使用)
       - path：` /users/:id/roles`
       - method: PUT
-      - response:
+      - request:
         ```json
         {
         	"role":"ROLE_ADMIN" // ROLE_MANAGER,ROLE_PARKINGBOY
         }
         ```
+      - response:
+          - 成功：200
+          - 失败：400
+        
+ 2. 用户工作状态的修改
+      - path：` /users/:id/workStatus`
+      - method: PUT
+      - request:
+         ```json
+         {
+         	"workStatus":"onduty"
+ 	        // onduty 上班
+            // offduty 下班
+            // late 迟到
+            // leave 请假
+         }
+         ```
+      - response:
+                - 成功：200
+                - 失败：400

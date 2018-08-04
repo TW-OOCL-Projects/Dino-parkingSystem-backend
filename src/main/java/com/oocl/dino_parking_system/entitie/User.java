@@ -11,6 +11,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import static com.oocl.dino_parking_system.constant.Constants.STATUS_OFFDUTY;
+
 /**
  * Created by Vito Zhuang on 7/31/2018.
  */
@@ -26,7 +28,7 @@ public class User implements UserDetails {
 	private String password;
 	private String email;
 	private String phone;
-	private String workStatus;
+	private String workStatus = STATUS_OFFDUTY;
 	private boolean status = true; // 注销状态：true为未注销
 	@OneToMany(mappedBy = "parkingBoy", fetch= FetchType.LAZY)
 	private List<ParkingLot> parkingLots = new LinkedList<>();
