@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -23,12 +24,13 @@ public class User implements UserDetails {
 	private String password;
 	private String email;
 	private String phone;
+	private String workStatus;
 	private boolean status = true; // 注销状态：true为未注销
 	@OneToMany(mappedBy = "parkingBoy", fetch= FetchType.LAZY)
-	private List<ParkingLot> parkingLots = new ArrayList<>();
+	private List<ParkingLot> parkingLots = new LinkedList<>();
 
 	@OneToMany(mappedBy = "parkingBoy", fetch = FetchType.LAZY)
-	private List<LotOrder> lotOrders = new ArrayList<>();
+	private List<LotOrder> lotOrders = new LinkedList<>();
 
 	@ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
 	private List<Role> roles = new ArrayList<>();
@@ -172,5 +174,13 @@ public class User implements UserDetails {
 	public boolean addOrder(LotOrder lotOrder) {
 		this.lotOrders.add(lotOrder);
 		return true;
+	}
+
+	public String getWorkStatus() {
+		return workStatus;
+	}
+
+	public void setWorkStatus(String workStatus) {
+		this.workStatus = workStatus;
 	}
 }
