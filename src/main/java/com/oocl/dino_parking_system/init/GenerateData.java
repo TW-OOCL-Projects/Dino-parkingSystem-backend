@@ -52,19 +52,19 @@ public class GenerateData implements CommandLineRunner {
          *
          * */
 
-        User user1 = new User("admin","管理员A","bb3a4f6","110@qq.com","13160675789");
+        User user1 = new User("admin","管理员A","bd72696","110@qq.com","13160675789");
         user1.setRoles(Arrays.asList(admin));
-        User user2 = new User("parkingboy1","停车小弟A","bb3a4f6","120@qq.com","13160675789");
+        User user2 = new User("parkingboy1","停车小弟A","bd72696","120@qq.com","13160675789");
         user2.setRoles(Arrays.asList(parkingBoy));
-	    User user3 = new User("manager","停车经理A","bb3a4f6","130@qq.com","13160675789");
+	    User user3 = new User("manager","停车经理A","bd72696","130@qq.com","13160675789");
 	    user3.setRoles(Arrays.asList(manager));
-	    User user4 = new User("parkingboy2","停车小弟B","bb3a4f6","121@qq.com","13160675789");
+	    User user4 = new User("parkingboy2","停车小弟B","bd72696","121@qq.com","13160675789");
 	    user4.setRoles(Arrays.asList(parkingBoy));
-	    User user5 = new User("parkingboy3","停车小弟C","bb3a4f6","122@qq.com","13160675789");
+	    User user5 = new User("parkingboy3","停车小弟C","bd72696","122@qq.com","13160675789");
 	    user5.setRoles(Arrays.asList(parkingBoy));
-	    User user6 = new User("parkingboy4","停车小弟D","bb3a4f6","123@qq.com","13160675789");
+	    User user6 = new User("parkingboy4","停车小弟D","bd72696","123@qq.com","13160675789");
 	    user6.setRoles(Arrays.asList(parkingBoy));
-	    User user7 = new User("parkingboy5","停车小弟E","bb3a4f6","124@qq.com","13160675789");
+	    User user7 = new User("parkingboy5","停车小弟E","bd72696","124@qq.com","13160675789");
 	    user7.setRoles(Arrays.asList(parkingBoy));
 
         userRepository.saveAll(Arrays.asList(user1,user2,user3,user4,user5,user6,user7));
