@@ -4,6 +4,7 @@ package com.oocl.dino_parking_system.controllers;
 import com.alibaba.fastjson.JSONObject;
 import com.oocl.dino_parking_system.dto.OrderDTO;
 import com.oocl.dino_parking_system.dto.ParkingBoyInfoDTO;
+import com.oocl.dino_parking_system.dto.ParkingBoyTinyDTO;
 import com.oocl.dino_parking_system.dto.ParkingLotTinyDTO;
 import com.oocl.dino_parking_system.entities.LotOrder;
 import com.oocl.dino_parking_system.entities.User;
@@ -34,6 +35,22 @@ public class ParkingBoyController {
     @Autowired
     OrderService orderService;
 
+    //获取所有的小弟
+    @GetMapping(path = "")
+    public List<ParkingBoyTinyDTO> findAllNormalParkingBoy(){
+    	return parkingBoyService.findAllParkingBoys().stream()
+			    .map(ParkingBoyTinyDTO::new)
+			    .collect(Collectors.toList());
+    }
+
+    //获取小弟手下管理的所有停车场
+	@GetMapping(path = "/{id}/parkingLots")
+	public List<ParkingLotTinyDTO> findAllManagedParkingLots(@PathVariable Long id){
+    	return parkingBoyService.findAllManagedParkingLots(id).stream()
+			    .map(ParkingLotTinyDTO::new)
+			    .collect(Collectors.toList());
+	}
+
     // 获取停车小弟管理的停车场中未满的停车场
     @GetMapping(path = "/{id}/noFullParkingLots")
     public ResponseEntity findAllNotFullParkingLots(@PathVariable Long id) {
@@ -55,12 +72,14 @@ public class ParkingBoyController {
 			return new ResponseEntity<>(orders, HttpStatus.OK);
 	}
 
+	// 返回所有小弟完成的停、取车订单
     @Transactional
     @GetMapping(path = "/{parkingBoyId}/historyOrders")
     public List<OrderDTO> findAllFinishOrderByParkingBoyId(@PathVariable Long parkingBoyId){
     	return parkingBoyService.findAllFinishOrderByParkingBoyId(parkingBoyId);
     }
 
+    //小弟停车到指定停车场
 	@PutMapping(path = "/{parkingBoyId}/parkingLots/{parkingLotId}")
 	public ResponseEntity parkCar(@PathVariable Long parkingBoyId,
 	                              @PathVariable Long parkingLotId,
@@ -72,16 +91,4 @@ public class ParkingBoyController {
 			return ResponseEntity.badRequest().build();
 		}
 	}
-
-    @GetMapping(path = "")
-    public ResponseEntity<List<ParkingBoyInfoDTO>> findAllParkingBoys() {
-        List<User> parkingBoys = parkingBoyService.findAllParkingBoys();
-        List<ParkingBoyInfoDTO> parkingBoyList = new ArrayList<>();
-        try {
-            parkingBoyList = parkingBoys.stream().map(ParkingBoyInfoDTO::new).collect(Collectors.toList());
-        }catch (Exception e){
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(parkingBoyList);
-    }
 }

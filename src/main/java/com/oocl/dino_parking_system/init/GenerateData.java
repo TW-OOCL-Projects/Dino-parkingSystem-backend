@@ -58,7 +58,6 @@ public class GenerateData implements CommandLineRunner {
         user2.setRoles(Arrays.asList(parkingBoy));
 	    User user3 = new User("manager","停车经理A","1234","130@qq.com","13160675789");
 	    user3.setRoles(Arrays.asList(manager));
-
 	    User user4 = new User("parkingboy2","停车小弟B","1234","121@qq.com","13160675789");
 	    user4.setRoles(Arrays.asList(parkingBoy));
 	    User user5 = new User("parkingboy3","停车小弟C","1234","122@qq.com","13160675789");
@@ -95,7 +94,7 @@ public class GenerateData implements CommandLineRunner {
 	    parkingLot6.setParkingBoy(user6);
 	    parkingLot6.setCarNum(11);
 	    ParkingLot parkingLot7 = new ParkingLot("oocl停车场7",4);
-	    parkingLot7.setParkingBoy(user7);
+//	    parkingLot7.setParkingBoy(user7);
 	    parkingLot7.setCarNum(3);
 	    parkingLotsRepository.saveAll(Arrays.asList(parkingLot1,parkingLot2,parkingLot3,
 			    parkingLot4,parkingLot5,parkingLot6,parkingLot7));
@@ -116,10 +115,12 @@ public class GenerateData implements CommandLineRunner {
 		order8.setType(TYPE_PARKOUTCAR);
 		order8.setParkingBoy(user2);
 		order8.setPlateNumber("粤C12345");
+		order8.setParkingLotName("oocl停车场1");
 	    order7.setStatus(STATUS_WAITUNPARK);
 	    order7.setType(TYPE_PARKOUTCAR);
 	    order7.setParkingBoy(user2);
 	    order7.setPlateNumber("粤C32412");
+	    order7.setParkingLotName("oocl停车场2");
 		orderRepository.saveAll(Arrays.asList(order1,order2,order3,order4,order5,order6,order7,order8));
         System.out.println("===============未抢订单初始化完成=============");
     }

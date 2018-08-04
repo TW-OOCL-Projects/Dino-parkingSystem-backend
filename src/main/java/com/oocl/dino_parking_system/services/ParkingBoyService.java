@@ -22,11 +22,11 @@ import static com.oocl.dino_parking_system.constants.Constants.*;
  */
 @Service
 public class ParkingBoyService {
-    @Autowired
-    UserRepository userRepository;
+	@Autowired
+	UserRepository userRepository;
 
-    @Autowired
-    ParkingLotsRepository parkingLotsRepository;
+	@Autowired
+	ParkingLotsRepository parkingLotsRepository;
 
 	@Autowired
 	OrderRepository orderRepository;
@@ -35,13 +35,12 @@ public class ParkingBoyService {
 	OrderService orderService;
 
 
-
 	public List<ParkingLotTinyDTO> findAllNotFullParkingLots(Long id) {
 		try {
 			User parkingBoy = userRepository.findById(id).orElse(null);
 			return parkingBoy.getParkingLots().stream()
 					.filter(parkingLot -> parkingLot.getSize() > parkingLot.getCarNum()
-							&& parkingLot.isStatus()==(STATUS_NORMAL))
+							&& parkingLot.isStatus() == (STATUS_NORMAL))
 					.map(ParkingLotTinyDTO::new)
 					.collect(Collectors.toList());
 		} catch (Exception e) {
@@ -50,56 +49,60 @@ public class ParkingBoyService {
 	}
 
 
-    public User findParkingBoyById(Long parkingBoyId) {
-        Optional<User> optional = userRepository.findById(parkingBoyId);
-        return optional.orElse(null);
-    }
+	public User findParkingBoyById(Long parkingBoyId) {
+		Optional<User> optional = userRepository.findById(parkingBoyId);
+		return optional.orElse(null);
+	}
 
 	public boolean parCar(Long parkingBoyId, Long parkingLotId, Long orderId) {
 		try {
 			User parkingBoy = userRepository.findById(parkingBoyId).orElse(null);
-			if (parkingBoyHasThisParkingLot(parkingBoy,parkingLotId)){
+			if (parkingBoyHasThisParkingLot(parkingBoy, parkingLotId)) {
 				ParkingLot parkingLot = parkingLotsRepository.findById(parkingLotId).orElse(null);
-				parkingLot.setCarNum(parkingLot.getCarNum()+1);
+				parkingLot.setCarNum(parkingLot.getCarNum() + 1);
 				parkingLotsRepository.save(parkingLot);
-				return orderService.changeOrderStatus(orderId,parkingBoy,STATUS_PARKED, parkingLot.getName());
-			}
-			else{
+				return orderService.changeOrderStatus(orderId, parkingBoy, STATUS_PARKED, parkingLot.getName());
+			} else {
 				return false;
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			return false;
 		}
 	}
 
-    private boolean parkingBoyHasThisParkingLot(User parkingBoy, Long parkingLotId) {
-        try {
-            for (ParkingLot parkingLot : parkingBoy.getParkingLots()) {
-                if (parkingLot.getId() == parkingLotId)
-                    return true;
-            }
-            return false;
-        } catch (Exception e) {
-            return false;
-        }
-    }
+	private boolean parkingBoyHasThisParkingLot(User parkingBoy, Long parkingLotId) {
+		try {
+			for (ParkingLot parkingLot : parkingBoy.getParkingLots()) {
+				if (parkingLot.getId() == parkingLotId)
+					return true;
+			}
+			return false;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
-    public List<User> findAllParkingBoys() {
-        List<User> parkingBoys = userRepository.findAll().stream().
-                filter(parkingBoy -> parkingBoy.getRoles().stream().anyMatch(role -> role.getName().equals(ROLE_PARKINGBOY))).
-                collect(Collectors.toList());
-        System.out.println(userRepository.findAll());
-        return parkingBoys;
-    }
+	public List<User> findAllParkingBoys() {
+		List<User> parkingBoys = userRepository.findAll().stream().
+				filter(parkingBoy -> parkingBoy.getRoles().stream().anyMatch(role -> role.getName().equals(ROLE_PARKINGBOY))).
+				collect(Collectors.toList());
+		return parkingBoys;
+	}
 
 	public List<OrderDTO> findAllFinishOrderByParkingBoyId(Long parkingBoyId) {
 		User parkingBoy = userRepository.findById(parkingBoyId).orElse(null);
-		if(parkingBoy!=null){
+		if (parkingBoy != null) {
 			return parkingBoy.getLotOrders().stream()
 					.filter(lotOrder -> lotOrder.getStatus().equals(STATUS_FINISH) || lotOrder.getStatus().equals(STATUS_PARKED))
 					.map(OrderDTO::new)
 					.collect(Collectors.toList());
 		}
 		return new ArrayList<>();
+	}
+
+	public List<ParkingLot> findAllManagedParkingLots(Long id) {
+		User parkingBoy = userRepository.findById(id).orElse(null);
+		return parkingBoy.getParkingLots();
+
 	}
 }
