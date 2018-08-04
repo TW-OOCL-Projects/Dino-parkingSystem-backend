@@ -55,10 +55,19 @@ public class UserRepositoryTest {
     @Test
     public void should_add_user_successfully(){
         //given
-        User user = new User("a", "111@as.com", "1324564", "aas", "adf");
+        User user = new User("haha", "haha", "1324564", "haha@oocl.com", "15316452846");
         //when
         employeeRepository.save(user);
         //then
         assertThat(employeeRepository.findAll().size(),is(1));
     }
+
+//    @Test
+//    public void should_update_user_successfully(){
+//        //given
+//        manager.persist(new User("haha", "haha", "1324564", "haha@oocl.com", "15316452846"));
+//        //when
+//
+//        //then
+//    }
 }

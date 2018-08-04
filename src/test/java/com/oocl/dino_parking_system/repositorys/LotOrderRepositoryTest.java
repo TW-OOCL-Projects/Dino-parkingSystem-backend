@@ -28,7 +28,7 @@ public class LotOrderRepositoryTest {
     }
 
     @Test
-    public void save() {
+    public void should_add_Order_successfully() {
         //given
         LotOrder lotOrder = new LotOrder("park", "a1234", "parking", "qwerasdf1234");
 
@@ -38,4 +38,6 @@ public class LotOrderRepositoryTest {
         //then
         assertThat(lotOrder1.getPlateNumber(), is("a1234"));
     }
+
+
 }
