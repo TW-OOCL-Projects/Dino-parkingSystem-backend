@@ -47,7 +47,7 @@ public class ParkingBoyController {
 
 	// 返回所有（待处理）订单
 	@Transactional
-	@GetMapping(path = "/{parkingBoyId}/orders", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path = "/{parkingBoyId}/noHandleOrders", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity getAllOrders(@PathVariable Long parkingBoyId) {
 			List<OrderDTO> orders = orderService.findOrderByParkingBoyId(parkingBoyId).stream()
 					.filter(orderDTO -> orderDTO.getStatus().equals(STATUS_WAITPARK) || orderDTO.getStatus().equals(STATUS_WAITUNPARK))

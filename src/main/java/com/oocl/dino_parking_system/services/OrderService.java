@@ -42,14 +42,12 @@ public class OrderService {
 	}
 
 	public List<LotOrder> getAllOrders() {
-		List<LotOrder> lotOrders = orderRepository.findAll();
-		return lotOrders;
+		return orderRepository.findAll();
 	}
 
 
 	public List<LotOrder> getOrdersByStatus(String status) {
-		List<LotOrder> lotOrders = orderRepository.findByStatus(status);
-		return lotOrders;
+		return orderRepository.findByStatus(status);
 	}
 
 	public boolean changeOrderStatus(Long orderId, User parkingBoy, String status, String parkingLotName) {
@@ -114,12 +112,6 @@ public class OrderService {
 			return false;
 		}
 	}
-
-//	private LotOrder generateWaitUnParkOrder(LotOrder order) {
-//		LotOrder waitUnparkOrder = new LotOrder();
-//		waitUnparkOrder.setType(TYPE_PARKOUTCAR);
-//
-//	}
 
 	private boolean checkBoyHaveEnoughParkingSpace(User parkingBoy) {
 		int parkingSpace = 0;
