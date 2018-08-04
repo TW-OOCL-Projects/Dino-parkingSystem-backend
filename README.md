@@ -119,6 +119,23 @@
             }
         ]
         ```
+
+6. 停车场信息组合查询
+    - path：`/parkingLots?name=:name&&eq=:size&&gt=:left&&lt=:right`
+    - path：`/parkingLots?id=:id`
+    - method: GET
+    - response:
+        ```json
+            [
+                   {
+                        "id": 1,
+                        "name": "oocl停车场1",
+                        "size": 20,
+                        "carNum": 13,
+                        "status": true
+                    }
+            ]
+        ```
        
 ### 2. 订单管理
 

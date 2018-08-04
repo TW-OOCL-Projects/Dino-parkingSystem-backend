@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,28 +53,36 @@ public class ParkingLotController {
 					.map(ParkingLotTinyDTO::new)
 					.collect(Collectors.toList()), HttpStatus.OK);
 		}
-		if (id != null) {
-			// 根据ID查找
-			return new ResponseEntity<>(parkingLotsService.findParkingLotById(id), HttpStatus.OK);
-		}
-		if (name != null && eq != null) {
-			// TODO:组合查询
-		} else if (name != null) {
-			// TODO:根据名字模糊查询
-//			return new ResponseEntity<>(parkingLotsService.findAllParkingLotsByName(name), HttpStatus.OK);
-		} else if (gt != null && lt != null) {
-			// 根据大小范围查找
-			return new ResponseEntity<>(parkingLotsService.findAllParkingLotsBySizeBetween(lt, gt), HttpStatus.OK);
-		} else if (gt != null) {
-			// 大于等于
-			return new ResponseEntity<>(parkingLotsService.findAllParkingLotsBySizeGreaterThanEqual(gt), HttpStatus.OK);
-		} else if (lt != null) {
-			// TODO: 小于等于
-//			return new ResponseEntity<>(parkingLotsService.findAllParkingLotsBySizeLessThanEqual(lt), HttpStatus.OK);
-		}
-		return new ResponseEntity<>(parkingLotsService.getAllParkingLots(), HttpStatus.OK);
+            List<ParkingLotTinyDTO> parkingLotTinyDTOS = new ArrayList<>();
 
-	}
+            if (id != null) {
+                // 根据ID查找
+                return new ResponseEntity<>(parkingLotsService.findParkingLotById(id), HttpStatus.OK);
+            }
+            // TODO:组合查询
+            if (name != null && eq != null) {
+                parkingLotTinyDTOS = parkingLotsService.findAllParkingLotsByNameAndSize(name, eq);
+            } else if (name != null) {
+//            System.out.println(name);
+                // TODO:根据名字查询
+                parkingLotTinyDTOS = parkingLotsService.findAllParkingLotsByName(name);
+            } else if (gt != null && lt != null) {
+                // 根据大小范围查找
+                parkingLotTinyDTOS = parkingLotsService.findAllParkingLotsBySizeBetween(gt, lt);
+            } else if (gt != null) {
+                // 大于等于
+                parkingLotTinyDTOS = parkingLotsService.findAllParkingLotsBySizeGreaterThanEqual(gt);
+            } else if (lt != null) {
+                // TODO: 小于等于
+                parkingLotTinyDTOS = parkingLotsService.findAllParkingLotsBySizeLessThanEqual(lt);
+            } else {
+                parkingLotTinyDTOS = parkingLotsService.getAllParkingLots();
+            }
+
+            return new ResponseEntity<>(parkingLotTinyDTOS, HttpStatus.OK);
+
+
+        }
 
 	@Transactional
 	@PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

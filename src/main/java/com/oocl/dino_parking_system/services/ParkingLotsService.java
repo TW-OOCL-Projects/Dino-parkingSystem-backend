@@ -103,7 +103,6 @@ public class ParkingLotsService {
                 .collect(Collectors.toList());
     }
 
-    @Query("SELECT lot FROM ParkingLot lot where lot.size>=:left and lot.size<=right")
     public List<ParkingLotTinyDTO> findAllParkingLotsBySizeBetween(Integer left, Integer right) {
         return parkingLotsRepository.findAllBySizeBetween(left, right).stream()
                 .map(ParkingLotTinyDTO::new)
@@ -121,5 +120,8 @@ public class ParkingLotsService {
                 .collect(Collectors.toList());
     }
 
+    public List<ParkingLot> findAll() {
+        return parkingLotsRepository.findAll();
+    }
 
 }
