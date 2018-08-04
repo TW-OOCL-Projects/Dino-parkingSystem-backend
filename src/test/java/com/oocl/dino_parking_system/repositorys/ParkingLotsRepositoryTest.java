@@ -2,7 +2,7 @@ package com.oocl.dino_parking_system.repositorys;
 
 import com.oocl.dino_parking_system.entities.ParkingLot;
 import org.junit.After;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-class ParkingLotsRepositoryTest {
+public class ParkingLotsRepositoryTest {
     @Autowired
     private ParkingLotsRepository parkingLotsRepository;
     @Autowired
