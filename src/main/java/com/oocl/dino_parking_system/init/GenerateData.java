@@ -94,10 +94,13 @@ public class GenerateData implements CommandLineRunner {
 	    parkingLot6.setParkingBoy(user6);
 	    parkingLot6.setCarNum(11);
 	    ParkingLot parkingLot7 = new ParkingLot("oocl停车场7",4);
-//	    parkingLot7.setParkingBoy(user7);
+	    parkingLot7.setParkingBoy(user7);
 	    parkingLot7.setCarNum(3);
-	    parkingLotsRepository.saveAll(Arrays.asList(parkingLot1,parkingLot2,parkingLot3,
-			    parkingLot4,parkingLot5,parkingLot6,parkingLot7));
+	    ParkingLot parkingLot8 = new ParkingLot("oocl停车场8",10);
+	    ParkingLot parkingLot9 = new ParkingLot("oocl停车场9",10);
+	    ParkingLot parkingLot10 = new ParkingLot("oocl停车场10",10);
+	    parkingLotsRepository.saveAll(Arrays.asList(parkingLot1,parkingLot2,parkingLot3,parkingLot4,
+			    parkingLot5,parkingLot6,parkingLot7,parkingLot8,parkingLot9,parkingLot10));
         System.out.println("===============停车场初始化完成=============");
 	    /*
 	    * 订单初始化数据

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -104,5 +105,41 @@ public class ParkingBoyService {
 		User parkingBoy = userRepository.findById(id).orElse(null);
 		return parkingBoy.getParkingLots();
 
+	}
+
+	public boolean arrangeParkingLots(Long id, String operation, List<Long> parkingLotIds) {
+		try {
+			User parkingBoy = userRepository.findById(id).orElse(null);
+			List<ParkingLot> newParkingLotList = parkingBoy.getParkingLots();
+			for (Long parkingLotId : parkingLotIds) {
+				ParkingLot parkingLot = parkingLotsRepository.findById(parkingLotId).orElse(null);
+				if (operation.equals("add")) {// 增加停车场
+					if (parkingLot != null
+							&& parkingLot.getCarNum() == 0 // 未停车
+							&& parkingLot.getParkingBoy() == null) {// 未被管理
+						newParkingLotList.add(parkingLot);
+						parkingLot.setParkingBoy(parkingBoy);
+					} else {
+						return false;
+					}
+				} else { // 移除停车场
+					for (int i = 0; i <= newParkingLotList.size(); i++) {
+						ParkingLot repealParkingLot = newParkingLotList.get(i);
+						if (repealParkingLot.getId() == parkingLotId) {
+							repealParkingLot.setParkingBoy(null);
+							parkingLotsRepository.save(repealParkingLot);
+							newParkingLotList.remove(i);
+							break;
+						}
+					}
+				}
+			}
+			parkingLotsRepository.saveAll(newParkingLotList);
+			parkingBoy.setParkingLots(newParkingLotList);
+			userRepository.save(parkingBoy);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 }

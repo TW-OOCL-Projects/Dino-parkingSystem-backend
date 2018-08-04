@@ -103,8 +103,23 @@
                   "parkingBoyName": null
               }
         ]
-      
 
+5. 获取所有目前未被管理的停车场信息
+      - path：` /parkingBoys/:id/parkingLots`
+      - method: PUT
+      - request:
+        ```json
+        [
+            {
+                "id": 10,
+                "name": "oocl停车场10",
+                "size": 10,
+                "carNum": 0,
+                "status": true
+            }
+        ]
+        ```
+       
 ### 2. 订单管理
 
 1. 获取所有order
@@ -191,7 +206,7 @@
         - 成功：200 OK
         - 失败：400 Bad Requset
 
-2. manager获取parkingBoy列表
+2. 获取所有小弟信息列表
     - path:`/parkingBoys`
     - method:GET
     - response:
@@ -265,7 +280,7 @@
             }
         ]
        ```
-5. 获取某个parkingboy的所有order
+5. 获取小弟的所有订单
     - path：` /parkingBoys/:id/noHandleOrders`
     - method: GET
     - response:
@@ -291,7 +306,30 @@
                "receiptId": "2"
            }
         ]
-  
+ 
+ 6. 获取小弟目前管理的停车场
+       - path：` /parkingBoys/:id/parkingLots`
+       - method: GET
+       - response:
+         ```json
+         {
+          "operation":"add",//"remove"
+          "parkingLots":[1,2,3]
+         }
+
+ 7. 经理分配小弟的停车场
+       - path：` /parkingBoys/:id/parkingLots`
+       - method: PUT
+       - request:
+         ```json
+         {
+         	"operation":"add",//"remove"
+         	"parkingLots":[1,2,3]
+         }
+         ```
+       - respose:
+           - 成功：200
+           - 失败：400
   ### 4. 用户管理
   1. 用户授权(ROLE_ADMIN才可以使用)
       - path：` /users/:id/roles`

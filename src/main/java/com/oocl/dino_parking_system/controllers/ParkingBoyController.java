@@ -29,57 +29,73 @@ import static com.oocl.dino_parking_system.constants.Constants.STATUS_WAITUNPARK
 public class ParkingBoyController {
 
 
-    @Autowired
-    ParkingBoyService parkingBoyService;
+	@Autowired
+	ParkingBoyService parkingBoyService;
 
-    @Autowired
-    OrderService orderService;
+	@Autowired
+	OrderService orderService;
 
-    //获取所有的小弟
-    @GetMapping(path = "")
-    public List<ParkingBoyTinyDTO> findAllNormalParkingBoy(){
-    	return parkingBoyService.findAllParkingBoys().stream()
-			    .map(ParkingBoyTinyDTO::new)
-			    .collect(Collectors.toList());
-    }
-
-    //获取小弟手下管理的所有停车场
-	@GetMapping(path = "/{id}/parkingLots")
-	public List<ParkingLotTinyDTO> findAllManagedParkingLots(@PathVariable Long id){
-    	return parkingBoyService.findAllManagedParkingLots(id).stream()
-			    .map(ParkingLotTinyDTO::new)
-			    .collect(Collectors.toList());
+	//获取所有的小弟
+	@GetMapping(path = "")
+	public List<ParkingBoyTinyDTO> findAllNormalParkingBoy() {
+		return parkingBoyService.findAllParkingBoys().stream()
+				.map(ParkingBoyTinyDTO::new)
+				.collect(Collectors.toList());
 	}
 
-    // 获取停车小弟管理的停车场中未满的停车场
-    @GetMapping(path = "/{id}/noFullParkingLots")
-    public ResponseEntity findAllNotFullParkingLots(@PathVariable Long id) {
-        List<ParkingLotTinyDTO> parkingLots = parkingBoyService.findAllNotFullParkingLots(id);
-        if (parkingLots != null) {
-            return ResponseEntity.ok(parkingLots);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+	//获取小弟手下管理的所有停车场
+	@GetMapping(path = "/{id}/parkingLots")
+	public List<ParkingLotTinyDTO> findAllManagedParkingLots(@PathVariable Long id) {
+		return parkingBoyService.findAllManagedParkingLots(id).stream()
+				.map(ParkingLotTinyDTO::new)
+				.collect(Collectors.toList());
+	}
+
+	// 获取停车小弟管理的停车场中未满的停车场
+	@GetMapping(path = "/{id}/noFullParkingLots")
+	public ResponseEntity findAllNotFullParkingLots(@PathVariable Long id) {
+		List<ParkingLotTinyDTO> parkingLots = parkingBoyService.findAllNotFullParkingLots(id);
+		if (parkingLots != null) {
+			return ResponseEntity.ok(parkingLots);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+
+	// 给小弟安排停车场
+	@Transactional
+	@PutMapping(path = "/{id}/parkingLots")
+	public ResponseEntity arrangeParkingLots(@PathVariable Long id,
+	                                         @RequestBody JSONObject req) {
+		String operation = req.get("operation").toString();
+		List<Long> parkingLotIds = ((List<Integer>) req.get("parkingLots")).stream()
+				.map(Long::valueOf)
+				.collect(Collectors.toList());
+		if (parkingBoyService.arrangeParkingLots(id, operation, parkingLotIds)) {
+			return ResponseEntity.ok().build();
+		} else {
+			return ResponseEntity.badRequest().build();
+		}
+	}
 
 	// 返回所有（待处理）订单
 	@Transactional
 	@GetMapping(path = "/{parkingBoyId}/noHandleOrders", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity getAllOrders(@PathVariable Long parkingBoyId) {
-			List<OrderDTO> orders = orderService.findOrderByParkingBoyId(parkingBoyId).stream()
-					.filter(orderDTO -> orderDTO.getStatus().equals(STATUS_WAITPARK) || orderDTO.getStatus().equals(STATUS_WAITUNPARK))
-					.collect(Collectors.toList());
-			return new ResponseEntity<>(orders, HttpStatus.OK);
+		List<OrderDTO> orders = orderService.findOrderByParkingBoyId(parkingBoyId).stream()
+				.filter(orderDTO -> orderDTO.getStatus().equals(STATUS_WAITPARK) || orderDTO.getStatus().equals(STATUS_WAITUNPARK))
+				.collect(Collectors.toList());
+		return new ResponseEntity<>(orders, HttpStatus.OK);
 	}
 
 	// 返回所有小弟完成的停、取车订单
-    @Transactional
-    @GetMapping(path = "/{parkingBoyId}/historyOrders")
-    public List<OrderDTO> findAllFinishOrderByParkingBoyId(@PathVariable Long parkingBoyId){
-    	return parkingBoyService.findAllFinishOrderByParkingBoyId(parkingBoyId);
-    }
+	@Transactional
+	@GetMapping(path = "/{parkingBoyId}/historyOrders")
+	public List<OrderDTO> findAllFinishOrderByParkingBoyId(@PathVariable Long parkingBoyId) {
+		return parkingBoyService.findAllFinishOrderByParkingBoyId(parkingBoyId);
+	}
 
-    //小弟停车到指定停车场
+	//小弟停车到指定停车场
 	@PutMapping(path = "/{parkingBoyId}/parkingLots/{parkingLotId}")
 	public ResponseEntity parkCar(@PathVariable Long parkingBoyId,
 	                              @PathVariable Long parkingLotId,
