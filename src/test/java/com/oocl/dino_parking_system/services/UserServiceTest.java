@@ -10,10 +10,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.mockito.AdditionalMatchers.not;
-import static org.mockito.ArgumentMatchers.isNotNull;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,10 +48,30 @@ class UserServiceTest {
         //then
         assertThrows(UsernameNotFoundException.class, () -> service.loadUserByUsername("haha"));
     }
+
     @Test
-    void loadUserByUsername() {
+    public void should_return_true_when_account_is_correct(){
+        //given
+        UserService service = new UserService(userRepository);
+        User haha = mock(User.class);
+        given(userRepository.findByUsernameAndPassword(null,null)).willReturn(haha);
+        //when
+        boolean validate = service.validate(haha);
+        //then
+        assertThat(validate,is(true));
     }
 
+    @Test
+    public void should_return_false_when_account_is_incorrect(){
+        //given
+        UserService service = new UserService(userRepository);
+        User haha = mock(User.class);
+        given(userRepository.findByUsernameAndPassword(null,null)).willReturn(null);
+        //when
+        boolean validate = service.validate(haha);
+        //then
+        assertThat(validate,is(false));
+    }
     @Test
     void validate() {
     }
