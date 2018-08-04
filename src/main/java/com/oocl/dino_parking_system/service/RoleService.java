@@ -19,6 +19,12 @@ public class RoleService {
         return roleRepository.save(role);
     }
 
+	public RoleService() {
+	}
+
+	public RoleService(RoleRepository roleRepository) {
+		this.roleRepository = roleRepository;
+	}
 
 	public boolean setRoleToUser(Long id, String name) {
 		User user = userRepository.findById(id).orElse(null);
