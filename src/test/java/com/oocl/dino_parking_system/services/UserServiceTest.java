@@ -2,11 +2,13 @@ package com.oocl.dino_parking_system.services;
 
 import com.oocl.dino_parking_system.entities.User;
 import com.oocl.dino_parking_system.repositorys.UserRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -34,6 +36,18 @@ class UserServiceTest {
         UserDetails me = service.loadUserByUsername("haha");
         //then
         assertNotNull(me);
+    }
+
+    @Test
+    @DisplayName("throws exception")
+    public void should_throw_exception(){
+        //given
+        UserService service = new UserService(userRepository);
+        when(userRepository.findByUsername("haha")).thenReturn(null);
+        //when
+//        UserDetails me = service.loadUserByUsername("haha");
+        //then
+        assertThrows(UsernameNotFoundException.class, () -> service.loadUserByUsername("haha"));
     }
     @Test
     void loadUserByUsername() {
