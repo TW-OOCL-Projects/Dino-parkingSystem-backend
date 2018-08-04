@@ -70,7 +70,9 @@ class UserServiceTest {
         //given
         UserService service = new UserService(userRepository);
         User haha = mock(User.class);
-        given(userRepository.findByUsernameAndPassword(null,null)).willReturn(null);
+        given(haha.getUsername()).willReturn("haha");
+        given(haha.getPassword()).willReturn("haha");
+        given(userRepository.findByUsernameAndPassword("haha","haha")).willReturn(null);
         //when
         boolean validate = service.validate(haha);
         //then
@@ -155,19 +157,28 @@ class UserServiceTest {
         verify(userRepository).save(haha);
         assertThat(key,is(true));
     }
+
     @Test
-    void save() {
+    public void should_delete_user_successfully(){
+        //given
+        UserService service = new UserService(userRepository);
+        //when
+        boolean key = service.delete(1L);
+        //then
+        verify(userRepository).deleteById(1L);
+        assertThat(key,is(true));
     }
 
     @Test
-    void delete() {
-    }
-
-    @Test
-    void edit() {
-    }
-
-    @Test
-    void exits() {
+    public void should_return_true_when_the_account_is_correct(){
+        //given
+        User haha = mock(User.class);
+        UserService service = new UserService(userRepository);
+        when(haha.getUsername()).thenReturn("haha");
+        when(userRepository.findByUsername("haha")).thenReturn(haha);
+        //when
+        boolean key = service.exits(haha);
+        //then
+        assertThat(key,is(true));
     }
 }
