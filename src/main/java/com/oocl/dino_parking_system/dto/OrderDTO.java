@@ -1,6 +1,6 @@
 package com.oocl.dino_parking_system.dto;
 
-import com.oocl.dino_parking_system.entities.LotOrder;
+import com.oocl.dino_parking_system.entitie.LotOrder;
 
 import java.time.format.DateTimeFormatter;
 

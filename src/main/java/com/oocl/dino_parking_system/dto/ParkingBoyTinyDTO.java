@@ -1,6 +1,6 @@
 package com.oocl.dino_parking_system.dto;
 
-import com.oocl.dino_parking_system.entities.User;
+import com.oocl.dino_parking_system.entitie.User;
 
 public class ParkingBoyTinyDTO {
     private Long id;

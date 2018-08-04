@@ -1,7 +1,8 @@
 package com.oocl.dino_parking_system.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.oocl.dino_parking_system.entities.User;
+import com.oocl.dino_parking_system.entitie.User;
+import com.oocl.dino_parking_system.util.PasswordEncoder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import static com.oocl.dino_parking_system.constant.Constants.SALT_STRING;
 
 /**
  * Created by Vito Zhuang on 7/31/2018.
@@ -43,7 +46,9 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		return getAuthenticationManager().authenticate(
 				new UsernamePasswordAuthenticationToken(
 						creds.getUsername(),
-						creds.getPassword(),
+						new PasswordEncoder(SALT_STRING, "MD5")
+								.encode(creds.getPassword())
+								.substring(0, 7),
 						userDetails.getAuthorities()
 				)
 		);
@@ -54,6 +59,6 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 			HttpServletRequest req,
 			HttpServletResponse res, FilterChain chain,
 			Authentication auth) throws IOException, ServletException {
-		TokenAuthenticationService.addAuthentication(res, auth.getName(),auth.getAuthorities());
+		TokenAuthenticationService.addAuthentication(res, auth.getName(), auth.getAuthorities());
 	}
 }

@@ -1,14 +1,14 @@
 package com.oocl.dino_parking_system.init;
 
-import com.oocl.dino_parking_system.entities.LotOrder;
-import com.oocl.dino_parking_system.entities.ParkingLot;
-import com.oocl.dino_parking_system.entities.Role;
-import com.oocl.dino_parking_system.entities.User;
-import com.oocl.dino_parking_system.repositorys.OrderRepository;
-import com.oocl.dino_parking_system.repositorys.ParkingLotsRepository;
-import com.oocl.dino_parking_system.repositorys.RoleRepository;
-import com.oocl.dino_parking_system.repositorys.UserRepository;
-import com.oocl.dino_parking_system.services.UserService;
+import com.oocl.dino_parking_system.entitie.LotOrder;
+import com.oocl.dino_parking_system.entitie.ParkingLot;
+import com.oocl.dino_parking_system.entitie.Role;
+import com.oocl.dino_parking_system.entitie.User;
+import com.oocl.dino_parking_system.repository.OrderRepository;
+import com.oocl.dino_parking_system.repository.ParkingLotsRepository;
+import com.oocl.dino_parking_system.repository.RoleRepository;
+import com.oocl.dino_parking_system.repository.UserRepository;
+import com.oocl.dino_parking_system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-import static com.oocl.dino_parking_system.constants.Constants.*;
+import static com.oocl.dino_parking_system.constant.Constants.*;
 
 @Component
 @Order(value = 3)
