@@ -145,9 +145,16 @@ class UserServiceTest {
     }
 
     @Test
-    void updateUser() {
+    public void should_call_save(){
+        //given
+        UserService service = new UserService(userRepository);
+        User haha = mock(User.class);
+        //when
+        boolean key = service.save(haha);
+        //then
+        verify(userRepository).save(haha);
+        assertThat(key,is(true));
     }
-
     @Test
     void save() {
     }
