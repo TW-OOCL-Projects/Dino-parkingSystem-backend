@@ -268,3 +268,26 @@
                     }
           ]
        ```
+       
+4. 获取小弟所有未满的停车场
+    - path:`/parkingBoys/:id/noFullParkingLots`
+    - method:GET
+    - response:
+      ```json
+        [
+            {
+                "id": 3,
+                "name": "oocl停车场3",
+                "size": 20,
+                "carNum": 1,
+                "status": true
+            },
+            {
+                "id": 4,
+                "name": "oocl停车场4",
+                "size": 25,
+                "carNum": 0,
+                "status": true
+            }
+        ]
+       ```

@@ -1,10 +1,12 @@
 package com.oocl.dino_parking_system.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oocl.dino_parking_system.dto.OrderDTO;
 import com.oocl.dino_parking_system.entities.LotOrder;
 import com.oocl.dino_parking_system.entities.ParkingLot;
 import com.oocl.dino_parking_system.entities.User;
 import com.oocl.dino_parking_system.repositorys.OrderRepository;
+import com.oocl.dino_parking_system.repositorys.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +25,9 @@ public class OrderService {
 
 	@Autowired
 	private OrderRepository orderRepository;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	public LotOrder generateOrder(String plateNumber, String receiptId) {
 		LotOrder lotOrder = new LotOrder(TYPE_PARKCAR, plateNumber, STATUS_NOROB, receiptId);
@@ -69,12 +74,21 @@ public class OrderService {
 						order.setStatus(STATUS_PARKED);// 停车成功
 						order.setParkingLotName(parkingLotName);
 						orderRepository.save(order);
+						LotOrder waitUnparkOrder = new LotOrder();
+						Long id = waitUnparkOrder.getId();
+						waitUnparkOrder = (LotOrder) order.clone();
+						waitUnparkOrder.setId(id);
+						waitUnparkOrder.setStatus(STATUS_WAITCUSTOMER);
+						waitUnparkOrder.setType(TYPE_PARKOUTCAR);
+						orderRepository.save(waitUnparkOrder);
+						parkingBoy.addOrder(waitUnparkOrder);
+						userRepository.save(parkingBoy);
 						return true;
 					}else{
 						return false;
 					}
 				case STATUS_WAITUNPARK:
-					if(order.getStatus().equals(STATUS_PARKED)) {
+					if(order.getStatus().equals(STATUS_WAITCUSTOMER)) {
 						order.setStatus(STATUS_WAITUNPARK);// 等待取车
 						order.setType(TYPE_PARKOUTCAR); // 取车订单
 						orderRepository.save(order);
@@ -100,6 +114,12 @@ public class OrderService {
 			return false;
 		}
 	}
+
+//	private LotOrder generateWaitUnParkOrder(LotOrder order) {
+//		LotOrder waitUnparkOrder = new LotOrder();
+//		waitUnparkOrder.setType(TYPE_PARKOUTCAR);
+//
+//	}
 
 	private boolean checkBoyHaveEnoughParkingSpace(User parkingBoy) {
 		int parkingSpace = 0;
@@ -129,7 +149,7 @@ public class OrderService {
 
 	public LotOrder findOrderByReceiptId(String receiptId) {
 		return orderRepository.findAll().stream()
-				.filter(lotOrder -> lotOrder.getReceiptId().equals(receiptId))
+				.filter(lotOrder -> lotOrder.getReceiptId().equals(receiptId) && lotOrder.getStatus().equals(STATUS_WAITCUSTOMER))
 				.findFirst().orElse(null);
 	}
 }

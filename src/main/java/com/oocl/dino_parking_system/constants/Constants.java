@@ -14,6 +14,7 @@ public class Constants {
 	public final static String STATUS_NOROB = "noRob";// 存车订单无人处理
 	public final static String STATUS_WAITPARK = "waitPark";// 存车订单被抢成功，等待停到停车场
 	public final static String STATUS_PARKED = "parked";// 存车订单的车被停到停车场
+	public final static String STATUS_WAITCUSTOMER = "waitCustomer";// 等待顾客来取车
 	public final static String STATUS_WAITUNPARK = "waitUnPark";// 取车订单等待取车
 	public final static String STATUS_FINISH = "finish";//存取车订单完成
 }

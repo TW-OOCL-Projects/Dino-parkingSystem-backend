@@ -96,7 +96,7 @@ public class ParkingBoyService {
 		User parkingBoy = userRepository.findById(parkingBoyId).orElse(null);
 		if(parkingBoy!=null){
 			return parkingBoy.getLotOrders().stream()
-					.filter(lotOrder -> lotOrder.getStatus().equals(STATUS_FINISH))
+					.filter(lotOrder -> lotOrder.getStatus().equals(STATUS_FINISH) || lotOrder.getStatus().equals(STATUS_PARKED))
 					.map(OrderDTO::new)
 					.collect(Collectors.toList());
 		}

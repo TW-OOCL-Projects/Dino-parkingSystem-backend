@@ -12,7 +12,7 @@ import static com.oocl.dino_parking_system.constants.Constants.TYPE_PARKCAR;
 
 @Table(name = "car_order")
 @Entity
-public class LotOrder {
+public class LotOrder implements Cloneable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,7 +46,19 @@ public class LotOrder {
 
     public LotOrder(){}
 
-    public long getId() {
+	@Override
+	public Object clone() {
+		LotOrder order = null;
+		try{
+			order = (LotOrder) super.clone();
+		}catch(CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return order;
+	}
+
+
+	public long getId() {
         return id;
     }
 
