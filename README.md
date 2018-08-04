@@ -105,7 +105,7 @@
         ]
 
 5. 获取所有目前未被管理的停车场信息
-      - path：` /parkingBoys/?noParkingBoy=true`
+      - path：` /parkingLots/?noParkingBoy=true`
       - method: GET
       - response:
         ```json
