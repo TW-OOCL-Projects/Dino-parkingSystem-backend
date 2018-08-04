@@ -89,7 +89,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void findByUsernameAndPassword() {
+    public void should_find_user_by_Username_And_Password() {
         //given
         manager.persist(new User("christine", "1333", "123456", "christine@oocl.com", "12345678900"));
         //when
