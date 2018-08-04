@@ -114,12 +114,12 @@ public class GenerateData implements CommandLineRunner {
 		LotOrder order6 = new LotOrder("粤VH71647","6");
 		LotOrder order7 = new LotOrder("粤BHC9467","7");
 		LotOrder order8 = new LotOrder("粤NH76347","8");
-		order8.setStatus(STATUS_WAITUNPARK);
+		order8.setStatus(STATUS_WAITCUSTOMER);
 		order8.setType(TYPE_PARKOUTCAR);
 		order8.setParkingBoy(user2);
 		order8.setPlateNumber("粤C12345");
 		order8.setParkingLotName("oocl停车场1");
-	    order7.setStatus(STATUS_WAITUNPARK);
+	    order7.setStatus(STATUS_WAITCUSTOMER);
 	    order7.setType(TYPE_PARKOUTCAR);
 	    order7.setParkingBoy(user2);
 	    order7.setPlateNumber("粤C32412");

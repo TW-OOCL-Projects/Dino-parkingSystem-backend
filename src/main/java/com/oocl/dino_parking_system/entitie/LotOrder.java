@@ -129,4 +129,20 @@ public class LotOrder implements Cloneable {
 	public void setParkingLotName(String parkingLotName) {
 		this.parkingLotName = parkingLotName;
 	}
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("LotOrder{");
+        sb.append("id=").append(id);
+        sb.append(", type='").append(type).append('\'');
+        sb.append(", parkDate=").append(parkDate);
+        sb.append(", unParkDate=").append(unParkDate);
+        sb.append(", parkingBoy=").append(parkingBoy);
+        sb.append(", parkingLotName='").append(parkingLotName).append('\'');
+        sb.append(", plateNumber='").append(plateNumber).append('\'');
+        sb.append(", status='").append(status).append('\'');
+        sb.append(", receiptId='").append(receiptId).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
