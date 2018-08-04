@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -33,6 +34,7 @@ public class ParkingLotController {
 		}
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
 	@GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity getAllParkingLots(@RequestParam(value = "id", required = false) Long id,
@@ -83,12 +85,14 @@ public class ParkingLotController {
 		}
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
 	@GetMapping(path = "/dashboard")
 	public List<ParkingLotDashBoardDTO> findAllParkingLotDashBoard() {
 		return parkingLotsService.findAllParkingLotDashBoard();
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
 	@GetMapping(path = "/dashboard/page/{page}/pageSize/{size}")
 	public List<ParkingLotDashBoardDTO> findAllParkingLotDashBoard(@PathVariable int page,
