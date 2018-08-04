@@ -62,6 +62,18 @@ public class ParkingLotsRepositoryTest {
     }
 
     @Test
-    public void findAllBySizeBetween() {
+    public void should_find_two_parkinglot_between_5_20() {
+        //given
+        manager.persist(new ParkingLot("停车场A",15));
+        manager.persist(new ParkingLot("停车场B",10));
+        manager.persist(new ParkingLot("停车场C",30));
+        //when
+        System.out.println(parkingLotsRepository.findAll());
+        List<ParkingLot> parkingLotList = parkingLotsRepository.findAllBySizeBetween(5,20);
+        //then
+        assertThat(parkingLotList.size(),is(2));
+        assertThat(parkingLotList.get(0).getName(),is("停车场A"));
+        assertThat(parkingLotList.get(0).getSize(),is(15));
+        assertThat(parkingLotList.get(1).getName(),is("停车场B"));
     }
 }
