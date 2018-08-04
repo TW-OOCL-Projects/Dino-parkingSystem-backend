@@ -119,7 +119,29 @@ class UserServiceTest {
     }
 
     @Test
-    void getUserById() {
+    public void should_return_the_user_with_id_is_1(){
+        //given
+        UserService service = new UserService(userRepository);
+        User haha = mock(User.class);
+        given(userRepository.findById(1L)).willReturn(java.util.Optional.ofNullable(haha));
+        //when
+        User me = service.getUserById(1L);
+        //then
+        assertThat(me,is(haha));
+    }
+
+    @Test
+    public void should_update_info_of_user_successfully(){
+        //given
+        UserService service = new UserService(userRepository);
+        User haha = mock(User.class);
+        User me = new User("haha","joker","haha@oocl.com","13545325452");
+        given(userRepository.findById(1L)).willReturn(java.util.Optional.ofNullable(haha));
+        //when
+        boolean key = service.updateUser(1L,me);
+        //then
+        verify(userRepository).save(haha);
+        assertThat(key,is(true));
     }
 
     @Test
