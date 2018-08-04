@@ -4,6 +4,7 @@ import com.oocl.dino_parking_system.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,7 +27,7 @@ import java.util.Arrays;
  * Created by Vito Zhuang on 7/31/2018.
  */
 @EnableWebSecurity
-@EnableGlobalMethodSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
@@ -55,23 +56,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().authenticated()
 				.and()
 				// We filter the api/login requests
-				.addFilterBefore(new JWTLoginFilter("/login", authenticationManager(),userDetailsService),
+				.addFilterBefore(new JWTLoginFilter("/login", authenticationManager(), userDetailsService),
 						UsernamePasswordAuthenticationFilter.class)
 				// And filter other requests to check the presence of JWT in header
 				.addFilterBefore(new JWTAuthenticationFilter(),
 						UsernamePasswordAuthenticationFilter.class);
 	}
-@Bean
-public CorsConfigurationSource corsConfigurationSource() {
-	CorsConfiguration configuration = new CorsConfiguration();
-	configuration.setAllowedOrigins(Arrays.asList("*"));
-	configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-	configuration.setAllowedHeaders(Arrays.asList("Authorization", "content-type", "x-auth-token"));
-//        configuration.setExposedHeaders(Arrays.asList("x-auth-token"));// ONLY RESTURN BASIC INFO OF HEADER
-	configuration.setExposedHeaders(Arrays.asList("Authorization"));
-	UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-	source.registerCorsConfiguration("/**", configuration);
-	return source;
-}
+
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedOrigins(Arrays.asList("*"));
+		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+		configuration.setAllowedHeaders(Arrays.asList("Authorization", "content-type", "x-auth-token"));
+		configuration.setExposedHeaders(Arrays.asList("Authorization"));
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
+	}
 }
 

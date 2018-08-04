@@ -133,33 +133,7 @@
                "receiptId": "2"
            }
         ]
-2. 获取某个parkingboy的所有order
-    - path：`/orders?parkingBoyId=1`
-    - method: GET
-    - response:
-        ```json
-        [
-           {
-               "id": 1,
-               "type": "parkOutCar",
-               "parkingBoy": {
-                   "id": 2,
-                   "username": "parkingboy1"
-               },
-               "plateNumber": "粤DHC9767",
-               "status": "handle",
-               "receiptId": "1"
-           },
-           {
-               "id": 2,
-               "type": "parkCar",
-               "parkingBoy": null,
-               "plateNumber": "粤DH76647",
-               "status": "nohandle",
-               "receiptId": "2"
-           }
-        ]
-  
+
 3. 根据状态获取order
     - path：`/orders/:status`
     - method: GET
@@ -291,3 +265,30 @@
             }
         ]
        ```
+5. 获取某个parkingboy的所有order
+    - path：` /parkingBoys/:id/noHandleOrders`
+    - method: GET
+    - response:
+        ```json
+        [
+           {
+               "id": 1,
+               "type": "parkOutCar",
+               "parkingBoy": {
+                   "id": 2,
+                   "username": "parkingboy1"
+               },
+               "plateNumber": "粤DHC9767",
+               "status": "handle",
+               "receiptId": "1"
+           },
+           {
+               "id": 2,
+               "type": "parkCar",
+               "parkingBoy": null,
+               "plateNumber": "粤DH76647",
+               "status": "nohandle",
+               "receiptId": "2"
+           }
+        ]
+  

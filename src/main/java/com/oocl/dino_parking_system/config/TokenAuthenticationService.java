@@ -49,7 +49,7 @@ class TokenAuthenticationService {
 						.getBody();
 				user = claims.get("username").toString();
 				String rolesString = claims.get("roles").toString();
-				rolesName = Arrays.asList(rolesString.substring(1,rolesString.length()-1).split(","));
+				rolesName = Arrays.asList(rolesString.substring(1,rolesString.length()-1).split(", "));
 			} catch (Exception e) {
 				claims = null;
 			}

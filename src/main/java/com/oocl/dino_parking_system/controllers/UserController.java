@@ -1,7 +1,10 @@
 package com.oocl.dino_parking_system.controllers;
 
+import com.alibaba.fastjson.JSONObject;
 import com.oocl.dino_parking_system.dto.UserDTO;
+import com.oocl.dino_parking_system.entities.Role;
 import com.oocl.dino_parking_system.entities.User;
+import com.oocl.dino_parking_system.services.RoleService;
 import com.oocl.dino_parking_system.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +20,10 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@Autowired
+	RoleService roleService;
+
+//	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/users")
 	public ResponseEntity createUser(@RequestBody User user) {
 		if(userService.createUser(user)){
@@ -26,11 +32,11 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 	}
-
+//	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/users")
 	public ResponseEntity getAllUser() {
 		if(userService.getAllUser() != null){
-			return new ResponseEntity<List<UserDTO>>(userService.getAllUser().stream()
+			return new ResponseEntity<>(userService.getAllUser().stream()
 					.map(UserDTO::new)
 					.collect(Collectors.toList()),HttpStatus.OK);
 		}else {
@@ -64,6 +70,18 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		}
+	}
+
+	//用户授权
+//	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PutMapping("/users/{id}/roles")
+	public ResponseEntity grantUser(@PathVariable("id") Long id,
+	                                @RequestBody JSONObject req){
+		if(roleService.setRoleToUser(id,req.get("role").toString())){
+			return ResponseEntity.ok().build();
+		}else{
+			return ResponseEntity.badRequest().build();
 		}
 	}
 
