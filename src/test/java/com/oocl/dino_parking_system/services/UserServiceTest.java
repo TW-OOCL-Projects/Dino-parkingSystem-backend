@@ -10,10 +10,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -72,20 +76,46 @@ class UserServiceTest {
         //then
         assertThat(validate,is(false));
     }
-    @Test
-    void validate() {
-    }
 
     @Test
     void createUser() {
     }
 
     @Test
-    void getAllUser() {
+    public void should_return_all_users(){
+        //given
+        UserService service = new UserService(userRepository);
+        List<User> users = Arrays.asList(mock(User.class));
+        given(userRepository.findAll()).willReturn(users);
+        //when
+        List<User> userList = service.getAllUser();
+        //then
+        assertThat(userList,is(users));
     }
 
     @Test
-    void changeUserStatus() {
+    public void should_change_status_successfully_and_return_1(){
+        //given
+        UserService service = new UserService(userRepository);
+        User haha = mock(User.class);
+        given(userRepository.findById(1L)).willReturn(java.util.Optional.ofNullable(haha));
+        //when
+        int state = service.changeUserStatus(1L,true);
+        //then
+        verify(userRepository).save(haha);
+        assertThat(state,is(1));
+    }
+
+    @Test
+    public void should_change_status_successfully_and_return_0(){
+        //given
+        UserService service = new UserService(userRepository);
+        User haha = mock(User.class);
+        given(userRepository.findById(1L)).willReturn(java.util.Optional.ofNullable(null));
+        //when
+        int state = service.changeUserStatus(1L,true);
+        //then
+        assertThat(state,is(0));
     }
 
     @Test
