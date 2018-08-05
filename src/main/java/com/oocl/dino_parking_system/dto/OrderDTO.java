@@ -27,9 +27,9 @@ public class OrderDTO {
         this.plateNumber = order.getPlateNumber();
         this.status = order.getStatus();
         this.receiptId = order.getReceiptId();
-        this.parkDate = DateTimeFormatter.ofPattern("hh:mm - yyyy/MM/dd").format(order.getParkDate());
+        this.parkDate = DateTimeFormatter.ofPattern("HH:mm - yyyy/MM/dd").format(order.getParkDate());
         this.unParkDate =order.getUnParkDate()!=null
-		        ?DateTimeFormatter.ofPattern("hh:mm - yyyy/MM/dd").format(order.getUnParkDate())
+		        ?DateTimeFormatter.ofPattern("HH:mm - yyyy/MM/dd").format(order.getUnParkDate())
                 :null;
         this.read = order.getRead();
     }

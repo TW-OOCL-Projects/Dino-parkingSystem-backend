@@ -246,6 +246,15 @@
             "parkingBoyId":2
         }
   
+ 6. 修改订单的阅读状态
+     - path：`/orders/:id`
+     - method: PATCH
+     - request:
+         ```json
+         {
+             "parkingBoyId":2
+         }
+  
 ### 3. 停车小弟管理
 
 1. 停车小弟选择停车场停车
