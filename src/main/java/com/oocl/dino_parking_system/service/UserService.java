@@ -1,5 +1,6 @@
 package com.oocl.dino_parking_system.service;
 
+import com.oocl.dino_parking_system.dto.UserDTO;
 import com.oocl.dino_parking_system.util.MD5Util;
 import com.oocl.dino_parking_system.entitie.User;
 import com.oocl.dino_parking_system.repository.UserRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.oocl.dino_parking_system.constant.Constants.*;
 
@@ -151,5 +153,11 @@ public class UserService implements UserDetailsService {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	public List<UserDTO> findByConditions(String username, String nickname, String email, String phone) {
+		return userRepository.findAllByUsernameLikeAndNicknameLikeAndEmailLikeAndPhoneLike("%"+username+"%","%"+nickname+"%","%"+email+"%","%"+phone+"%").stream()
+				.map(UserDTO::new)
+				.collect(Collectors.toList());
 	}
 }
