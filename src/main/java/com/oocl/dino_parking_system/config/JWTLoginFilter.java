@@ -72,6 +72,10 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		String roleName = auth.getAuthorities().toString().replace("[","").replace("]","");
 		Cookie cookie1 = new Cookie("role",roleName);
 		Cookie cookie2 = new Cookie("id", json.get("parkingBoyId").toString());
+		cookie1.setPath("/");
+		cookie1.setMaxAge(3600);
+		cookie2.setPath("/");
+		cookie2.setMaxAge(3600);
 		res.addCookie(cookie1);
 		res.addCookie(cookie2);
 		WebSocketServer.sendInfo(json.toJSONString(), json.get("parkingBoyId").toString());
