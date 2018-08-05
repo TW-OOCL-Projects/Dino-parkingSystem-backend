@@ -22,6 +22,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.CollationKey;
 
 import static com.oocl.dino_parking_system.constant.Constants.SALT_STRING;
 
@@ -69,8 +70,10 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		TokenAuthenticationService.addAuthentication(res, auth.getName(), auth.getAuthorities());
 		JSONObject json = parkingBoyService.findUnReadOrderNum(auth.getName());
 		String roleName = auth.getAuthorities().toString().replace("[","").replace("]","");
-		Cookie cookie = new Cookie("role",roleName);
-		res.addCookie(cookie);
+		Cookie cookie1 = new Cookie("role",roleName);
+		Cookie cookie2 = new Cookie("id", json.get("parkingBoyId").toString());
+		res.addCookie(cookie1);
+		res.addCookie(cookie2);
 		WebSocketServer.sendInfo(json.toJSONString(), json.get("parkingBoyId").toString());
 	}
 }
