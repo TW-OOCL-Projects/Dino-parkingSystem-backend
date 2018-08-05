@@ -94,6 +94,7 @@ public class ParkingBoyController {
 	}
 
 	//小弟停车到指定停车场
+	@Transactional
 	@PutMapping(path = "/{parkingBoyId}/parkingLots/{parkingLotId}")
 	public ResponseEntity parkCar(@PathVariable Long parkingBoyId,
 	                              @PathVariable Long parkingLotId,

@@ -69,6 +69,7 @@ public class OrderService {
 						order.setRead(true);
 						parkingBoy.addOrder(order);
 						orderRepository.save(order);
+						userRepository.save(parkingBoy);
 						return true;
 					} else {
 						return false;
