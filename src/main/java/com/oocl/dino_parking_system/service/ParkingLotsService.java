@@ -50,7 +50,7 @@ public class ParkingLotsService {
     public boolean changeParkingLotStatus(long id) {
         try {
             ParkingLot parkingLot = parkingLotsRepository.findById(id).orElse(null);
-            if (parkingLot.isStatus() == (STATUS_NORMAL)) {
+            if (parkingLot.isStatus() == (STATUS_NORMAL) && parkingLot.getCarNum() == 0) {
                 parkingLot.setStatus(STATUS_FREEZE);
             } else {
                 parkingLot.setStatus(STATUS_NORMAL);
@@ -73,12 +73,6 @@ public class ParkingLotsService {
                 .map(ParkingLotDashBoardDTO::new)
                 .collect(Collectors.toList());
     }
-
-//    public List<ParkingLotTinyDTO> findParkingLotsByConditions(Long id, String name, Integer integer, Integer eq, Integer gt) {
-//        List<ParkingLotTinyDTO> parkingLotTinyDTOS = getAllParkingLots();
-//        return parkingLotTinyDTOS.stream()
-//                .filter(parkingLotTinyDTO -> parkingLotTinyDTO.getId()==id)
-//    }
 
 
     //    @Query("select u from User u where u.firstname like %?1")
