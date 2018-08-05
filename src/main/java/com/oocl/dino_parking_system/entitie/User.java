@@ -41,6 +41,8 @@ public class User implements UserDetails {
 	@ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
 	private List<Role> roles = new ArrayList<>();
 
+	private String roleName;
+
 	public User() {
 	}
 
@@ -196,5 +198,13 @@ public class User implements UserDetails {
 
 	public void setLastSignInDate(ZonedDateTime lastSignInDate) {
 		this.lastSignInDate = lastSignInDate;
+	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 }

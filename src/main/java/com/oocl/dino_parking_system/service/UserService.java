@@ -3,6 +3,8 @@ package com.oocl.dino_parking_system.service;
 import com.alibaba.fastjson.JSONObject;
 import com.oocl.dino_parking_system.config.WebSocketServer;
 import com.oocl.dino_parking_system.dto.UserDTO;
+import com.oocl.dino_parking_system.entitie.Role;
+import com.oocl.dino_parking_system.repository.RoleRepository;
 import com.oocl.dino_parking_system.util.MD5Util;
 import com.oocl.dino_parking_system.entitie.User;
 import com.oocl.dino_parking_system.repository.UserRepository;
@@ -28,6 +30,9 @@ import static com.oocl.dino_parking_system.constant.Constants.*;
 public class UserService implements UserDetailsService {
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	RoleRepository roleRepository;
 
 	public UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
@@ -124,6 +129,13 @@ public class UserService implements UserDetailsService {
 			one.setUsername(user.getUsername() != null ? user.getUsername() : one.getUsername());
 			one.setEmail(user.getEmail() != null ? user.getEmail() : one.getEmail());
 			one.setPhone(user.getPhone() != null ? user.getPhone() : one.getPhone());
+
+			if(user.getRoles()!=null) {
+				Role role = roleRepository.findByName(user.getRoleName());
+				one.setRoles(new ArrayList<>());
+				one.getRoles().add(role);
+			}
+
 			userRepository.save(one);
 			return true;
 		} catch (Exception e) {

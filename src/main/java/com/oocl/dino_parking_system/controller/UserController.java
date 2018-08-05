@@ -65,7 +65,7 @@ public class UserController {
     @GetMapping("/users/{id}")
     public ResponseEntity getUserById(@PathVariable("id") Long id) {
         if (userService.getUserById(id) != null) {
-            return new ResponseEntity<User>(userService.getUserById(id), HttpStatus.OK);
+            return new ResponseEntity<UserDTO>(new UserDTO(userService.getUserById(id)), HttpStatus.OK);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
