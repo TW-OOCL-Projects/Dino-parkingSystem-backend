@@ -14,6 +14,7 @@ public class OrderDTO {
     private String receiptId;
     private String parkDate;
     private String unParkDate;
+    private boolean read;
 
     public OrderDTO() {
     }
@@ -30,6 +31,7 @@ public class OrderDTO {
         this.unParkDate =order.getUnParkDate()!=null
 		        ?DateTimeFormatter.ofPattern("hh:mm - yyyy/MM/dd").format(order.getUnParkDate())
                 :null;
+        this.read = order.getRead();
     }
 
 	public Long getId() {
@@ -66,5 +68,9 @@ public class OrderDTO {
 
 	public String getParkingLotName() {
 		return parkingLotName;
+	}
+
+	public boolean isRead() {
+		return read;
 	}
 }

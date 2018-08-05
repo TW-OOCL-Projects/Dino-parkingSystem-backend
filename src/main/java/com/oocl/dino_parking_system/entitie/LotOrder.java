@@ -29,6 +29,7 @@ public class LotOrder implements Cloneable {
     private String plateNumber;
     private String status;
     private String receiptId;
+    private boolean read = false;
 
     public LotOrder(String type, String plateNumber, String status, String receiptId) {
         this.type = type;
@@ -145,4 +146,12 @@ public class LotOrder implements Cloneable {
         sb.append('}');
         return sb.toString();
     }
+
+	public boolean getRead() {
+		return read;
+	}
+
+	public void setRead(boolean read) {
+		this.read = read;
+	}
 }
