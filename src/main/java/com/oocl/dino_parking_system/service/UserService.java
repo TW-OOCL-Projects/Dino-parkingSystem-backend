@@ -132,11 +132,11 @@ public class UserService implements UserDetailsService {
 			one.setPhone(user.getPhone() != null ? user.getPhone() : one.getPhone());
 			one.setWorkStatus(!user.getWorkStatus().equals("")?user.getWorkStatus():one.getWorkStatus());
 			System.out.println(user.getRoleName());
-			if(user.getRoleName()!=null && one.getLotOrders().size()==0) {
+			if(user.getRoleName()!=null && one.getParkingLots().size()==0) {
 				Role role = roleRepository.findByName(user.getRoleName());
 				one.setRoles(new ArrayList<>());
 				one.getRoles().add(role);
-			}else if(user.getRoleName()!=null && one.getLotOrders().size()!=0){
+			}else if(user.getRoleName()!=null && one.getParkingLots().size()!=0){
 				return false;
 			}
 
