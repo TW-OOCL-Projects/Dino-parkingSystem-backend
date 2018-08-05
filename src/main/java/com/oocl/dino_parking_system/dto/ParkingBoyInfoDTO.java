@@ -11,6 +11,7 @@ public class ParkingBoyInfoDTO {
     private int lotNumber;
     private int carNumber;
     private int orderNumber;
+    private boolean status;
     private int total;
 
     public ParkingBoyInfoDTO(User parkingBoy) {
@@ -23,6 +24,7 @@ public class ParkingBoyInfoDTO {
         this.carNumber = parkingBoy.getParkingLots().stream().mapToInt(parkingLot -> parkingLot.getCarNum()).sum();
         this.orderNumber = parkingBoy.getLotOrders().size();
         this.total = parkingBoy.getParkingLots().stream().mapToInt(parkingLot -> parkingLot.getSize()).sum();
+        this.status = parkingBoy.getStatus();
     }
 
     public String getNickname() {
@@ -59,5 +61,9 @@ public class ParkingBoyInfoDTO {
 
 	public String getWorkStatus() {
 		return workStatus;
+	}
+
+	public boolean isStatus() {
+		return status;
 	}
 }
