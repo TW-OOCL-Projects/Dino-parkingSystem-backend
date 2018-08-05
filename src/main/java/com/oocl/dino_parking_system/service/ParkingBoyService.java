@@ -1,7 +1,9 @@
 package com.oocl.dino_parking_system.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.oocl.dino_parking_system.dto.OrderDTO;
 import com.oocl.dino_parking_system.dto.ParkingLotTinyDTO;
+import com.oocl.dino_parking_system.entitie.LotOrder;
 import com.oocl.dino_parking_system.entitie.ParkingLot;
 import com.oocl.dino_parking_system.entitie.User;
 import com.oocl.dino_parking_system.repository.OrderRepository;
@@ -139,6 +141,24 @@ public class ParkingBoyService {
 			return true;
 		} catch (Exception e) {
 			return false;
+		}
+	}
+
+	public JSONObject findUnReadOrderNum(String parkingBoyName) {
+		try {
+			JSONObject json = new JSONObject();
+			User parkingBoy = userRepository.findByUsername(parkingBoyName);
+			json.put("parkingBoyId",parkingBoy.getId());
+			if(parkingBoy.getLotOrders().size()==0){
+				json.put("unReadNum",0);
+			}else {
+				json.put("unReadNum", parkingBoy.getLotOrders().stream()
+						.filter(lotOrder -> !lotOrder.getRead())
+						.count());
+			}
+			return json;
+		} catch (Exception e) {
+			return null;
 		}
 	}
 }

@@ -32,6 +32,7 @@ public class OrderService {
 	@Autowired
 	private UserRepository userRepository;
 
+
 	public LotOrder generateOrder(String plateNumber, String receiptId) {
 		LotOrder lotOrder = new LotOrder(TYPE_PARKCAR, plateNumber, STATUS_NOROB, receiptId);
 		return orderRepository.save(lotOrder);
@@ -97,7 +98,6 @@ public class OrderService {
 						Map<String, Object> message = new LinkedHashMap<>();
 						message.put("id", order.getId());
 						message.put("message", "你有一个新的取车订单!");
-
 						WebSocketServer.sendInfo(JSONObject.toJSONString(message), order.getParkingBoy().getId().toString());
 						return true;
 					} else {

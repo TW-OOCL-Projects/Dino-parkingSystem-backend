@@ -1,7 +1,10 @@
 package com.oocl.dino_parking_system.config;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oocl.dino_parking_system.entitie.User;
+import com.oocl.dino_parking_system.service.ParkingBoyService;
 import com.oocl.dino_parking_system.util.PasswordEncoder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,9 +32,12 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 	private final UserDetailsService userDetailsService;
 
-	public JWTLoginFilter(String url, AuthenticationManager authManager, UserDetailsService userDetailsService) {
+	private final ParkingBoyService parkingBoyService;
+
+	public JWTLoginFilter(String url, AuthenticationManager authManager, UserDetailsService userDetailsService, ParkingBoyService parkingBoyService) {
 		super(new AntPathRequestMatcher(url));
 		this.userDetailsService = userDetailsService;
+		this.parkingBoyService = parkingBoyService;
 		setAuthenticationManager(authManager);
 
 	}
@@ -60,5 +66,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 			HttpServletResponse res, FilterChain chain,
 			Authentication auth) throws IOException, ServletException {
 		TokenAuthenticationService.addAuthentication(res, auth.getName(), auth.getAuthorities());
+		JSONObject json = parkingBoyService.findUnReadOrderNum(auth.getName());
+		WebSocketServer.sendInfo(json.toJSONString(), json.get("parkingBoyId").toString());
 	}
 }

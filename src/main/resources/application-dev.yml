@@ -24,6 +24,7 @@ spring:
         format_sql: true
         use_sql_comments: true
         generate_statistics: false
+        enable_lazy_load_no_trans: true
   jackson:
     serialization:
       write-dates-as-timestamps: true

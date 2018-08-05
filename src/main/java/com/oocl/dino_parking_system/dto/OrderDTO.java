@@ -70,7 +70,7 @@ public class OrderDTO {
 		return parkingLotName;
 	}
 
-	public boolean isRead() {
+	public boolean getRead() {
 		return read;
 	}
 }

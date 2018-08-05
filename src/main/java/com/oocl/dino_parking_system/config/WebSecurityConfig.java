@@ -1,5 +1,6 @@
 package com.oocl.dino_parking_system.config;
 
+import com.oocl.dino_parking_system.service.ParkingBoyService;
 import com.oocl.dino_parking_system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -38,6 +39,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	UserDetailsService userDetailsService;
 
+	@Autowired
+	ParkingBoyService parkingBoyService;
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(customUserService());
@@ -51,7 +55,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().authenticated()
 				.and()
 				// We filter the api/login requests
-				.addFilterBefore(new JWTLoginFilter("/login", authenticationManager(), userDetailsService),
+				.addFilterBefore(new JWTLoginFilter("/login",
+								authenticationManager(),
+								userDetailsService,
+								parkingBoyService),
 						UsernamePasswordAuthenticationFilter.class)
 				// And filter other requests to check the presence of JWT in header
 				.addFilterBefore(new JWTAuthenticationFilter(),

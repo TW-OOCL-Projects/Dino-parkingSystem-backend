@@ -1,5 +1,7 @@
 package com.oocl.dino_parking_system.config;
 
+import com.oocl.dino_parking_system.service.ParkingBoyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -12,7 +14,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @Component
 public class WebSocketServer {
 
-    //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
+	//静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
     private static int onlineCount = 0;
     //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
     private static CopyOnWriteArraySet<WebSocketServer> webSocketSet = new CopyOnWriteArraySet<WebSocketServer>();
@@ -29,7 +31,7 @@ public class WebSocketServer {
         this.session = session;
         webSocketSet.add(this);     //加入set中
         addOnlineCount();           //在线数加1
-        System.out.println("有人连接了:"+sid);
+        System.out.println(">>>有停车小弟连接 id:"+sid);
         this.sid=sid;
         try {
             sendMessage("连接成功");
