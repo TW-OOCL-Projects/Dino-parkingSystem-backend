@@ -97,10 +97,10 @@ public class OrderService {
 						order.setType(TYPE_PARKOUTCAR); // 取车订单
 						orderRepository.save(order);
 						//websocket推送给小弟
-						Map<String, Object> message = new LinkedHashMap<>();
+						JSONObject message = new JSONObject();
 						message.put("id", order.getId());
 						message.put("message", "你有一个新的取车订单!");
-						WebSocketServer.sendInfo(JSONObject.toJSONString(message), order.getParkingBoy().getId().toString());
+						WebSocketServer.sendInfo(message.toJSONString(), order.getParkingBoy().getId().toString());
 						return true;
 					} else {
 						return false;

@@ -226,7 +226,7 @@
            ]
   
 
-4. parkingBoy抢单
+4. 小弟抢单
     - path：`/orders/:id`
     - method: PUT
     - request:
@@ -235,7 +235,16 @@
             "status":"waitPark",
             "parkingBoyId":2
         }
-  
+4. 经理指派订单给小弟
+    - path：`/orders/:id?appoint=true`
+    - method: PUT
+    - request:
+        ```json
+        {
+            "status":"waitPark",
+            "parkingBoyId":2
+        }
+   
 5. parkingBoy完成取车订单
     - path：`/orders/:id`
     - method: PUT
@@ -450,3 +459,6 @@
                   }
               ]
           ```
+4. 用户打卡
+     - path：`/users/:id/workStatus`
+     - method：PATCH

@@ -54,10 +54,13 @@ public class GenerateData implements CommandLineRunner {
 
         User user1 = new User("admin","管理员A","bd72696","110@qq.com","13160675789");
         user1.setRoles(Arrays.asList(admin));
-        User user2 = new User("parkingboy1","停车小弟A","bd72696","120@qq.com","13160675789");
+	    user1.setWorkStatus(STATUS_ONDUTY);
+	    User user2 = new User("parkingboy1","停车小弟A","bd72696","120@qq.com","13160675789");
         user2.setRoles(Arrays.asList(parkingBoy));
+        user2.setWorkStatus(STATUS_ONDUTY);
 	    User user3 = new User("manager","停车经理A","bd72696","130@qq.com","13160675789");
 	    user3.setRoles(Arrays.asList(manager));
+	    user3.setWorkStatus(STATUS_ONDUTY);
 	    User user4 = new User("parkingboy2","停车小弟B","bd72696","121@qq.com","13160675789");
 	    user4.setRoles(Arrays.asList(parkingBoy));
 	    User user5 = new User("parkingboy3","停车小弟C","bd72696","122@qq.com","13160675789");
@@ -82,11 +85,11 @@ public class GenerateData implements CommandLineRunner {
 	    parkingLot2.setParkingBoy(user3);
 	    parkingLot2.setCarNum(10);
 	    ParkingLot parkingLot3 = new ParkingLot("oocl停车场3",20);
-	    parkingLot3.setParkingBoy(user4);
-	    parkingLot3.setCarNum(1);
+//	    parkingLot3.setParkingBoy(user4);
+//	    parkingLot3.setCarNum(1);
 	    ParkingLot parkingLot4 = new ParkingLot("oocl停车场4",25);
-	    parkingLot4.setParkingBoy(user4);
-	    parkingLot4.setCarNum(0);
+//	    parkingLot4.setParkingBoy(user4);
+//	    parkingLot4.setCarNum(0);
 	    ParkingLot parkingLot5 = new ParkingLot("oocl停车场5",20);
 	    parkingLot5.setParkingBoy(user5);
 	    parkingLot5.setCarNum(19);

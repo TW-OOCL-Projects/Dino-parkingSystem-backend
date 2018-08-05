@@ -1,6 +1,7 @@
 package com.oocl.dino_parking_system.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.oocl.dino_parking_system.config.WebSocketServer;
 import com.oocl.dino_parking_system.dto.OrderDTO;
 import com.oocl.dino_parking_system.dto.UserDTO;
 import com.oocl.dino_parking_system.entitie.LotOrder;
@@ -14,7 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -49,29 +53,41 @@ public class OrderController {
 	@PutMapping(path = "/{orderId}")
 	public ResponseEntity changeStatus(@PathVariable("orderId") Long orderId,
 	                                   @RequestBody JSONObject request,
-	                                   @RequestParam(value = "read", required = false) boolean read) {
+	                                   @RequestParam(value = "appoint", required = false) boolean appoint) {
 		Long parkingBoyId = Long.valueOf(request.get("parkingBoyId").toString());
 		String status = request.get("status").toString();
 		User parkingBoy = parkingBoyService.findParkingBoyById(parkingBoyId);
 		if (parkingBoy != null
 				&& parkingBoyService.findAllNotFullParkingLots(parkingBoyId).size() > 0) {
-			if (orderService.changeOrderStatus(orderId, parkingBoy, status, null))
+			if (orderService.changeOrderStatus(orderId, parkingBoy, status, null)) {
+				if(appoint) {
+					//websocket推送指派订单提醒给小弟
+					JSONObject message = new JSONObject();
+					message.put("id", orderId);
+					message.put("message", "你被指派了新的停车订单!");
+					try {
+						WebSocketServer.sendInfo(message.toJSONString(),parkingBoyId.toString());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
 				return ResponseEntity.status(HttpStatus.OK).build();
-			else
+			} else {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+			}
 		} else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 	}
 
 	@Transactional
-	@PatchMapping(path="/{orderId}")
+	@PatchMapping(path = "/{orderId}")
 	public ResponseEntity readOrder(@PathVariable("orderId") Long id,
-	                      @RequestBody JSONObject req){
-		if(orderService.readOrder(id,
-				Long.valueOf(req.get("parkingBoyId").toString()))){
+	                                @RequestBody JSONObject req) {
+		if (orderService.readOrder(id,
+				Long.valueOf(req.get("parkingBoyId").toString()))) {
 			return ResponseEntity.ok().build();
-		}else{
+		} else {
 			return ResponseEntity.badRequest().build();
 		}
 	}

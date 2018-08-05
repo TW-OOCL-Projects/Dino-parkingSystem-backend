@@ -93,7 +93,7 @@ public class UserController {
 
     // 修改用户的工作状态
 //	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
-    @PutMapping(path = "/users/{id}/workStatus")
+    @PatchMapping(path = "/users/{id}/workStatus")
     public ResponseEntity changeWorkStatus(@PathVariable Long id,
                                            @RequestBody JSONObject req) {
         if (userService.changeWorkStatus(id, req.get("workStatus").toString())) {
