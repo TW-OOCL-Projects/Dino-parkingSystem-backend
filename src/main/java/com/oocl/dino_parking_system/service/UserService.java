@@ -67,6 +67,7 @@ public class UserService implements UserDetailsService {
 			user.setPassword(new PasswordEncoder(SALT_STRING, "MD5")
 					.encode(password)
 					.substring(0, 7));
+			user.getRoles().add(roleRepository.findByName(ROLE_PARKINGBOY));
 			userRepository.save(user);
 			return password;
 		} catch (Exception e) {
