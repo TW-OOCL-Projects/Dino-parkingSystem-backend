@@ -6,6 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -30,6 +31,7 @@ public class User implements UserDetails {
 	private String phone;
 	private String workStatus = STATUS_OFFDUTY;
 	private boolean status = true; // 注销状态：true为未注销
+	private ZonedDateTime lastSignInDate;
 	@OneToMany(mappedBy = "parkingBoy", fetch= FetchType.LAZY)
 	private List<ParkingLot> parkingLots = new LinkedList<>();
 
@@ -186,5 +188,13 @@ public class User implements UserDetails {
 
 	public void setWorkStatus(String workStatus) {
 		this.workStatus = workStatus;
+	}
+
+	public ZonedDateTime getLastSignInDate() {
+		return lastSignInDate;
+	}
+
+	public void setLastSignInDate(ZonedDateTime lastSignInDate) {
+		this.lastSignInDate = lastSignInDate;
 	}
 }

@@ -13,6 +13,7 @@ public class UserDTO {
 	private String phone;
 	private String workStatus;
 	private boolean status;
+	private String position;
 
 	public UserDTO(User user){
 		this.id = user.getId();
@@ -22,6 +23,7 @@ public class UserDTO {
 		this.phone = user.getPhone();
 		this.workStatus = user.getWorkStatus();
 		this.status = user.getStatus();
+		this.position = user.getRoles().get(0).toString();
 	}
 
 	public Long getId() {
@@ -50,5 +52,9 @@ public class UserDTO {
 
 	public String getWorkStatus() {
 		return workStatus;
+	}
+
+	public String getPosition() {
+		return position;
 	}
 }

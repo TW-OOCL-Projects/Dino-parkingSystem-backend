@@ -96,8 +96,9 @@ public class UserController {
 //	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     @PatchMapping(path = "/users/{id}/workStatus")
     public ResponseEntity changeWorkStatus(@PathVariable Long id,
-                                           @RequestBody JSONObject req) {
-        if (userService.changeWorkStatus(id, req.get("workStatus").toString())) {
+                                           @RequestBody(required = false) JSONObject req) {
+    	String reqWorkStatus = req!=null?req.get("workStatus").toString():"";
+        if (userService.changeWorkStatus(id, reqWorkStatus)) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.badRequest().build();

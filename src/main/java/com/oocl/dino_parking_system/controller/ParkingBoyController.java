@@ -3,6 +3,7 @@ package com.oocl.dino_parking_system.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.oocl.dino_parking_system.dto.OrderDTO;
+import com.oocl.dino_parking_system.dto.ParkingBoyInfoDTO;
 import com.oocl.dino_parking_system.dto.ParkingBoyTinyDTO;
 import com.oocl.dino_parking_system.dto.ParkingLotTinyDTO;
 import com.oocl.dino_parking_system.service.OrderService;
@@ -33,11 +34,12 @@ public class ParkingBoyController {
 
 	//获取所有的小弟
 	@GetMapping(path = "")
-	public List<ParkingBoyTinyDTO> findAllNormalParkingBoy() {
+	public List<ParkingBoyInfoDTO> findAllNormalParkingBoy() {
 		return parkingBoyService.findAllParkingBoys().stream()
-				.map(ParkingBoyTinyDTO::new)
+				.map(ParkingBoyInfoDTO::new)
 				.collect(Collectors.toList());
 	}
+
 
 	//获取小弟手下管理的所有停车场
 	@GetMapping(path = "/{id}/parkingLots")

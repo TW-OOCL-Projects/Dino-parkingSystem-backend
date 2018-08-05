@@ -14,6 +14,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 
 import static com.oocl.dino_parking_system.constant.Constants.*;
@@ -55,9 +56,11 @@ public class GenerateData implements CommandLineRunner {
         User user1 = new User("admin","管理员A","bd72696","110@qq.com","13160675789");
         user1.setRoles(Arrays.asList(admin));
 	    user1.setWorkStatus(STATUS_ONDUTY);
+	    user1.setLastSignInDate(ZonedDateTime.now());
 	    User user2 = new User("parkingboy1","停车小弟A","bd72696","120@qq.com","13160675789");
         user2.setRoles(Arrays.asList(parkingBoy));
         user2.setWorkStatus(STATUS_ONDUTY);
+        user2.setLastSignInDate(ZonedDateTime.now());
 	    User user3 = new User("manager","停车经理A","bd72696","130@qq.com","13160675789");
 	    user3.setRoles(Arrays.asList(manager));
 	    user3.setWorkStatus(STATUS_ONDUTY);
@@ -79,7 +82,6 @@ public class GenerateData implements CommandLineRunner {
          * */
 	    ParkingLot parkingLot1 = new ParkingLot("oocl停车场1",20);
 	    parkingLot1.setParkingBoy(user2);
-
 	    parkingLot1.setCarNum(13);
 	    ParkingLot parkingLot2 = new ParkingLot("oocl停车场2",10);
 	    parkingLot2.setParkingBoy(user3);

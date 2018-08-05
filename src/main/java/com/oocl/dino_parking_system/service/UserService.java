@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -80,24 +81,29 @@ public class UserService implements UserDetailsService {
 		JSONObject result = new JSONObject();
 		try {
 			User one = userRepository.findById(id).orElse(null);
-			if(one.getLotOrders().size()==0 || status == STATUS_NORMAL) {
+			if (one.getRoles().get(0).equals(ROLE_ADMIN)) {
+				result.put("result", "failed");
+				result.put("cause", "管理员账号不能冻结");
+				return result;
+			}
+			if (one.getLotOrders().size() == 0 || status == STATUS_NORMAL) {
 				one.setStatus(status);
 				userRepository.save(one);
-				result.put("result","success");
-				if(status == STATUS_FREEZE) {
+				result.put("result", "success");
+				if (status == STATUS_FREEZE) {
 					JSONObject websockeMessage = new JSONObject();
 					websockeMessage.put("type", "freeze");
 					WebSocketServer.sendInfo(websockeMessage.toJSONString(), id.toString());
 				}
 
-			}else{
-				result.put("result","failed");
-				result.put("cause","该停车员手下还有管理的停车场");
+			} else {
+				result.put("result", "failed");
+				result.put("cause", "该停车员手下还有管理的停车场");
 			}
 			return result;
 		} catch (Exception e) {
-			result.put("result","failed");
-			result.put("cause","用户不存在");
+			result.put("result", "failed");
+			result.put("cause", "用户不存在");
 			return result;
 		}
 	}
@@ -151,38 +157,52 @@ public class UserService implements UserDetailsService {
 	public boolean changeWorkStatus(Long id, String workStatus) {
 		try {
 			User user = userRepository.findById(id).orElse(null);
-			if(workStatus!=null){
+			if (!workStatus.trim().equals("")) {
 				user.setWorkStatus(workStatus);
+				user.setLastSignInDate(ZonedDateTime.now());
 				userRepository.save(user);
 				return true;
-			}else {
+			} else {
+				boolean result = false;
 				switch (user.getWorkStatus()) {
-					case STATUS_ONDUTY:
-
 					case STATUS_LATE:
-					case STATUS_LEAVE:
-						user.setWorkStatus(workStatus);
-						userRepository.save(user);
-						return true;
-					case STATUS_OFFDUTY:
-						if (user.getWorkStatus().equals(STATUS_ONDUTY)) {
-							user.setWorkStatus(workStatus);
+					case STATUS_ONDUTY:
+						if (!isYesterDay(user.getLastSignInDate())) {
+							user.setWorkStatus(STATUS_OFFDUTY);
+							user.setLastSignInDate(ZonedDateTime.now());
 							userRepository.save(user);
-							return true;
-						} else {
-							return false;
+							result = true;
 						}
-					default:
-						return false;
+					case STATUS_OFFDUTY:
+						if(!result) {
+							if (isLate()) {
+								user.setWorkStatus(STATUS_LATE);
+							} else {
+								user.setWorkStatus(STATUS_ONDUTY);
+							}
+							user.setLastSignInDate(ZonedDateTime.now());
+							userRepository.save(user);
+							result = true;
+						}
 				}
+				return result;
 			}
 		} catch (Exception e) {
 			return false;
 		}
 	}
 
+	private boolean isLate() {
+		ZonedDateTime now = ZonedDateTime.now();
+		return now.getHour()>9 || (now.getHour()==9 && now.getMinute()>0);
+	}
+
+	private boolean isYesterDay(ZonedDateTime lastSignInDate) {
+		return ZonedDateTime.now().getDayOfYear() - lastSignInDate.getDayOfYear() > 0;
+	}
+
 	public List<UserDTO> findByConditions(String username, String nickname, Boolean status, String workStatus, String email, String phone) {
-		List<User> users = userRepository.findAllByUsernameLikeAndNicknameLikeAndWorkStatusLikeAndEmailLikeAndPhoneLike("%"+username+"%","%"+nickname+"%","%"+workStatus+"%","%"+email+"%","%"+phone+"%");
+		List<User> users = userRepository.findAllByUsernameLikeAndNicknameLikeAndWorkStatusLikeAndEmailLikeAndPhoneLike("%" + username + "%", "%" + nickname + "%", "%" + workStatus + "%", "%" + email + "%", "%" + phone + "%");
 		List<UserDTO> userDTOS = users.stream().map(UserDTO::new)
 				.collect(Collectors.toList());
 		if (status == null) {
@@ -192,7 +212,7 @@ public class UserService implements UserDetailsService {
 			return users.stream().filter(user -> user.getStatus()).map(UserDTO::new)
 					.collect(Collectors.toList());
 		} else {
-			return users.stream().filter(user -> user.getStatus()==false).map(UserDTO::new)
+			return users.stream().filter(user -> user.getStatus() == false).map(UserDTO::new)
 					.collect(Collectors.toList());
 		}
 
