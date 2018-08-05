@@ -13,12 +13,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.oocl.dino_parking_system.constant.Constants.STATUS_ONDUTY;
 import static com.oocl.dino_parking_system.constant.Constants.STATUS_WAITPARK;
 import static com.oocl.dino_parking_system.constant.Constants.STATUS_WAITUNPARK;
 
@@ -36,7 +38,15 @@ public class ParkingBoyController {
 	//获取所有的小弟
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
 	@GetMapping(path = "")
-	public List<ParkingBoyInfoDTO> findAllNormalParkingBoy() {
+	public List<ParkingBoyInfoDTO> findAllNormalParkingBoy(@RequestParam(value = "canAppoint",required = false) boolean canAppoint ) {
+		if(canAppoint){
+			return parkingBoyService.findAllParkingBoys().stream()
+					.filter(parkingBoy->parkingBoy.getWorkStatus().equals(STATUS_ONDUTY)
+							&& parkingBoy.getParkingLots().size()>0
+							&& orderService.checkBoyHaveEnoughParkingSpace(parkingBoy))
+					.map(ParkingBoyInfoDTO::new)
+					.collect(Collectors.toList());
+		}
 		return parkingBoyService.findAllParkingBoys().stream()
 				.map(ParkingBoyInfoDTO::new)
 				.collect(Collectors.toList());

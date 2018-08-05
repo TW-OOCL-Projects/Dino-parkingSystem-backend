@@ -126,7 +126,7 @@ public class OrderService {
 		}
 	}
 
-	private boolean checkBoyHaveEnoughParkingSpace(User parkingBoy) {
+	public boolean checkBoyHaveEnoughParkingSpace(User parkingBoy) {
 		int parkingSpace = 0;
 		for (ParkingLot parkingLot : parkingBoy.getParkingLots()) {
 			parkingSpace += parkingLot.getSize() - parkingLot.getCarNum();
