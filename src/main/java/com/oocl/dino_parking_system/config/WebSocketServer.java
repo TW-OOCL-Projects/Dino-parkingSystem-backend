@@ -33,11 +33,6 @@ public class WebSocketServer {
         addOnlineCount();           //在线数加1
         System.out.println(">>>有停车小弟连接 id:"+sid);
         this.sid=sid;
-        try {
-            sendMessage("连接成功");
-        } catch (IOException e) {
-            System.out.println("websocket IO异常");
-        }
     }
 
     /**
