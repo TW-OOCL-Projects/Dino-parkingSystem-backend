@@ -46,9 +46,9 @@ public class ParkingLotController {
 	                                        @RequestParam(value = "lt", required = false) Integer lt,
 	                                        @RequestParam(value = "noParkingBoy", required = false) boolean noParkingBoy) {
 		if (noParkingBoy) {
-			// 返回所有未安排小弟的停车场
+			// 返回所有未安排小弟的停车场，并且未停车的停车场
 			return new ResponseEntity<>(parkingLotsService.findAll().stream()
-					.filter(parkingLot -> parkingLot.getParkingBoy() == null)
+					.filter(parkingLot -> parkingLot.getParkingBoy() == null && parkingLot.getCarNum() == 0)
 					.map(ParkingLotTinyDTO::new)
 					.collect(Collectors.toList()), HttpStatus.OK);
 		}
