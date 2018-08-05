@@ -7,6 +7,8 @@ import com.oocl.dino_parking_system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.oocl.dino_parking_system.constant.Constants.ROLE_ADMIN;
+
 @Service
 public class RoleService {
     @Autowired
@@ -28,6 +30,7 @@ public class RoleService {
 
 	public boolean setRoleToUser(Long id, String name) {
 		User user = userRepository.findById(id).orElse(null);
+		if(name.equals(ROLE_ADMIN))
 		if(user!=null){
 			Role role = roleRepository.findByName(name);
 			if(role!=null){

@@ -66,6 +66,7 @@ public class OrderService {
 						order.setStatus(STATUS_WAITPARK);// 等待停车
 						order.setType(TYPE_PARKCAR);// 存车订单
 						order.setParkingBoy(parkingBoy);
+						order.setRead(true);
 						parkingBoy.addOrder(order);
 						orderRepository.save(order);
 						return true;
@@ -77,6 +78,7 @@ public class OrderService {
 							&& order.getStatus().equals(STATUS_WAITPARK)) {
 						order.setStatus(STATUS_PARKED);// 停车成功
 						order.setParkingLotName(parkingLotName);
+						order.setRead(true);
 						orderRepository.save(order);
 						LotOrder waitUnparkOrder = new LotOrder();
 						Long id = waitUnparkOrder.getId();
