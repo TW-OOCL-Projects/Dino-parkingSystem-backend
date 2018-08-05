@@ -23,7 +23,7 @@ public class UserDTO {
 		this.phone = user.getPhone();
 		this.workStatus = user.getWorkStatus();
 		this.status = user.getStatus();
-		this.position = user.getRoles().get(0).toString();
+		this.position = user.getRoles()!=null?user.getRoles().get(0).toString():null;
 	}
 
 	public Long getId() {

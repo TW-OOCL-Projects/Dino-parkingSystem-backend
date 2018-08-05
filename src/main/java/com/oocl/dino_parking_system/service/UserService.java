@@ -129,8 +129,9 @@ public class UserService implements UserDetailsService {
 			one.setUsername(user.getUsername() != null ? user.getUsername() : one.getUsername());
 			one.setEmail(user.getEmail() != null ? user.getEmail() : one.getEmail());
 			one.setPhone(user.getPhone() != null ? user.getPhone() : one.getPhone());
-
-			if(user.getRoles()!=null) {
+			one.setWorkStatus(!user.getWorkStatus().equals("")?user.getWorkStatus():one.getWorkStatus());
+			System.out.println(user.getRoleName());
+			if(user.getRoleName()!=null) {
 				Role role = roleRepository.findByName(user.getRoleName());
 				one.setRoles(new ArrayList<>());
 				one.getRoles().add(role);
