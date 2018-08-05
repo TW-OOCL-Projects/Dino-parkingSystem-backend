@@ -40,9 +40,9 @@ public class OrderService {
 		return true;
 	}
 
-	public List<LotOrder> getAllOrders() {
-		return orderRepository.findAll();
-	}
+//	public List<LotOrder> getAllOrders() {
+//		return orderRepository.findAll();
+//	}
 
 
 	public List<LotOrder> getOrdersByStatus(String status) {
@@ -142,5 +142,26 @@ public class OrderService {
 		return orderRepository.findAll().stream()
 				.filter(lotOrder -> lotOrder.getReceiptId().equals(receiptId) && lotOrder.getStatus().equals(STATUS_WAITCUSTOMER))
 				.findFirst().orElse(null);
+	}
+
+
+	public OrderDTO getOrderById(Long id) {
+		LotOrder order = orderRepository.findById(id).get();
+		try{
+			return new OrderDTO(order);
+		}catch (Exception e){
+			return null;
+		}
+	}
+
+	public List<OrderDTO> findByConditions(String type, String plateNumber, String status) {
+		try{
+			return orderRepository.findAllByTypeLikeAndPlateNumberLikeAndStatusLike("%"+type+"%","%"+plateNumber+"%","%"+status+"%").stream()
+					.map(OrderDTO::new)
+					.collect(Collectors.toList());
+		}catch (Exception e){
+			return null;
+		}
+
 	}
 }
