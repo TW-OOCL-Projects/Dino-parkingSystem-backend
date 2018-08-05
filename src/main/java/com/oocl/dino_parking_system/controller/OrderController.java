@@ -66,8 +66,14 @@ public class OrderController {
 
 	@Transactional
 	@PatchMapping(path="/{orderId}")
-	public void readOrder(@PathVariable("orderId") Long id){
-		orderService.readOrder(id);
+	public ResponseEntity readOrder(@PathVariable("orderId") Long id,
+	                      @RequestBody JSONObject req){
+		if(orderService.readOrder(id,
+				Long.valueOf(req.get("parkingBoyId").toString()))){
+			return ResponseEntity.ok().build();
+		}else{
+			return ResponseEntity.badRequest().build();
+		}
 	}
 
 	@Transactional

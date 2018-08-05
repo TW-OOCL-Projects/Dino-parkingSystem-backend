@@ -8,6 +8,7 @@ import com.oocl.dino_parking_system.entitie.ParkingLot;
 import com.oocl.dino_parking_system.entitie.User;
 import com.oocl.dino_parking_system.repository.OrderRepository;
 import com.oocl.dino_parking_system.repository.UserRepository;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -173,14 +174,19 @@ public class OrderService {
 
 	}
 
-	public void readOrder(Long id
+	public boolean readOrder(Long orderId, Long parkingBoyId
 	) {
 		try {
-			LotOrder order = orderRepository.findById(id).orElse(null);
-			order.setRead(true);
-			orderRepository.save(order);
+			LotOrder order = orderRepository.findById(orderId).orElse(null);
+			if(order.getParkingBoy().getId()==parkingBoyId) {
+				order.setRead(true);
+				orderRepository.save(order);
+				return true;
+			}else{
+				return false;
+			}
 		}catch (Exception e){
-
+			return false;
 		}
 	}
 }
