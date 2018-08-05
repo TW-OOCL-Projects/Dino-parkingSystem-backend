@@ -147,6 +147,7 @@ public class LotOrder implements Cloneable {
         return sb.toString();
     }
 
+
 	public boolean getRead() {
 		return read;
 	}

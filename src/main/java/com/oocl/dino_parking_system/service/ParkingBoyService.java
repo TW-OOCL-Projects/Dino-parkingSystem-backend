@@ -125,7 +125,7 @@ public class ParkingBoyService {
 				} else { // 移除停车场
 					for (int i = 0; i <= newParkingLotList.size(); i++) {
 						ParkingLot repealParkingLot = newParkingLotList.get(i);
-						if (repealParkingLot.getId() == parkingLotId) {
+						if (repealParkingLot.getId() == parkingLotId && repealParkingLot.getCarNum() == 0) {
 							repealParkingLot.setParkingBoy(null);
 							parkingLotsRepository.save(repealParkingLot);
 							newParkingLotList.remove(i);
