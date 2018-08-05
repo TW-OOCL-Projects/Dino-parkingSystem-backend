@@ -68,16 +68,12 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 			HttpServletResponse res, FilterChain chain,
 			Authentication auth) throws IOException, ServletException {
 		TokenAuthenticationService.addAuthentication(res, auth.getName(), auth.getAuthorities());
-		JSONObject json = parkingBoyService.findUnReadOrderNum(auth.getName());
+		JSONObject unReadOrderNumJson = parkingBoyService.findUnReadOrderNum(auth.getName());
 		String roleName = auth.getAuthorities().toString().replace("[","").replace("]","");
-		Cookie cookie1 = new Cookie("role",roleName);
-		Cookie cookie2 = new Cookie("id", json.get("parkingBoyId").toString());
-		cookie1.setPath("/");
-		cookie1.setMaxAge(3600);
-		cookie2.setPath("/");
-		cookie2.setMaxAge(3600);
-		res.addCookie(cookie1);
-		res.addCookie(cookie2);
-		WebSocketServer.sendInfo(json.toJSONString(), json.get("parkingBoyId").toString());
+		JSONObject cookieJson = new JSONObject();
+		cookieJson.put("id",unReadOrderNumJson.get("parkingBoyId"));
+		cookieJson.put("role",roleName);
+		res.addHeader("Cookies",cookieJson.toJSONString());
+		WebSocketServer.sendInfo(unReadOrderNumJson.toJSONString(), unReadOrderNumJson.get("parkingBoyId").toString());
 	}
 }
