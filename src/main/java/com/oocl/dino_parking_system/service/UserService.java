@@ -6,11 +6,14 @@ import com.oocl.dino_parking_system.entitie.User;
 import com.oocl.dino_parking_system.repository.UserRepository;
 import com.oocl.dino_parking_system.util.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -155,9 +158,20 @@ public class UserService implements UserDetailsService {
 		}
 	}
 
-	public List<UserDTO> findByConditions(String username, String nickname, String email, String phone) {
-		return userRepository.findAllByUsernameLikeAndNicknameLikeAndEmailLikeAndPhoneLike("%"+username+"%","%"+nickname+"%","%"+email+"%","%"+phone+"%").stream()
-				.map(UserDTO::new)
+	public List<UserDTO> findByConditions(String username, String nickname, Boolean status, String workStatus, String email, String phone) {
+		List<User> users = userRepository.findAllByUsernameLikeAndNicknameLikeAndWorkStatusLikeAndEmailLikeAndPhoneLike("%"+username+"%","%"+nickname+"%","%"+workStatus+"%","%"+email+"%","%"+phone+"%");
+		List<UserDTO> userDTOS = users.stream().map(UserDTO::new)
 				.collect(Collectors.toList());
+		if (status == null) {
+			return users.stream().map(UserDTO::new)
+					.collect(Collectors.toList());
+		} else if (status) {
+			return users.stream().filter(user -> user.getStatus()).map(UserDTO::new)
+					.collect(Collectors.toList());
+		} else {
+			return users.stream().filter(user -> user.getStatus()==false).map(UserDTO::new)
+					.collect(Collectors.toList());
+		}
+
 	}
 }

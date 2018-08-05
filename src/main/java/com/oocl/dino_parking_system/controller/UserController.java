@@ -106,6 +106,8 @@ public class UserController {
     public ResponseEntity getAllUsers(@RequestParam(value = "id", required = false) Long id,
                                       @RequestParam(value = "username", required = false) String username,
                                       @RequestParam(value = "nickname", required = false) String nickname,
+                                      @RequestParam(value = "status", required = false) Boolean status,
+                                      @RequestParam(value = "workStatus", required = false) String workStatus,
                                       @RequestParam(value = "email", required = false) String email,
                                       @RequestParam(value = "phone", required = false) String phone) {
         if (username == null) {
@@ -120,14 +122,15 @@ public class UserController {
         if (phone == null) {
             phone = "";
         }
+        if (workStatus == null) {
+            workStatus = "";
+        }
         if (id != null) {
             // 根据ID查找
             return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
         }
-        List<UserDTO> userDTOS = userService.findByConditions(username, nickname, email, phone);
+        List<UserDTO> userDTOS = userService.findByConditions(username, nickname, status, workStatus, email, phone);
         return new ResponseEntity<>(userDTOS, HttpStatus.OK);
-
-
     }
 }
 

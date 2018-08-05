@@ -166,7 +166,43 @@
                "receiptId": "2"
            }
         ]
-
+2. 组合查询order
+    - path：`/orders?type=:type&&plateNumber=:plateNumber&&status=:status`(type和status非模糊查询，下拉选择指定值)
+    - path：`/orders?id=:id`
+    - method: GET
+    - response:
+        ```json
+        [
+           {
+               "id": 6,
+               "type": "parkCar",
+               "parkingLotName": null,
+               "parkingBoy": null,
+               "plateNumber": "粤VH71647",
+               "status": "noRob",
+               "receiptId": "6",
+               "parkDate": "10:24 - 2018/08/05",
+               "unParkDate": null
+           },
+           {
+               "id": 7,
+               "type": "parkOutCar",
+               "parkingLotName": "oocl停车场2",
+               "parkingBoy": {
+                   "id": 2,
+                   "nickname": "停车小弟A",
+                   "username": "parkingboy1",
+                   "phone": "13160675789",
+                   "workStatus": "offduty",
+                   "status": true
+               },
+               "plateNumber": "粤C32412",
+               "status": "waitUnPark",
+               "receiptId": "7",
+               "parkDate": "10:24 - 2018/08/05",
+               "unParkDate": null
+           }
+        ]
 3. 根据状态获取order
     - path：`/orders/:status`
     - method: GET
@@ -387,19 +423,20 @@
       - response:
                 - 成功：200
                 - 失败：400
-
- 3. 用户管理停车场信息组合查询
-      - path：`/parkingLots?username=:username&&nickname=:nickname&&email=:email&&phone=:phone`
-      - path：`/parkingLots?id=:id`
+ 3. 用户(停车小弟)组合查询
+      - path：`/users?username=:username&&nickname=:nickname&&status=:status&&workStatus&&email=:email&&phone=:phone`
+      - path：`/users?id=:id`
       - method: GET
       - response:
           ```json
               [
                  {
-                      "id": 1,
-                      "name": "oocl停车场1",
-                      "size": 20,
-                      "carNum": 13,
+                      "id": 2,
+                      "username": "parkingboy1",
+                      "nickname": "停车小弟A",
+                      "email": "120@qq.com",
+                      "phone": "13160675789",
+                      "workStatus": "offduty",
                       "status": true
                   }
               ]
