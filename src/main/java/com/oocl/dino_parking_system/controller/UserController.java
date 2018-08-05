@@ -26,7 +26,7 @@ public class UserController {
     @Autowired
     RoleService roleService;
 
-    //	@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/users")
     public ResponseEntity createUser(@RequestBody User user) {
         String password = userService.createUser(user);
@@ -51,6 +51,7 @@ public class UserController {
 //        }
 //    }
 
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     @PatchMapping("/users/{id}")
     public ResponseEntity changeUserStatus(@PathVariable("id") Long id, @RequestBody JSONObject req) {
     	boolean status =  Boolean.valueOf(req.get("status").toString());
@@ -71,6 +72,7 @@ public class UserController {
         }
     }
 
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     @PutMapping("/users/{id}")
     public ResponseEntity updateUser(@PathVariable("id") Long id, @RequestBody User user) {
         if (userService.updateUser(id, user)) {
@@ -81,7 +83,7 @@ public class UserController {
     }
 
     //用户授权
-//	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/users/{id}/roles")
     public ResponseEntity grantUser(@PathVariable("id") Long id,
                                     @RequestBody JSONObject req) {
@@ -93,7 +95,7 @@ public class UserController {
     }
 
     // 修改用户的工作状态
-//	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     @PatchMapping(path = "/users/{id}/workStatus")
     public ResponseEntity changeWorkStatus(@PathVariable Long id,
                                            @RequestBody(required = false) JSONObject req) {
@@ -105,6 +107,7 @@ public class UserController {
         }
     }
 
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     @Transactional
     @GetMapping(path = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getAllUsers(@RequestParam(value = "id", required = false) Long id,

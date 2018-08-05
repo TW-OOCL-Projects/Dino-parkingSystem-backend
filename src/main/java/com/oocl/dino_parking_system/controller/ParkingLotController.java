@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -26,6 +27,7 @@ public class ParkingLotController {
 		this.parkingLotsService = parkingLotsService;
 	}
 
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
 	@Transactional
 	@PostMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity createParkingLots(@RequestBody ParkingLot parkingLot) {
@@ -36,7 +38,7 @@ public class ParkingLotController {
 		}
 	}
 
-	//	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
 	@Transactional
 	@GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity getAllParkingLots(@RequestParam(value = "id", required = false) Long id,
@@ -83,6 +85,7 @@ public class ParkingLotController {
 
         }
 
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
 	@Transactional
 	@PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity updateParkingLots(@PathVariable long id, @RequestBody ParkingLot parkingLot) {
@@ -93,6 +96,7 @@ public class ParkingLotController {
 		}
 	}
 
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
 	@Transactional
 	@PatchMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity changeParkingLotStatus(@PathVariable long id) {
@@ -103,14 +107,14 @@ public class ParkingLotController {
 		}
 	}
 
-	//	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
 	@Transactional
 	@GetMapping(path = "/dashboard")
 	public List<ParkingLotDashBoardDTO> findAllParkingLotDashBoard() {
 		return parkingLotsService.findAllParkingLotDashBoard();
 	}
 
-	//	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
 	@Transactional
 	@GetMapping(path = "/dashboard/page/{page}/pageSize/{size}")
 	public List<ParkingLotDashBoardDTO> findAllParkingLotDashBoard(@PathVariable int page,

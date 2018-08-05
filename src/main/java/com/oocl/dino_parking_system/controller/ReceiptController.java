@@ -39,7 +39,7 @@ public class ReceiptController {
 	public ResponseEntity unPark(@PathVariable String receiptId){
 	    try {
 		    LotOrder order = orderService.findOrderByReceiptId(receiptId);
-		    orderService.changeOrderStatus(order.getId(), null, STATUS_WAITUNPARK, null, appoint);
+		    orderService.changeOrderStatus(order.getId(), null, STATUS_WAITUNPARK, null, false );
 		    return ResponseEntity.ok().build();
 	    }catch (Exception e){
 	    	return ResponseEntity.badRequest().build();

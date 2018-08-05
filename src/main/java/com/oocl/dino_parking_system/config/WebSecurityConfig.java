@@ -23,7 +23,7 @@ import java.util.Arrays;
  * Created by Vito Zhuang on 7/31/2018.
  */
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
@@ -51,6 +51,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().cors().and().authorizeRequests()
 				.antMatchers("/**").permitAll()
+				.antMatchers("/receipts").permitAll()
+				.antMatchers("/receipts/**").permitAll()
 				.antMatchers(HttpMethod.POST, "/login").permitAll()
 				.anyRequest().authenticated()
 				.and()

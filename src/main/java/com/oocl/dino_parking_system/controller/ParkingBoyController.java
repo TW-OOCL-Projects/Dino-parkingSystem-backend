@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -33,6 +34,7 @@ public class ParkingBoyController {
 	OrderService orderService;
 
 	//获取所有的小弟
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
 	@GetMapping(path = "")
 	public List<ParkingBoyInfoDTO> findAllNormalParkingBoy() {
 		return parkingBoyService.findAllParkingBoys().stream()
@@ -61,6 +63,7 @@ public class ParkingBoyController {
 	}
 
 	// 给小弟安排停车场
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
 	@Transactional
 	@PutMapping(path = "/{id}/parkingLots")
 	public ResponseEntity arrangeParkingLots(@PathVariable Long id,

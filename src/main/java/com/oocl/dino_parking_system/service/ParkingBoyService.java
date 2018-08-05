@@ -62,7 +62,7 @@ public class ParkingBoyService {
 				ParkingLot parkingLot = parkingLotsRepository.findById(parkingLotId).orElse(null);
 				parkingLot.setCarNum(parkingLot.getCarNum() + 1);
 				parkingLotsRepository.save(parkingLot);
-				return orderService.changeOrderStatus(orderId, parkingBoy, STATUS_PARKED, parkingLot.getName(), appoint);
+				return orderService.changeOrderStatus(orderId, parkingBoy, STATUS_PARKED, parkingLot.getName(), false);
 			} else {
 				return false;
 			}
