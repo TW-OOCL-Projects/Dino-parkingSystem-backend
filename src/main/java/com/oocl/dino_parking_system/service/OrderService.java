@@ -8,14 +8,11 @@ import com.oocl.dino_parking_system.entitie.ParkingLot;
 import com.oocl.dino_parking_system.entitie.User;
 import com.oocl.dino_parking_system.repository.OrderRepository;
 import com.oocl.dino_parking_system.repository.UserRepository;
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.oocl.dino_parking_system.constant.Constants.*;
@@ -55,7 +52,7 @@ public class OrderService {
 		return orderRepository.findByStatus(status);
 	}
 
-	public boolean changeOrderStatus(Long orderId, User parkingBoy, String status, String parkingLotName) {
+	public boolean changeOrderStatus(Long orderId, User parkingBoy, String status, String parkingLotName, boolean appoint) {
 		try {
 			LotOrder order = orderRepository.findById(orderId).orElse(null);
 			switch (status) {
@@ -66,7 +63,9 @@ public class OrderService {
 						order.setStatus(STATUS_WAITPARK);// 等待停车
 						order.setType(TYPE_PARKCAR);// 存车订单
 						order.setParkingBoy(parkingBoy);
-						order.setRead(true);
+						if(!appoint) {
+							order.setRead(true);
+						}
 						parkingBoy.addOrder(order);
 						orderRepository.save(order);
 						userRepository.save(parkingBoy);

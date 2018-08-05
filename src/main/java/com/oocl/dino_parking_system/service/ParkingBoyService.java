@@ -3,7 +3,6 @@ package com.oocl.dino_parking_system.service;
 import com.alibaba.fastjson.JSONObject;
 import com.oocl.dino_parking_system.dto.OrderDTO;
 import com.oocl.dino_parking_system.dto.ParkingLotTinyDTO;
-import com.oocl.dino_parking_system.entitie.LotOrder;
 import com.oocl.dino_parking_system.entitie.ParkingLot;
 import com.oocl.dino_parking_system.entitie.User;
 import com.oocl.dino_parking_system.repository.OrderRepository;
@@ -63,7 +62,7 @@ public class ParkingBoyService {
 				ParkingLot parkingLot = parkingLotsRepository.findById(parkingLotId).orElse(null);
 				parkingLot.setCarNum(parkingLot.getCarNum() + 1);
 				parkingLotsRepository.save(parkingLot);
-				return orderService.changeOrderStatus(orderId, parkingBoy, STATUS_PARKED, parkingLot.getName());
+				return orderService.changeOrderStatus(orderId, parkingBoy, STATUS_PARKED, parkingLot.getName(), appoint);
 			} else {
 				return false;
 			}
