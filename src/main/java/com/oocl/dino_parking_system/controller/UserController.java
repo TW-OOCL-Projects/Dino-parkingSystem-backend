@@ -54,8 +54,10 @@ public class UserController {
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     @PatchMapping("/users/{id}")
     public ResponseEntity changeUserStatus(@PathVariable("id") Long id, @RequestBody JSONObject req) {
-    	boolean status =  Boolean.valueOf(req.get("status").toString());
+		System.out.println("=====");
+		boolean status =  Boolean.valueOf(req.get("status").toString());
 	    JSONObject result = userService.changeUserStatus(id,status);
+
     	if (result.get("result").equals("success")) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }else{

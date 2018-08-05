@@ -44,10 +44,15 @@ public class UserService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 		UserDetails user = userRepository.findByUsername(s);
+
 		if (user == null) {
 			throw new UsernameNotFoundException("用户名不存在");
 		}
-		return user;
+		if(((User) user).getStatus()) {
+			return user;
+		}else{
+			return null;
+		}
 	}
 
 
