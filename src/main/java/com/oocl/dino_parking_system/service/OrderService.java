@@ -60,8 +60,9 @@ public class OrderService {
 			LotOrder order = orderRepository.findById(orderId).orElse(null);
 			switch (status) {
 				case STATUS_WAITPARK:
-					if (order.getStatus().equals(STATUS_NOROB) &&
-							checkBoyHaveEnoughParkingSpace(parkingBoy)) {
+					if (order.getStatus().equals(STATUS_NOROB)
+							&& checkBoyHaveEnoughParkingSpace(parkingBoy)
+							&& parkingBoy.getWorkStatus().equals(STATUS_ONDUTY)) {
 						order.setStatus(STATUS_WAITPARK);// 等待停车
 						order.setType(TYPE_PARKCAR);// 存车订单
 						order.setParkingBoy(parkingBoy);

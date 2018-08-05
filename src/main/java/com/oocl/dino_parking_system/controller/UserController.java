@@ -30,7 +30,9 @@ public class UserController {
     public ResponseEntity createUser(@RequestBody User user) {
         String password = userService.createUser(user);
         if (password != null) {
-            return new ResponseEntity<>(password, HttpStatus.CREATED);
+        	JSONObject jsonObject = new JSONObject();
+        	jsonObject.put("password",password);
+            return new ResponseEntity<>(jsonObject, HttpStatus.CREATED);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
