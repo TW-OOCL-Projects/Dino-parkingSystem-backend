@@ -18,6 +18,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -67,6 +68,9 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 			Authentication auth) throws IOException, ServletException {
 		TokenAuthenticationService.addAuthentication(res, auth.getName(), auth.getAuthorities());
 		JSONObject json = parkingBoyService.findUnReadOrderNum(auth.getName());
+		String roleName = auth.getAuthorities().toString().replace("[","").replace("]","");
+		Cookie cookie = new Cookie("role",roleName);
+		res.addCookie(cookie);
 		WebSocketServer.sendInfo(json.toJSONString(), json.get("parkingBoyId").toString());
 	}
 }
