@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Autowired
-	UserDetailsService userDetailsService;
+	UserService userDetailsService;
 
 	@Autowired
 	ParkingBoyService parkingBoyService;

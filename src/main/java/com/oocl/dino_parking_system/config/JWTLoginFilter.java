@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oocl.dino_parking_system.entitie.User;
 import com.oocl.dino_parking_system.service.ParkingBoyService;
+import com.oocl.dino_parking_system.service.UserService;
 import com.oocl.dino_parking_system.util.PasswordEncoder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,11 +33,11 @@ import static com.oocl.dino_parking_system.constant.Constants.SALT_STRING;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
-	private final UserDetailsService userDetailsService;
+	private final UserService userDetailsService;
 
 	private final ParkingBoyService parkingBoyService;
 
-	public JWTLoginFilter(String url, AuthenticationManager authManager, UserDetailsService userDetailsService, ParkingBoyService parkingBoyService) {
+	public JWTLoginFilter(String url, AuthenticationManager authManager, UserService userDetailsService, ParkingBoyService parkingBoyService) {
 		super(new AntPathRequestMatcher(url));
 		this.userDetailsService = userDetailsService;
 		this.parkingBoyService = parkingBoyService;
@@ -51,15 +52,28 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		User creds = new ObjectMapper()
 				.readValue(req.getInputStream(), User.class);
 		UserDetails userDetails = userDetailsService.loadUserByUsername(creds.getUsername());
-		return getAuthenticationManager().authenticate(
-				new UsernamePasswordAuthenticationToken(
-						creds.getUsername(),
-						new PasswordEncoder(SALT_STRING, "MD5")
-								.encode(creds.getPassword())
-								.substring(0, 7),
-						userDetails.getAuthorities()
-				)
-		);
+		if(userDetails==null) {
+			JSONObject cookies = new JSONObject();
+			cookies.put("status", false);
+			res.addHeader("Cookies", cookies.toJSONString());
+			System.out.println(res.getHeader("Cookies"));
+			return getAuthenticationManager().authenticate(
+					new UsernamePasswordAuthenticationToken(
+							"",
+							"",
+							null
+					));
+		}else {
+			return getAuthenticationManager().authenticate(
+					new UsernamePasswordAuthenticationToken(
+							creds.getUsername(),
+							new PasswordEncoder(SALT_STRING, "MD5")
+									.encode(creds.getPassword())
+									.substring(0, 7),
+							userDetails.getAuthorities()
+					)
+			);
+		}
 	}
 
 	@Override
