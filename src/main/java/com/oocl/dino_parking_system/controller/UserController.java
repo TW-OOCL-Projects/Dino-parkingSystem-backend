@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.JoinColumn;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,13 +52,13 @@ public class UserController {
 //    }
 
     @PatchMapping("/users/{id}")
-    public ResponseEntity changeUserStatus(@PathVariable("id") Long id, @RequestBody boolean status) {
-        if (userService.changeUserStatus(id, status) == 1) {
+    public ResponseEntity changeUserStatus(@PathVariable("id") Long id, @RequestBody JSONObject req) {
+    	boolean status =  Boolean.valueOf(req.get("status").toString());
+	    JSONObject result = userService.changeUserStatus(id,status);
+    	if (result.get("result").equals("success")) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } else if (userService.changeUserStatus(id, status) == 2) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }else{
+            return new ResponseEntity<>(result,HttpStatus.BAD_REQUEST);
         }
     }
 

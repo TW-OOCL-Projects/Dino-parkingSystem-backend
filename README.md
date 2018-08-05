@@ -462,3 +462,22 @@
 4. 用户打卡
      - path：`/users/:id/workStatus`
      - method：PATCH
+
+5. 冻结用户
+     - path:`/users/:id`
+     - method: PATCH
+     - request:
+        ```json
+        {
+        	"status":false // false 冻结，true 解冻
+        }
+        ```
+     - response:
+        - 成功 204
+        - 失败：400
+        ```json
+        {
+            "result": "failed",
+            "cause": "该停车员手下还有管理的停车场"
+        }
+        ```

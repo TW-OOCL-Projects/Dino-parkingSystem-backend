@@ -64,6 +64,7 @@ public class OrderController {
 					//websocket推送指派订单提醒给小弟
 					JSONObject message = new JSONObject();
 					message.put("id", orderId);
+					message.put("type","newOrder");
 					message.put("message", "你被指派了新的停车订单!");
 					try {
 						WebSocketServer.sendInfo(message.toJSONString(),parkingBoyId.toString());

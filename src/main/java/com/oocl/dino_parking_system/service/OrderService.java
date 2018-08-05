@@ -99,6 +99,7 @@ public class OrderService {
 						//websocket推送给小弟
 						JSONObject message = new JSONObject();
 						message.put("id", order.getId());
+						message.put("type","newOrder");
 						message.put("message", "你有一个新的取车订单!");
 						WebSocketServer.sendInfo(message.toJSONString(), order.getParkingBoy().getId().toString());
 						return true;

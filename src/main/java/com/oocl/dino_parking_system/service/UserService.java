@@ -1,5 +1,7 @@
 package com.oocl.dino_parking_system.service;
 
+import com.alibaba.fastjson.JSONObject;
+import com.oocl.dino_parking_system.config.WebSocketServer;
 import com.oocl.dino_parking_system.dto.UserDTO;
 import com.oocl.dino_parking_system.util.MD5Util;
 import com.oocl.dino_parking_system.entitie.User;
@@ -74,15 +76,29 @@ public class UserService implements UserDetailsService {
 		}
 	}
 
-	public int changeUserStatus(Long id, boolean status) {
+	public JSONObject changeUserStatus(Long id, boolean status) {
+		JSONObject result = new JSONObject();
 		try {
-			User one = userRepository.findById(id).get();
-			if (one == null) return 2;
-			one.setStatus(status);
-			userRepository.save(one);
-			return 1;
+			User one = userRepository.findById(id).orElse(null);
+			if(one.getLotOrders().size()==0 || status == STATUS_NORMAL) {
+				one.setStatus(status);
+				userRepository.save(one);
+				result.put("result","success");
+				if(status == STATUS_FREEZE) {
+					JSONObject websockeMessage = new JSONObject();
+					websockeMessage.put("type", "freeze");
+					WebSocketServer.sendInfo(websockeMessage.toJSONString(), id.toString());
+				}
+
+			}else{
+				result.put("result","failed");
+				result.put("cause","该停车员手下还有管理的停车场");
+			}
+			return result;
 		} catch (Exception e) {
-			return 0;
+			result.put("result","failed");
+			result.put("cause","用户不存在");
+			return result;
 		}
 	}
 
@@ -135,23 +151,30 @@ public class UserService implements UserDetailsService {
 	public boolean changeWorkStatus(Long id, String workStatus) {
 		try {
 			User user = userRepository.findById(id).orElse(null);
-			switch (workStatus) {
-				case STATUS_ONDUTY:
-				case STATUS_LATE:
-				case STATUS_LEAVE:
-					user.setWorkStatus(workStatus);
-					userRepository.save(user);
-					return true;
-				case STATUS_OFFDUTY:
-					if (user.getWorkStatus().equals(STATUS_ONDUTY)) {
+			if(workStatus!=null){
+				user.setWorkStatus(workStatus);
+				userRepository.save(user);
+				return true;
+			}else {
+				switch (user.getWorkStatus()) {
+					case STATUS_ONDUTY:
+
+					case STATUS_LATE:
+					case STATUS_LEAVE:
 						user.setWorkStatus(workStatus);
 						userRepository.save(user);
 						return true;
-					} else {
+					case STATUS_OFFDUTY:
+						if (user.getWorkStatus().equals(STATUS_ONDUTY)) {
+							user.setWorkStatus(workStatus);
+							userRepository.save(user);
+							return true;
+						} else {
+							return false;
+						}
+					default:
 						return false;
-					}
-				default:
-					return false;
+				}
 			}
 		} catch (Exception e) {
 			return false;

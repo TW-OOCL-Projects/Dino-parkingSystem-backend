@@ -149,6 +149,7 @@ public class ParkingBoyService {
 			JSONObject json = new JSONObject();
 			User parkingBoy = userRepository.findByUsername(parkingBoyName);
 			json.put("parkingBoyId",parkingBoy.getId());
+			json.put("type","unRead");
 			if(parkingBoy.getLotOrders().size()==0){
 				json.put("unReadNum",0);
 			}else {
