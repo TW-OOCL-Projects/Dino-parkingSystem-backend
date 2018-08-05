@@ -387,3 +387,20 @@
       - response:
                 - 成功：200
                 - 失败：400
+
+ 3. 用户管理停车场信息组合查询
+      - path：`/parkingLots?username=:username&&nickname=:nickname&&email=:email&&phone=:phone`
+      - path：`/parkingLots?id=:id`
+      - method: GET
+      - response:
+          ```json
+              [
+                 {
+                      "id": 1,
+                      "name": "oocl停车场1",
+                      "size": 20,
+                      "carNum": 13,
+                      "status": true
+                  }
+              ]
+          ```
