@@ -101,7 +101,7 @@ public class UserService implements UserDetailsService {
 				result.put("cause", "管理员账号不能冻结");
 				return result;
 			}
-			if (one.getLotOrders().size() == 0 || status == STATUS_NORMAL) {
+			if (one.getLotOrders().size() == 0 || status == STATUS_NORMAL || one.getParkingLots().size() == 0) {
 				one.setStatus(status);
 				userRepository.save(one);
 				result.put("result", "success");
