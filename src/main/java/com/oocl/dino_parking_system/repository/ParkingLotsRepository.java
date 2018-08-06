@@ -27,4 +27,5 @@ public interface ParkingLotsRepository extends JpaRepository<ParkingLot,Long> {
 
 	@Query("SELECT lot FROM ParkingLot lot where lot.name like %:name% and lot.size=:size")
 	List<ParkingLot> findAllByNameAndSize(@Param("name")String name,@Param("size") Integer size);	//名字和容量
+
 }

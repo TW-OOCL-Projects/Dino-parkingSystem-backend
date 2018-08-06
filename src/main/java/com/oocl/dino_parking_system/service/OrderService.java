@@ -7,6 +7,7 @@ import com.oocl.dino_parking_system.entitie.LotOrder;
 import com.oocl.dino_parking_system.entitie.ParkingLot;
 import com.oocl.dino_parking_system.entitie.User;
 import com.oocl.dino_parking_system.repository.OrderRepository;
+import com.oocl.dino_parking_system.repository.ParkingLotsRepository;
 import com.oocl.dino_parking_system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,6 +30,9 @@ public class OrderService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private ParkingLotsRepository parkingLotsRepository;
 
 
 	public LotOrder generateOrder(String plateNumber, String receiptId) {
@@ -114,6 +118,9 @@ public class OrderService {
 							&& order.getStatus().equals(STATUS_WAITUNPARK)) {
 						order.setStatus(STATUS_FINISH);// 取车完成
 						order.setUnParkDate(ZonedDateTime.now());
+						ParkingLot parkingLot = parkingLotsRepository.findByName(order.getParkingLotName()).get(0);
+						parkingLot.setCarNum(parkingLot.getCarNum()-1);
+						parkingLotsRepository.save(parkingLot);
 						orderRepository.save(order);
 						return true;
 					} else {
