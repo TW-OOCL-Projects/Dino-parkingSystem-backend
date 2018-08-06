@@ -99,9 +99,9 @@ public class GenerateData implements CommandLineRunner {
 		 * */
 		ParkingLot parkingLot1 = new ParkingLot("oocl-西南停车场", 20);
 		parkingLot1.setParkingBoy(user2);
-		parkingLot1.setCarNum(13);
+		parkingLot1.setCarNum(10);
 		ParkingLot parkingLot2 = new ParkingLot("oocl-东停车场", 10);
-		parkingLot2.setParkingBoy(user3);
+		parkingLot2.setParkingBoy(user2);
 		parkingLot2.setCarNum(10);
 		ParkingLot parkingLot3 = new ParkingLot("oocl-西停车场", 20);
 		ParkingLot parkingLot4 = new ParkingLot("oocl-南停车场", 25);
@@ -153,8 +153,9 @@ public class GenerateData implements CommandLineRunner {
 		order7.setParkingBoy(user2);
 		order7.setPlateNumber("粤C32412");
 		order7.setParkingLotName("oocl停车场2");
-		orderRepository.saveAll(Arrays.asList(order1, order2, order3, order4, order5, order6, order7, order8,
-				order9,order10,order11,order12,order13,order14,order15));
+//		orderRepository.saveAll(Arrays.asList(order1, order2, order3, order4, order5, order6, order7, order8,
+//				order9,order10,order11,order12,order13,order14,order15));
+		orderRepository.saveAll(Arrays.asList(order1, order2));
 		System.out.println("===============未抢订单初始化完成=============");
 	}
 }

@@ -94,7 +94,7 @@ public class OrderController {
 		}
 	}
 
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
+//	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
 	@Transactional
 	@GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity getAllOrders(@RequestParam(value = "id", required = false) Long id,

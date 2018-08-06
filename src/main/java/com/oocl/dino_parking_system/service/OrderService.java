@@ -83,6 +83,7 @@ public class OrderService {
 						LotOrder waitUnparkOrder = new LotOrder();
 						Long id = waitUnparkOrder.getId();
 						waitUnparkOrder = (LotOrder) order.clone();
+						waitUnparkOrder.setRead(false);
 						waitUnparkOrder.setId(id);
 						waitUnparkOrder.setStatus(STATUS_WAITCUSTOMER);
 						waitUnparkOrder.setType(TYPE_PARKOUTCAR);
